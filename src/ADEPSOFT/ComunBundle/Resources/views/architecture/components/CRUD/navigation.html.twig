@@ -1,0 +1,32 @@
+<div class="row" style="padding: 10px">
+    <div style="padding-bottom: 10px">
+        {% if rutasWizard.accept is not null  %}
+            <a class="btn blue " href="{{path(rutasWizard.accept) }}" data-toggle="modal" style="float: right">
+                <i class="fa fa-save"></i>
+                                        <span class="hidden-480">
+                                            Aceptar
+                                        </span>
+            </a>
+        {% endif %}
+        {% if rutasWizard.next is not null  %}
+            <a class="btn blue" href="{{path(rutasWizard.next)}}" data-toggle="modal"
+               style="float: right">
+                <i class="fa fa-forward"></i>
+                                        <span class="hidden-480">
+                                            Siguiente
+                                        </span>
+            </a>
+        {% endif %}
+        {% if rutasWizard.preview is not null  %}
+            <a class="btn blue " href="{{path(rutasWizard.preview) }}" data-toggle="modal" style="float: right">
+                <i class="fa fa-backward"></i>
+                                        <span class="hidden-480">
+                                            Anterior
+                                        </span>
+            </a>
+        {% endif %}
+
+
+    </div>
+</div>
+

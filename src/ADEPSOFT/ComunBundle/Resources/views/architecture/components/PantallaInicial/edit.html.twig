@@ -1,0 +1,26 @@
+{#{% extends "FOSUserBundle::layout.html.twig" %}#}
+
+{% block fos_user_content %}
+    <div class="modal fade modal_editar" id="fos_user_group_edit" tabindex="-1" role="basic" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content ajax_form_block">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                    <h4 class="modal-title">{{ 'group.edit.submit'|trans([], 'FOSUserBundle') }}</h4>
+                </div>
+                <form  action="" {{ form_enctype(form) }} method="POST" id="fos_user_group_edit_form" class="fos_user_group_edit ajax_form">
+                    <div class="modal-body">
+                        <div id="fos_user_group_edit_form_container">
+                            {% include "FOSUserBundle:Group:edit_content.html.twig" %}
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn default" data-dismiss="modal">Cerrar</button>
+                        <button class="btn blue " type="submit" value="{{ 'group.edit.submit'|trans([], 'FOSUserBundle') }}">{{  'group.edit.submit'|trans([], 'FOSUserBundle') }}</button>
+                    </div>
+                </form>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+    </div>
+{% endblock fos_user_content %}

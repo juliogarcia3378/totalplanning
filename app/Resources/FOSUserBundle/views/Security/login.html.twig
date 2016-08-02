@@ -1,0 +1,106 @@
+{% extends "FOSUserBundle::layout.html.twig" %}
+
+{% block fos_user_content %}
+
+<div class="logo">
+    {% block logo %}
+
+
+    {% endblock %}
+</div>
+
+
+<form  class="login-form" action="{{ path("fos_user_security_check") }}" method="post">
+    <input type="hidden" name="_csrf_token" value="{{ csrf_token }}" />
+    {% if error %}
+        <div class="alert alert-danger display-show">
+            <button class="close" data-dismiss="alert"></button>
+                <span>
+                     {{ error|trans({}, 'FOSUserBundle') }}
+                </span>
+        </div>
+    {% endif %}
+    <div class="form-group">
+        <label class="control-label visible-ie8 visible-ie9">{{ 'security.login.username'|trans({}, 'FOSUserBundle') }}</label>
+        <div class="input-icon">
+
+            <i class="fa fa-user"></i>
+            <input class="form-control placeholder-no-fix" type="text" autocomplete="off" placeholder="{{ 'security.login.username'|trans({}, 'FOSUserBundle') }}" id="username" name="_username" required="required"/>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label visible-ie8 visible-ie9">{{ 'security.login.password'|trans({}, 'FOSUserBundle') }}</label>
+        <div class="input-icon">
+            <i class="fa fa-lock"></i>
+            <input class="form-control placeholder-no-fix" type="password" autocomplete="off" placeholder="{{ 'security.login.password'|trans({}, 'FOSUserBundle') }}" id="password" name="_password" required="required"/>
+        </div>
+    </div>
+    <div class="form-actions">
+        <button type="submit" id="_submit" name="_submit" class="btn blue -login ">
+            {{ 'security.login.submit'|trans({}, 'FOSUserBundle') |upper}} <i class="m-icon-swapright m-icon-white"></i>
+        </button>
+    </div>
+    <div class="row">
+        <p class="-align-center">o tambi&eacute;n puedes</p>
+    </div>
+    <div class="form-actions">
+        <button type="submit" id="_submit_facebook" name="_submit" class="btn blue -login">
+            INICIAR CON FACEBOOK <i class="m-icon-swapright m-icon-white"></i>
+        </button>
+        <br>          <br>
+
+        <button type="submit" id="_submit_google_plus" name="_submit_google_plus" class="btn red -login">
+            INICIAR CON GOOGLE+ <i class="m-icon-swapright m-icon-white"></i>
+        </button>
+    </div>
+    <div class="forget-password">
+        <p>&iquest;Olvidó su contraseña?</p>
+        <p>
+            Click
+            <a href="javascript:;" id="forget-password">
+                aquí
+            </a>
+            para restablecer su contraseña.
+        </p></div>
+    <div class="create-account">
+        <p>
+            &iquest;No tiene una cuenta todav&iacute;a?&nbsp;
+            <a href="javascript:;" id="register-btn">
+                Crear nueva cuenta
+            </a>
+        </p>
+    </div>
+</form>
+    <form class="forget-form" action="{{ path('fos_user_registration_register') }}" method="post">
+        <div class="form-group">
+            <p>Si no recuerda su contraseña, le enviaremos un link para que pueda restablecerla</p>
+            <br>
+            <label class="control-label visible-ie8 visible-ie9">Inserte su correo electronico</label>
+            <div class="input-icon">
+                <i class="fa fa-lock"></i>
+                <input class="form-control placeholder-no-fix" type="email" autocomplete="off" placeholder="Inserte su correo electronico" id="email" name="_email" required="required"/>
+            </div>
+        </div>
+        <div class="form-actions">
+            <button type="submit" id="_submit_reset" name="_submit" class="btn blue -login">
+                 ENVIAR ENLACE <i class="m-icon-swapright m-icon-white"></i>
+            </button>
+        </div>
+</form>
+
+    <form class="register-form" action="{{ path('fos_user_registration_register') }}" method="post">
+    <h4>Registrar usuario</h4>
+    <p>
+        Introduzca su informaci&oacute;n personal:
+    </p>
+
+
+    </form>
+{% endblock fos_user_content %}
+{% block javascript %}
+<script>
+//    jQuery(document).ready(function() {
+//        $($('#fos_user_registration_form_username').parent().children()[0]).removeClass('fa-font').addClass('fa-user');
+//    });
+</script>
+{% endblock %}

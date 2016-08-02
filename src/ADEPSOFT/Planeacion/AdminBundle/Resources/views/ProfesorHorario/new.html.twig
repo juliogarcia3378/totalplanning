@@ -1,0 +1,128 @@
+{#{% if local is defined and local == true %}#}
+{#{% extends '::base.html.twig' %}#}
+{#{% endif %}#}
+
+{% block content %}
+    <div class="row">
+        <div class="col-md-12">
+            <div  class="portlet" id="register_profesor_horario_form_wizard">
+
+                <div class="portlet-title">
+                    <div class="caption">
+                        <i class="fa fa-reorder"></i>
+                        <span class="step-title">{% if horarios is defined %}Modificar {% else %}Nuevos {% endif %}datos de horario para: {{ profesor.nombre }}-{{ profesor.numeroEmpleado }}</span>
+                    </div>
+                </div>
+                <div class="portlet-body form" >
+                    <form  action="{% block urlForm %}{% if edit %}{{ path(model.rutas.edit) }} {% else %}{{ path(model.rutas.new) }} {% endif %}{% endblock %}"  id="register_profesor_horario_form" method="POST" class="ajax_form horizontal-form" redirect="{{ path('planeacion_admin_crud_profesor') }}">
+                        <div class="form-wizard">
+                            <div class="form-body">
+                                <ul class="nav nav-pills nav-justified steps">
+                                    <li class="active">
+                                        <a href="#tab1" data-toggle="tab" class="step">
+													<span class="number">
+														 1
+													</span>
+													<span class="desc">
+														<i class="fa fa-check"></i> Datos del profesor
+													</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#tab2" data-toggle="tab" class="step">
+													<span class="number">
+														 2
+													</span>
+													<span class="desc">
+														<i class="fa fa-check"></i> Horario
+													</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                                <div id="bar" class="progress progress-striped" role="progressbar">
+                                    <div class="progress-bar progress-bar-success" style="width: 50%;">
+                                    </div>
+                                </div>
+                                <div class="tab-content">
+                                    <div class="alert alert-danger display-none">
+                                        <button class="close" data-dismiss="alert"></button>
+                                        Existen algunos errores.
+                                    </div>
+                                    <div class="alert alert-success display-none">
+                                        <button class="close" data-dismiss="alert"></button>
+                                       Validación exitosa.
+                                    </div>
+                                    <div class="tab-pane active" id="tab1">
+                                       {{   include ('@PlaneacionAdmin/ProfesorHorario/datos.html.twig') }}
+                                    </div>
+                                    <div class="tab-pane" id="tab2">
+                                        {{   include ('@PlaneacionAdmin/ProfesorHorario/horario.html.twig') }}
+                                    </div>
+                                    <input type="hidden" name="idProfe" value="{{ app.request.get('idProfe') }}"/>
+                                    {% if idObj is defined %}
+                                        <input type="hidden" name="id" value="{{ idObj }}"/>
+                                    {% endif %}
+                                    {{ form_widget(form._token)  }}
+                                </div>
+
+                            </div>
+
+                            <div class="form-actions right">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="col-md-offset-3 col-md-9">
+                                            <a href="javascript:;" class="btn default button-previous disabled" style="display: none;">
+                                                <i class="m-icon-swapleft"></i> Anterior
+                                            </a>
+                                            <a href="javascript:;" class="btn blue button-next">
+                                                Siguiente <i class="m-icon-swapright m-icon-white"></i>
+                                            </a>
+                                            <a class="btn default ajaxify" href="{{ path("planeacion_admin_crud_profesor_horario") }}?id={{ app.request.get('idProfe') }}">
+                                                Cancelar
+                                            </a>
+                                            <a href="javascript:;" class="btn blue button-submit" style="display: none;">
+                                                Aceptar
+                                            </a>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        {#{{ form_rest(form) }}#}
+                    </form>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascript %}
+    <script src="{{ asset('bundles/comun/base/plugins/bootstrap-wizard/jquery.bootstrap.wizard.min.js') }}"></script>
+{% endblock %}
+{% block script %}
+    <script src="{{ asset('bundles/comun/base/scripts/custom/form-wizard.js') }}"></script>
+    <script src="{{ asset('bundles/comun/js/ajaxify_form.js') }}"></script>
+
+    <script>
+     FormWizard.init('register_profesor_horario_form',{showAcept:true});
+         $("body #adepsoft_planeacion_adminbundle_profeperiodotype_periodo").on('change',function(e){
+             if(typeof (e.reloadTable) == 'undefined' || e.reloadTable != false) {
+                 App.loadAjax("{{ path("planeacion_admin_crud_profesor_horario_horas_periodo") }}", $('.hora_table_container'), {
+                     'periodo': $("#adepsoft_planeacion_adminbundle_profeperiodotype_periodo").val(),
+                     'id': "{{ app.request.get('id')}}"
+                 });
+                 if ($('#adepsoft_planeacion_adminbundle_profeperiodotype_periodo').select2("data") != null)
+                     $("#periodo_label").val($('#adepsoft_planeacion_adminbundle_profeperiodotype_periodo').select2("data").text);
+             }
+         });
+     $(".recargar_grupo").on("click", function(){
+         $("body #adepsoft_planeacion_adminbundle_profeperiodotype_periodo").trigger({type:'change',reloadTable:false});
+     });
+     </script>
+
+{% endblock %}
+

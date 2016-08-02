@@ -1,0 +1,84 @@
+<style>
+    .room {
+        margin:2px;
+        float:left;
+    }
+    .slot {
+        width:110px;
+        height:25px;
+        padding:0px;
+        text-align: center;
+        border:1px solid #dddddd;
+    }
+
+    .group-label {
+        padding: 4px 5px;
+        float: left;
+        width: 110px;
+
+        font-size: 14px;
+        color: black;
+    }
+
+</style>
+
+<div style="margin-left: 20px;">
+    {% set length = 11 %}
+    {% set head_div = 0 %}
+    {% set foot_div = 0 %}
+    <div class="row" style="margin-top: 100px;">
+        {% for aula in aulasygrupos %}
+            {% set head_div = head_div + 1 %}
+            {% set foot_div = foot_div + 1 %}
+            {% if head_div == length %}
+                <div class="row" style="margin-top: 100px;">
+                {% set head_div = 1 %}
+            {% endif %}
+            <div class="room" style="margin-top: 40px;">
+                <div class="header-room" style="margin-bottom: 5px">
+                    <span>{{ aula.nombre }}</span><span> cap: {{ aula.capacidad }}</span>
+                </div>
+                <div class="slot">
+                    {% if aula.t1 is defined %}
+                        <div>
+                            <div class="group-label">
+                                <span> {{ aula.t1.nombre }} </span>
+                            </div>
+                        </div>
+                    {% endif %}
+                </div>
+                <div class="slot">
+                    {% if aula.t2 is defined %}
+                        <div>
+                            <div class="group-label">
+                                <span> {{ aula.t2.nombre }} </span>
+                            </div>
+                        </div>
+                    {% endif %}
+                </div>
+                <div class="slot">
+                    {% if aula.t3 is defined %}
+                        <div>
+                            <div class="group-label">
+                                <span> {{ aula.t3.nombre }} </span>
+                            </div>
+                        </div>
+                    {% endif %}
+                </div>
+                <div class="slot">
+                    {% if aula.t4 is defined %}
+                        <div>
+                            <div class="group-label">
+                                <span> {{ aula.t4.nombre }} </span>
+                            </div>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+            {% if foot_div == (length - 1) %}
+                </div>
+                {% set foot_div = 0 %}
+            {% endif %}
+        {% endfor %}
+    </div>
+</div>

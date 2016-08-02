@@ -1,0 +1,13 @@
+{% if menus|length > 0%}
+    <ul class="sub-menu">
+        {% for menu in menus %}
+            {#{% set parentsMenu =  getMenuParents() %}#}
+            {% if menu.hijos|length > 0 and menu.id in parentsMenu %}
+                {{ include('ComunBundle:architecture/templates:parent_node.html.twig',{'menus':menu.hijos}) }}
+            {% else%}
+                {{ include('ComunBundle:architecture/templates:child_node.html.twig',{'menus':menu.hijos}) }}
+            {% endif %}
+        {% endfor %}
+    </ul>
+{% endif %}
+

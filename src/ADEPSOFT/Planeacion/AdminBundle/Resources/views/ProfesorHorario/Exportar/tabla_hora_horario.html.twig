@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+    <link rel="stylesheet" type="text/css" href="{{  app.request.getSchemeAndHttpHost() ~asset('bundles/comun/base/font-awesome/css/font-awesome.min.css') }}"/>
+    <link rel="stylesheet" type="text/css" href="{{  app.request.getSchemeAndHttpHost() ~asset('bundles/comun/base/bootstrap/css/bootstrap.min.css') }}"/>
+    <link rel="stylesheet" type="text/css" href="{{  app.request.getSchemeAndHttpHost() ~asset('bundles/comun/base/uniform/css/uniform.default.min.css') }}"/>
+    <link rel="stylesheet" type="text/css" href="{{  app.request.getSchemeAndHttpHost() ~asset('bundles/comun/css/style-metronic.css') }}"/>
+    <link rel="stylesheet" type="text/css" href="{{ app.request.getSchemeAndHttpHost() ~ asset('bundles/comun/css/style.css') }}"/>
+    <link rel="stylesheet" type="text/css" href="{{  app.request.getSchemeAndHttpHost() ~asset('bundles/comun/css/style-responsive.css') }}"/>
+    <link rel="stylesheet" type="text/css" href="{{ app.request.getSchemeAndHttpHost() ~asset('bundles/comun/css/plugins.css') }}"/>
+    <link rel="stylesheet" type="text/css" href="{{ app.request.getSchemeAndHttpHost() ~asset('bundles/comun/css/themes/light.css') }}"/>
+    <style>
+        label {
+            font-size: 10px !important;
+        }
+        .table thead tr th {
+            font-size: 10px;
+            font-weight: 600;
+        }
+        .table {
+            margin-bottom: 10px;
+            font-size: 9px;
+        }
+        div.row {
+            margin-top: 0px;
+            margin-bottom: 0px;
+        }
+        div.form-group {
+            margin-top: 0px;
+            margin-bottom: 0px;
+        }
+    </style>
+    {#<link rel="stylesheet" type="text/css" href="{{ app.request.getSchemeAndHttpHost() ~asset('bundles/planeacionadmin/css/img-ace.css') }}"/>#}
+    {#<link rel="stylesheet" type="text/css" href="{{ app.request.getSchemeAndHttpHost() ~asset('bundles/planeacionadmin/css/bootstrap-editable.css') }}"/>#}
+    {#<link rel="stylesheet" type="text/css" href="{{ app.request.getSchemeAndHttpHost() ~asset('bundles/comun/base/plugins/gritter/css/jquery.gritter.css') }}"/>#}
+    {#<link rel="stylesheet" type="text/css" href="{{ app.request.getSchemeAndHttpHost() ~asset('bundles/comun/base/plugins/bootstrap-datepicker/css/datepicker.css') }}"/>#}
+
+</head>
+<body style="background-color: #ffffff !important;  "  >
+    <div class="form-group">
+        <div class="col-xs-6">
+            <label><b>Catedrático:</b></label>
+            <label>{{ profe.nombre }}-{{ profe.numeroEmpleado }}</label>
+        </div>
+        <div class="col-xs-3">
+            <label><b>Período:</b></label>
+            <label>{{ obj.periodo.abreviado }}</label>
+        </div>
+        <div class="col-xs-3">
+            <label><b>Categoría:</b></label>
+            <label>{{ profe.categoria }}</label>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-xs-6">
+            <label><b>Fecha ingreso FACDYC:</b></label>
+            <label>{{ profe.fechaFACDYCString }}</label>
+        </div>
+        <div class="col-xs-6">
+            <label><b>Fecha ingreso UANL:</b></label>
+            <label>{{ profe.fechaUanlString }}</label>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-xs-6">
+            <label><b>Porcentaje de asistencia del semestre anterior:</b></label>
+            <label>{{ obj.asistenciaSemAnterior }}</label>
+        </div>
+    </div>
+    <div class="row form-group register_profesor_horario_form">
+        <div class="table-responsive col-xs-12">
+            <table class="table table-bordered table-condensed">
+                <thead >
+                <tr style="vertical-align: middle;border-top: solid 2px; border-left: solid 2px; border-right: solid 2px">
+                    <th style="width: 5%" class="text-center">HORA</th>
+                    {#<th class="text-center">CLAVE/GRUPO</th>#}
+                    {% for dia in dias %}
+                        <th width="15%" class="text-center">{{ dia.nombre|upper|truncate(3,false,"") }}</th>
+                    {% endfor %}
+                </tr>
+                </thead>
+                <tbody>
+                {% set turno = 1 %}
+                {% for hora in horas %}
+                    {% if loop.first%}
+                        {% set turno = hora.turno.id %}
+                    {% endif %}
+                    {#<tr style="border-right: solid 2px; border-left: solid 2px;border-bottom: solid 2px; border-top: solid 2px">#}
+                        {#<td >{{ hora.turno.id }}</td>#}
+                        {#{% for dia in dias %}#}
+                            {#<td></td>#}
+                        {#{% endfor %}#}
+                    {#</tr>#}
+                    {% if hora.turno.id != turno%}
+                        {% set turno  = hora.turno.id %}
+                        <tr style="border-right: solid 2px; border-left: solid 2px;border-bottom: solid 2px; border-top: solid 2px">
+                            <td ></td>
+                            {% for dia in dias %}
+                                <td></td>
+                            {% endfor %}
+                        </tr>
+                    {% endif %}
+                    <tr style="border-right: solid 2px; border-left: solid 2px; vertical-align: middle {% if loop.last %} ;border-bottom: solid 2px;{% endif %}">
+                        <td class="text-center"><b>{{ hora.horaTime|date("H:i") }}</b></td>
+                        {% for dia in dias %}
+                            <td class="text-center clave_grupo_td" style="vertical-align: middle; padding-left: 5px ;padding-right: 5px  ;" value="{{ hora.id }}_{{ dia.id }}" init="false">
+                                <span ></span>
+                            </td>
+                        {% endfor %}
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-6">
+            <div class="form-group">
+                <label class="btn" type="button" STYLE="font-size: 1.2em"><b>MATERIAS ASIGNADAS:</b></label>
+            </div>
+            {% for materia in materias %}
+                <div class="form-group">
+                    <label class="btn" type="button" style="text-decoration: underline"> {{ materia.textoSinLicenciatura }}</label>
+                </div>
+            {% endfor %}
+        </div>
+        <div class="col-xs-6">
+            <div class="form-horizontal">
+                <div class="row">
+                    <label class="btn col-xs-11" style="text-align:right"><b>Horas que debe cubrir:</b></label>
+                    <label class="btn col-xs-1" style="text-align:left"> {{ obj.horasCubrir }}</label>
+                </div>
+                {% if profe.categoria.id ==  1 %}
+                    <div class="row ">
+                        <label class="btn col-xs-11" style="text-align:right"><b>Descarga ant.:</b></label>
+                        <label class="btn col-xs-1" style="text-align:left"> {{ obj.descargaAnt }}</label>
+                    </div>
+                {% endif %}
+                <div class="row">
+                    <label class="btn col-xs-11" style="text-align:right"><b>Descarga admva.:</b></label>
+                    <label class="btn col-xs-1" style="text-align:left;"> {{ obj.descargaADMVA }}</label>
+                </div>
+                <div class="row">
+                    <label class="btn col-xs-11" style="text-align:right"><b>Horas asignadas:</b></label>
+                    <label class="btn col-xs-1" style="text-align:left"> {{ obj.horasAsignadas }}</label>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% block javascript %}
+        <script src="{{ app.request.getSchemeAndHttpHost() ~  asset('bundles/comun/base/plugins/jquery-1.10.2.min.js') }}"></script>
+        {#<script src="{{ app.request.getSchemeAndHttpHost() ~ asset('bundles/comun/base/plugins/jquery-migrate-1.2.1.min.js') }}"></script>#}
+        {#<script src="{{ app.request.getSchemeAndHttpHost() ~ asset('bundles/comun/base/plugins/jquery-ui/jquery-ui-1.10.3.custom.min.js') }}"></script>#}
+
+        {#<script src="{{ app.request.getSchemeAndHttpHost() ~ asset('bundles/comun/base/bootstrap/js/bootstrap.min.js') }}"></script>#}
+        {#<script src="{{ app.request.getSchemeAndHttpHost() ~ asset('bundles/comun/base/plugins/bootstrap-hover-dropdown/bootstrap-hover-dropdown.min.js') }}"></script>#}
+        {#<script src="{{ app.request.getSchemeAndHttpHost() ~ asset('bundles/comun/base/plugins/jquery.blockui.min.js') }}"></script>#}
+        {#<script src="{{ app.request.getSchemeAndHttpHost() ~ asset('bundles/comun/base/jquery.validate.min.js') }}"></script>#}
+        {#<script src="{{  app.request.getSchemeAndHttpHost() ~ asset('bundles/comun/base/uniform/jquery.uniform.min.js') }}"></script>#}
+        {#<script src="{{ app.request.getSchemeAndHttpHost() ~ asset('bundles/comun/base/scripts/core/app.js') }}"></script>#}
+    {% endblock %}
+    <script>
+        {% if horarios is defined %}
+        {
+            var td;
+            {% for horario in horarios %}
+            {
+                td = $('td[value="' + '{{ horario[0] }}_{{ horario[1] }}' + '"]');
+                td.attr('init', 'true');
+                td.attr('value', '{{ horario[0] }}_{{ horario[1] }}_{{ horario[2] }}_{{ horario[3] }}');
+                td.css('background-color', '#efefef');
+                td.find("span").text("{{ horario[5]}}/{{ horario[4]}}/{{ horario[6]}}");
+                var input = $("<input type='hidden' name='horario[]'/>").val(td.attr('value'));
+                $(".register_profesor_horario_form").append(input);
+            }
+            {% endfor %}
+        }
+        {% endif %}
+
+    </script>
+    {#{% block script %}#}
+        {#<script>#}
+            {#App.init();#}
+        {#</script>#}
+
+    {#{% endblock %}#}
+
+</body>
+</html>

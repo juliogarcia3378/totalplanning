@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+    <link rel="stylesheet" type="text/css" href="{{  app.request.getSchemeAndHttpHost() ~asset('bundles/comun/base/font-awesome/css/font-awesome.min.css') }}"/>
+    <link rel="stylesheet" type="text/css" href="{{  app.request.getSchemeAndHttpHost() ~asset('bundles/comun/base/bootstrap/css/bootstrap.min.css') }}"/>
+    <link rel="stylesheet" type="text/css" href="{{  app.request.getSchemeAndHttpHost() ~asset('bundles/comun/base/uniform/css/uniform.default.min.css') }}"/>
+    <link rel="stylesheet" type="text/css" href="{{  app.request.getSchemeAndHttpHost() ~asset('bundles/comun/css/style-metronic.css') }}"/>
+    <link rel="stylesheet" type="text/css" href="{{ app.request.getSchemeAndHttpHost() ~ asset('bundles/comun/css/style.css') }}"/>
+    <style>
+        tr,td,th {
+            text-align: center;
+        }
+        label {
+            font-size: 10px !important;
+        }
+        .table thead tr th {
+            font-size: 10px;
+            font-weight: 600;
+        }
+        .table {
+            margin-bottom: 10px;
+            font-size: 9px;
+        }
+        div.row {
+            margin-top: 0px;
+            margin-bottom: 0px;
+        }
+        div.form-group {
+            margin-top: 0px;
+            margin-bottom: 0px;
+        }
+        .table > thead > tr > th, .table > tbody > tr > th, .table > tfoot > tr > th, .table > thead > tr > td, .table > tbody > tr > td, .table > tfoot > tr > td {
+            border-top: 1px solid #ddd;
+            line-height: 1.42857;
+            padding: 3px;
+            vertical-align: top;
+        }
+    </style>
+
+
+</head>
+<body style="background-color: #ffffff !important;  "  >
+<div class="container">
+    <div class="row">
+        <h5>DISTRIBUCION CON CAMBIOS</h5>
+        <h5>PERIODO ESCOLAR ENERO-JUNIO 2015</h5>
+    </div>
+    {% for key, licenciatura in licenciaturas %}
+    {% for semestre in licenciatura %}
+    {% for turno,turnos in semestre %}
+    {% if turnos|length > 0 %}
+
+    <div class="col-md-12">
+        <table class="table table-bordered">
+            <thead>
+            <tr>
+                <th>
+                </th>
+                <th>
+                    Semestre
+                </th>
+                <th>
+                    Licenciatura
+                </th>
+                <th>
+                    {{ anterior }}
+                </th>
+                <th>
+                </th>
+                <th>
+
+                </th>
+                <th>
+
+                </th>
+                <th>
+                    {{ actual }}
+                </th>
+                <th>
+                    Capacidad
+                </th>
+            </tr>
+            <tr>
+                <th>
+                    {{ anterior }}
+                </th>
+                <th>
+                    {{ actual }}
+                </th>
+                <th>
+                    TURNO
+                </th>
+                <th>
+                    AULA
+                </th>
+                <th>
+                    NIVEL
+                </th>
+                <th>
+                    BAJA
+                </th>
+                <th>
+                    TOTAL
+                </th>
+                <th>
+
+                </th>
+                <th>
+
+                </th>
+            </tr>
+            </thead>
+
+            <tbody>
+            {%  set totalAnterior = 0  %}
+            {%  set totalActual = 0  %}
+
+            {% for grupo in turnos %}
+                {% if grupo.anterior.nivel is defined %}
+                
+                {%  set totalAnterior = totalAnterior+ grupo.anterior.nivel %}
+                {%  set totalActual = totalActual+ grupo.actual.nivel %}
+                <tr>
+                    <td>{{ grupo.anterior.semestre}}</td>
+                    <td>{{ grupo.actual.semestre}}</td>
+                    <td>{{ grupo.anterior.turno|upper}}{% if grupo.anterior.bilingue %}BILL {% endif %}</td>
+                    <td>{{ grupo.anterior.aula.nombre}}</td>
+                    <td>{{ grupo.anterior.nivel}}</td>
+                    <td>{{ grupo.anterior.nivel - grupo.actual.nivel}}</td>
+                    <td>{{ grupo.actual.nivel}}</td>
+                    <td> {{ grupo.actual.aula.nombre}}</td>
+                    <td>{{ grupo.actual.aula.capacidad}}</td>
+                </tr>
+                
+            {% endif %}
+
+            {% endfor %}
+
+            <tr>
+                <td style="border-left: hidden;border-bottom: hidden"></td>
+                <td style="border-left: hidden;border-bottom: hidden"></td>
+                <td style="border-left: hidden;border-bottom: hidden"></td>
+                <td style="border-left: hidden;border-bottom: hidden"></td>
+                <td style="border-left: hidden;border-bottom: hidden"></td>
+                <td>SUMA:</td>
+                <td>{{ totalAnterior }}</td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td style="border-left: hidden;border-bottom: hidden"></td>
+                <td style="border-left: hidden;border-bottom: hidden"></td>
+                <td style="border-left: hidden;border-bottom: hidden"></td>
+                <td style="border-left: hidden;border-bottom: hidden"></td>
+                <td style="border-left: hidden;border-bottom: hidden"></td>
+                <td>CAMBIOS:</td>
+                <td>{{ totalAnterior-totalActual }}</td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td style="border-left: hidden;border-bottom: hidden"></td>
+                <td style="border-left: hidden;border-bottom: hidden"></td>
+                <td style="border-left: hidden;border-bottom: hidden"></td>
+                <td style="border-left: hidden;border-bottom: hidden"></td>
+                <td style="border-left: hidden;border-bottom: hidden"></td>
+                <td>TOTAL:</td>
+                <td>{{totalActual }}</td>
+                <td></td>
+                <td></td>
+            </tr>
+
+            {% endif %}
+            {% endfor %}
+            {% endfor %}
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <br>
+
+
+</div>
+{% block javascript %}
+    <script src="{{ app.request.getSchemeAndHttpHost() ~  asset('bundles/comun/base/plugins/jquery-1.10.2.min.js') }}"></script>
+
+{% endblock %}
+
+{#{% block script %}#}
+{#<script>#}
+{#App.init();#}
+{#</script>#}
+
+{#{% endblock %}#}
+
+</body>
+</html>
+

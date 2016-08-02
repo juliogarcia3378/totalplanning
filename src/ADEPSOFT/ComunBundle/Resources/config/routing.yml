@@ -1,0 +1,25 @@
+
+#nomencladores:
+#    resource: "@ComunBundle/Controller/NomencladoresController.php"
+#    type:     annotation
+#    prefix:   /
+#CRUD:
+#    resource: "@ComunBundle/Controller/MyCRUDController.php"
+#    type:     annotation
+#    prefix:   /
+home_page:
+    pattern:  /
+    defaults: { _controller: ComunBundle:Default:read}
+planeacion_report_header:
+    pattern:  /open/report_header
+    defaults: { _controller: ComunBundle:MyCRUD:reportHeader}
+planeacion_report_footer:
+    pattern:  /open/report_footer
+    defaults: { _controller: ComunBundle:MyCRUD:reportFooter}
+prueba:
+    pattern:  /prueba
+    defaults: { _controller: ComunBundle:Default:prueba}
+#--------------COMPONENTES---------------------#
+
+
+#-------------- END COMPONENTES-----------------SS #

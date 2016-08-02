@@ -1,0 +1,32 @@
+parameters:
+#    planeacion_admin.example.class: ADEPSOFT\Planeacion\AdminBundle\Example
+
+services:
+    planeacion.admin.materia.tm:
+        class:  ADEPSOFT\Planeacion\AdminBundle\TableDescription\MateriaTable
+    planeacion.admin.descargaadministrativa.tm:
+            class:  ADEPSOFT\Planeacion\AdminBundle\TableDescription\DescargaAdministrativaTable
+    planeacion.admin.autoasignacionaula.tm:
+            class:  ADEPSOFT\Planeacion\AdminBundle\TableDescription\AutoasignacionAulaTable
+    planeacion.admin.idioma.tm:
+        class:  ADEPSOFT\Planeacion\AdminBundle\TableDescription\IdiomaTable
+    planeacion.admin.planEstudio.tm:
+        class:  ADEPSOFT\Planeacion\AdminBundle\TableDescription\PlanEstudioTable
+    planeacion.admin.profesor.tm:
+        class:  ADEPSOFT\Planeacion\AdminBundle\TableDescription\ProfeTable
+    planeacion.admin.profesor_horarios.tm:
+        class:  ADEPSOFT\Planeacion\AdminBundle\TableDescription\ProfesorHorariosTable
+    planeacion.admin.grupo.tm:
+        class:  ADEPSOFT\Planeacion\AdminBundle\TableDescription\GrupoTable
+    planeacion.admin.hora_periodo.tm:
+        class:  ADEPSOFT\Planeacion\AdminBundle\TableDescription\HoraPeriodoTable
+    planeacion.admin.aula.tm:
+        class:  ADEPSOFT\Planeacion\AdminBundle\TableDescription\AulaTable
+    planeacion.admin.estudiante.tm:
+        class:  ADEPSOFT\Planeacion\AdminBundle\TableDescription\EstudianteTable
+    planeacion.admin.periodo.tm:
+        class:  ADEPSOFT\Planeacion\AdminBundle\TableDescription\PeriodoTable
+    planeacion.admin.turno.tm:
+        class:  ADEPSOFT\Planeacion\AdminBundle\TableDescription\TurnoTable
+    planeacion.admin.hora.tm:
+        class:  ADEPSOFT\Planeacion\AdminBundle\TableDescription\HoraTable

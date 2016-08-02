@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+    <link rel="stylesheet" type="text/css" href="{{  app.request.getSchemeAndHttpHost() ~asset('bundles/comun/base/font-awesome/css/font-awesome.min.css') }}"/>
+    <link rel="stylesheet" type="text/css" href="{{  app.request.getSchemeAndHttpHost() ~asset('bundles/comun/base/bootstrap/css/bootstrap.min.css') }}"/>
+    <link rel="stylesheet" type="text/css" href="{{  app.request.getSchemeAndHttpHost() ~asset('bundles/comun/base/uniform/css/uniform.default.min.css') }}"/>
+    <link rel="stylesheet" type="text/css" href="{{  app.request.getSchemeAndHttpHost() ~asset('bundles/comun/css/style-metronic.css') }}"/>
+    <link rel="stylesheet" type="text/css" href="{{ app.request.getSchemeAndHttpHost() ~ asset('bundles/comun/css/style.css') }}"/>
+    <style>
+        tr,td,th {
+            text-align: center;
+        }
+        label {
+            font-size: 10px !important;
+        }
+        .table thead tr th {
+            font-size: 10px;
+            font-weight: 600;
+        }
+        .table {
+            margin-bottom: 10px;
+            font-size: 9px;
+        }
+        div.row {
+            margin-top: 0px;
+            margin-bottom: 0px;
+        }
+        div.form-group {
+            margin-top: 0px;
+            margin-bottom: 0px;
+        }
+        .table > thead > tr > th, .table > tbody > tr > th, .table > tfoot > tr > th, .table > thead > tr > td, .table > tbody > tr > td, .table > tfoot > tr > td {
+            border-top: 1px solid #ddd;
+            line-height: 1.42857;
+            padding: 3px;
+            vertical-align: top;
+        }
+
+	.break{
+	   page-break-after: always;
+	}
+
+    </style>
+
+
+</head>
+<body style="background-color: #ffffff !important;  "  >
+<div class="container">
+    <div class="row">
+        <h5>DISTRIBUCION CON CAMBIOS</h5>
+        <h5>PERIODO ESCOLAR {{ actual|upper }}</h5>
+    </div>
+    {% set iter=0%}
+    {% for key, licenciatura in licenciaturas %}
+        {% for semestre in licenciatura %}
+            {% for turno,turnos in semestre %}
+                {% set iter=iter+3%}
+                {% set cantidad = turnos|length%}
+                {% set iter=iter+cantidad%}
+                {% if turnos|length > 0 %}
+
+        <table class="table table-bordered {% if iter > 33 %}break{% endif %}">
+                {% if iter > 33 %}
+                    {% set iter = 0 %}
+                {% endif %}
+            <thead>
+            <tr><th colspan="10">{% if key == 1 %}DERECHO{% else %}CRIMINOLOGÍA{% endif %}</th></tr>
+            <tr>
+                <th colspan="5">{{ anterior }}</th>
+                <th rowspan="2" style="vertical-align: middle;">NIVEL</th>
+                <th rowspan="2" style="vertical-align: middle;">BAJA</th>
+                <th rowspan="2" style="vertical-align: middle;">TOTAL</th>
+                <th colspan="2">{{ actual }}</th>
+            </tr>
+            <tr>
+                <th>ANTES</th>
+                <th>AHORA</th>
+                <th>CAMBIO</th>
+                <th>TURNO</th>
+                <th>AULA</th>
+                <th>AULA</th>
+                <th>CAPACIDAD</th>
+            </tr>
+            </thead>
+            <tbody>
+                {%  set totalAnterior = 0  %}
+                {%  set totalActual = 0  %}
+                {%  set totalDif = 0  %}
+                {% for grupo in turnos %}
+                    {% if grupo.promo.nivel is defined %}
+                        {% if grupo.promo.bilingue == false %}
+                            {% set totalAnterior = totalAnterior + grupo.promo.nivel %}
+                        {% endif %}
+                    {% endif %}
+                    {% if grupo.actual.bilingue == false %}
+                        {% set totalActual = totalActual + grupo.actual.nivel %}
+                    {% endif %}
+                    <tr>
+                    {% if grupo.promo.nivel is defined %}
+                        <td>{{ grupo.promo.nombre}}</td>
+                    {% else %}
+                        <td>-</td>
+                    {% endif %}
+                        <td>{{ grupo.actual.nombre}}</td>
+                    {% if grupo.anterior.nivel is defined %}
+                        {% set totalDif = totalDif + grupo.actual.nivel - grupo.anterior.nivel %}
+                        <td>{{ grupo.actual.nivel - grupo.anterior.nivel }}</td>
+                    {% else %}
+                        <td>-</td>
+                    {% endif %}
+                        <td>{{ grupo.actual.turno|upper}} {% if grupo.actual.bilingue %}BILL{% endif %}</td>
+                    {% if grupo.promo.nivel is defined %}
+                        <td>{{ grupo.promo.aula.nombre }}</td>
+                        <td>{{ grupo.promo.nivel}}</td>
+                        <td>{% if grupo.promo.nivel - grupo.actual.nivel > 0 %}{{ grupo.promo.nivel - grupo.actual.nivel }}{% else %}{% endif %}</td>
+                    {% else %}
+                        <td>-</td>
+                        <td>-</td>
+                        <td>-</td>
+                    {% endif %}
+                        <td>{{ grupo.actual.nivel }}</td>
+                        <td>{{ grupo.actual.aula.nombre}}</td>
+                        <td>{{ grupo.actual.aula.capacidad}}</td>
+                    </tr>
+            {% endfor %}
+            <tr>
+                <td style="border-left: hidden;border-bottom: hidden"></td>
+                <td style="border-left: hidden;border-bottom: hidden"></td>
+                <td style="border-right: 1px">{% if totalDif != 0 %}{{ totalDif }}{% else %}-{% endif %}</td>
+                <td style="border-left: hidden;border-bottom: hidden"></td>
+                <td style="border-left: hidden;border-bottom: hidden"></td>
+                <td style="border-left: hidden;border-bottom: hidden"></td>
+                <td>SUMA:</td>
+                <td>{{ totalAnterior }}</td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td style="border-left: hidden;border-bottom: hidden"></td>
+                <td style="border-left: hidden;border-bottom: hidden"></td>
+                <td style="border-left: hidden;border-bottom: hidden"></td>
+                <td style="border-left: hidden;border-bottom: hidden"></td>
+                <td style="border-left: hidden;border-bottom: hidden"></td>
+                <td style="border-left: hidden;border-bottom: hidden"></td>
+                <td>CAMBIOS:</td>
+                <td>{{ totalActual-totalAnterior }}</td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td style="border-left: hidden;border-bottom: hidden"></td>
+                <td style="border-left: hidden;border-bottom: hidden"></td>
+                <td style="border-left: hidden;border-bottom: hidden"></td>
+                <td style="border-left: hidden;border-bottom: hidden"></td>
+                <td style="border-left: hidden;border-bottom: hidden"></td>
+                <td style="border-left: hidden;border-bottom: hidden"></td>
+                <td>TOTAL:</td>
+                <td>{{ totalActual }}</td>
+                <td></td>
+                <td></td>
+            </tr>
+                {% endif %}
+            {% endfor %}
+        {% endfor %}
+    {% endfor %}
+            </tbody>
+        </table>
+    <br>
+
+</div>
+{% block javascript %}
+    <script src="{{ app.request.getSchemeAndHttpHost() ~  asset('bundles/comun/base/plugins/jquery-1.10.2.min.js') }}"></script>
+
+{% endblock %}
+
+{#{% block script %}#}
+{#<script>#}
+{#App.init();#}
+{#</script>#}
+
+{#{% endblock %}#}
+
+</body>
+</html>
+

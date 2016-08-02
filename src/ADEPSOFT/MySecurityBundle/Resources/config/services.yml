@@ -1,0 +1,13 @@
+parameters:
+#    security.example.class: ADEPSOFT\SecurityBundle\Example
+
+services:
+#----------------------CRUD MODEL SERVICES---------------
+    security.permission.tm:
+        class: ADEPSOFT\MySecurityBundle\TreeDescription\PermissionTree
+    security.group.tm:
+        class: ADEPSOFT\MySecurityBundle\TableDescription\GroupTable
+    security.usuario.tm:
+        class: ADEPSOFT\MySecurityBundle\TableDescription\UsuarioTable
+    security.instancia_usuario.tm:
+        class: ADEPSOFT\MySecurityBundle\TableDescription\UsuarioInstanciaTable

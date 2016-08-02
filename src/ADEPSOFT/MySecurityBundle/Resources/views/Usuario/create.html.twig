@@ -1,0 +1,72 @@
+{% if op != 'edit' %}
+    {{ form_row (form.username) }}
+    {{ form_row (form.plainPassword.first) }}
+    {{ form_row (form.plainPassword.second) }}
+{% endif %}
+{{ form_row (form.groups) }}
+{{ form_row (form.profesor) }}
+{{ form_row (form.nombre) }}
+{{ form_row (form.cedula) }}
+{{ form_row (form.email) }}
+{{ form_rest (form) }}
+{#{{ op }}#}
+<script class="create_user_validation_script">
+    var op = "{{ op }}";
+    $(".create_user_validation_script").closest('form').validate({
+        'mysecurity_user_registration[nombre]':{
+            required:{
+                depends:function(element){
+                    return $.inArray("1",$("#mysecurity_user_"+op+"_groups").val()) != -1;
+                }
+            }
+        },
+        'mysecurity_user_registration[cedula]':{
+            required:{
+                depends:function(element){
+                    return $.inArray("1",$("#mysecurity_user_"+op+"_groups").val()) != -1;
+                }
+            }
+        },
+        'mysecurity_user_registration[email]':{
+            required:{
+                depends:function(element){
+                    return $.inArray("1",$("#mysecurity_user_"+op+"_groups").val()) != -1;
+                }
+            }
+        },
+        'mysecurity_user_registration[profesor]':{
+            required:{
+                depends:function(element){
+                    return $.inArray("1",$("#mysecurity_user_"+op+"_groups").val()) == -1;
+                }
+            }
+        }
+    });
+
+    if($.inArray("1",$("#mysecurity_user_"+op+"_groups").val()) != -1){
+        $("#mysecurity_user_"+op+"_nombre").closest('.form-group').hide();
+        $("#mysecurity_user_"+op+"_cedula").closest('.form-group').hide();
+        $("#mysecurity_user_"+op+"_email").closest('.form-group').hide();
+
+    }
+   else {
+        $("#mysecurity_user_"+op+"_profesor").closest('.form-group').hide();
+    }
+
+    $(".create_user_validation_script").closest('form').on('change',"select",function() {
+        if($.inArray("1",$("#mysecurity_user_"+op+"_groups").val()) == '-1')
+        {
+            $("#mysecurity_user_"+op+"_nombre").closest('.form-group').show();
+            $("#mysecurity_user_"+op+"_cedula").closest('.form-group').show();
+            $("#mysecurity_user_"+op+"_email").closest('.form-group').show();
+            $("#mysecurity_user_"+op+"_profesor").closest('.form-group').hide();
+        }
+        else
+        {
+            $("#mysecurity_user_"+op+"_nombre").closest('.form-group').hide();
+            $("#mysecurity_user_"+op+"_cedula").closest('.form-group').hide();
+            $("#mysecurity_user_"+op+"_email").closest('.form-group').hide();
+            $("#mysecurity_user_"+op+"_profesor").closest('.form-group').show();
+        }
+    })
+</script>

@@ -1,0 +1,92 @@
+{#{% extends '::base.html.twig' %}#}
+{% block content %}
+    <div class="row">
+        <div class="col-md-12">
+            <div  class="portlet">
+
+                {#<div class="portlet-title">#}
+                    {#<div class="caption">#}
+                        {#<i class="fa fa-reorder"></i>#}
+                        {#<span class="step-title">Adicionar usuario</span>#}
+                    {#</div>#}
+                {#</div>#}
+                <div class="portlet-body form" >
+                    <form  action="{{ path(model.rutas.new) }}"  id="register_user_form" method="POST" class="ajax_form horizontal-form" redirect="{{ path('security_crud_user') }}">
+                            <div class="form-body">
+                                <h4 class="form-section">Datos personales:</h4>
+                                <div class="row">
+                                    <div class="col-md-5 ">
+                                        {{ form_row(form.cedula) }}
+                                    </div>
+                                    <div class="col-md-1 "></div>
+                                    <div class="col-md-5 ">
+                                        {{ form_row(form.email) }}
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-5 ">
+                                        {{ form_row(form.nombre) }}
+                                    </div>
+                                    <div class="col-md-1 "></div>
+                                    <div class="col-md-5 ">
+                                        {{ form_row(form.telefono) }}
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-5 ">
+                                        {{ form_row(form.apellidos) }}
+                                    </div>
+                                </div>
+                                <h4 class="form-section">Datos de la cuenta:</h4>
+                                <div class="row">
+                                    <div class=" col-md-5 ">
+                                        {{ form_row(form.username) }}
+                                    </div>
+                                    <div class="col-md-1 "></div>
+                                    <div class=" col-md-5 ">
+                                        {{ form_row(form.plainPassword.first) }}
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class=" col-md-5 ">
+                                        {{ form_row(form.groups) }}
+                                    </div>
+                                    <div class="col-md-1 "></div>
+                                    <div class=" col-md-5 ">
+                                        {{ form_row(form.plainPassword.second) }}
+                                    </div>
+                                </div>
+                            </div>
+                        {#<div class="form-actions right">#}
+                            {#<a class="btn default  button-cancel ajaxify" type="button"  href="{{ path("security_crud_user") }}">Cancelar</a>#}
+                            {#<a class="btn blue button-submit" type="submit"> Aceptar</a>#}
+                        {#</div>#}
+                            <div class="form-actions right">
+                                    <a class="btn default button-cancel ajaxify" href="{{ path("security_crud_user") }}">
+                                        Cancelar
+                                    </a>
+                                    <button class="btn blue button-submit" type="submit" >
+                                        Aceptar
+                                    </button>
+                            </div>
+                        {{ form_rest(form) }}
+                    </form>
+                </div>
+
+            </div>
+
+        </div></div>
+{% endblock %}
+
+{% block javascript %}
+    {#<script src="{{ asset('bundles/comun/base/plugins/bootstrap-wizard/jquery.bootstrap.wizard.min.js') }}"></script>#}
+    {#<script src="{{ asset('bundles/mysecurity/js/user_register_wizard.js') }}"></script>#}
+    <script src="{{ asset('bundles/comun/js/ajaxify_form.js') }}"></script>
+{% endblock %}
+{% block script %}
+    <script>
+//        jQuery(document).ready(function() {
+//            FormWizard.init('register_user_form');
+//        });
+    </script>
+{% endblock %}

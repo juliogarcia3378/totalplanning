@@ -1,0 +1,27 @@
+{% extends '@Comun/architecture/components/CRUD/list.html.twig' %}
+
+{% block form_block %}
+    {{ parent() }}
+    <div class="modal fade modal_gestionar_permisos"  data-backdrop="static" data-keyboard="false" id="{{ model.tableId }}_modal_gestionar_permisos" tabindex="-1" role="basic" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content ajax_form_block">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                    <h4 class="modal-title">Gestionar permisos para: <b></b></h4>
+                </div>
+                <form  action="{{ path(rutas.permisos) }}" method="POST" id="{{ model.tableId }}_gestionar_permisos_form" type="tree" class="ajax_form">
+                    <div class="modal-body">
+                        <div id="{{ model.tableId }}_gestionar_permisos_form_container">
+                            {#{{ render(path(rutas.details))}}#}
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn default" data-dismiss="modal">Cerrar</button>
+                        <button class="btn blue " type="submit" value="Aceptar">Aceptar</button>
+                    </div>
+                </form>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+    </div>
+{% endblock form_block %}

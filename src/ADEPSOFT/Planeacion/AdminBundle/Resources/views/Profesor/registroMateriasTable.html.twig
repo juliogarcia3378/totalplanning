@@ -1,0 +1,42 @@
+<div class="form-group">
+    <div class="table-responsive col-md-6">
+        <table class="table  table-bordered ">
+            <thead >
+                <tr style="vertical-align: middle">
+                    <th width="5%" class="text-center"> <span> Per&iacute;odo </span></th>  <th width="40%" class="text-center"><span> Materia </span></th>
+                    {% if hayBorrable == true%}
+                        <th width="1%"></th>
+                    {% endif %}
+                </tr>
+            </thead>
+            <tbody>
+            {% for EPPeriodo in historial[lastP:] if printedM <= divisionTabla %}
+                {% set lastM = 0 %}
+                {% for materia in EPPeriodo.materia[lastM:] if printedM <= divisionTabla %}
+                    <tr style="vertical-align: middle" >
+
+                        <td class="text-center" style="vertical-align: middle">
+                            <span> {{ EPPeriodo.periodo.abreviado }}</span>
+                        </td>
+                        <td class="text-left"  style="vertical-align: middle">
+                                <span> {{ materia.materia.texto }}</span>
+                        </td>
+                        {% if hayBorrable == true%}
+                            <td>
+                                {% if materia.borrable %}
+                                    <a  class=" red ajaxify" type="json" block="form_block" target="#ajax_form_container_registro_materias" href="{{ path("planeacion_admin_crud_profesor_eliminar_registro_materias") }}?idProfe={{ profe.id }}&idMateria={{ materia.materia.id }}&periodo={{ EPPeriodo.periodo.id }}"  style="background-color: #d84a38;margin: 0px; padding-left: 5px; padding-right: 5px; cursor: pointer; vertical-align: middle"><i class="fa fa-times " style=" color: #ffffff"></i></a>
+                                {% endif %}
+                            </td>
+                        {% endif %}
+                    </tr>
+                    {% set printedM = printedM+1 %}
+                    {% set lastM = lastM+1 %}
+                {% endfor %}
+                {% set lastP = lastP+1 %}
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+

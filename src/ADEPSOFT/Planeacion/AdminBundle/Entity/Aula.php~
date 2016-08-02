@@ -1,0 +1,130 @@
+<?php
+namespace ADEPSOFT\Planeacion\AdminBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints as DocAssert;
+
+/**
+ * Aula
+ *
+ * @ORM\Table(name="aula")
+ * @DocAssert\UniqueEntity(fields={"nombre"}, message="Ya existe un aula con ese nombre.")
+ * @ORM\Entity(repositoryClass="ADEPSOFT\ComunBundle\Util\AulaRepository")
+
+ */
+class Aula
+{
+    /**
+     *
+     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     * @ORM\SequenceGenerator(sequenceName="aula_id_seq", allocationSize=1, initialValue=1)
+     */
+    private $id;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="nombre", type="string", length=10, nullable=false, unique=true)
+     */
+    private $nombre;
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="capacidad", type="integer", nullable=false)
+     */
+    private $capacidad;
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="activa", type="boolean", nullable=true, options={"defaults"=1})
+     */
+    private $activo;
+    /**
+     * @var \GrupoEstudiantes
+     *
+     * @ORM\OneToMany(targetEntity="ADEPSOFT\Planeacion\AdminBundle\Entity\GrupoEstudiantes",mappedBy="aula")
+     */
+    private $grupo;
+
+    /**
+     * Get id
+     *
+     * @return integer 
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set nombre
+     *
+     * @param string $nombre
+     * @return Dia
+     */
+    public function setNombre($nombre)
+    {
+        $this->nombre = $nombre;
+    
+        return $this;
+    }
+
+    /**
+     * Get nombre
+     *
+     * @return string 
+     */
+    public function getNombre()
+    {
+        return $this->nombre;
+    }
+
+    /**
+     * Set capacidad
+     *
+     * @param integer $capacidad
+     * @return Aula
+     */
+    public function setCapacidad($capacidad)
+    {
+        $this->capacidad = $capacidad;
+    
+        return $this;
+    }
+
+    /**
+     * Get capacidad
+     *
+     * @return integer 
+     */
+    public function getCapacidad()
+    {
+        return $this->capacidad;
+    }
+
+    /**
+     * Set activa
+     *
+     * @param boolean $activa
+     * @return Aula
+     */
+    public function setActivo($activa)
+    {
+        $this->activo = $activa;
+    
+        return $this;
+    }
+
+    /**
+     * Get activa
+     *
+     * @return boolean 
+     */
+    public function getActivo()
+    {
+        return $this->activo;
+    }
+}

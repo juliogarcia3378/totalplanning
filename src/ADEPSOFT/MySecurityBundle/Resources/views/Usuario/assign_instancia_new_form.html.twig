@@ -1,0 +1,57 @@
+{{ form_row(form.tipoInstancia) }}
+<div id="{{ form.distrito.vars['id'] }}_container">
+{{ form_row(form.distrito) }}
+</div>
+<div id="{{ form.juzgado.vars['id'] }}_container">
+{{ form_row(form.juzgado) }}
+</div>
+<div id="{{ form.oficialia.vars['id'] }}_container">
+{{ form_row(form.oficialia) }}
+</div>
+{{ form_rest(form) }}
+<script>
+        var tipoInstancia = $( "#" + "{{ form.tipoInstancia.vars['id']}}");
+        var distrito = $( "#" + "{{ form.distrito.vars['id']}}_container");
+        var juzgado = $( "#" + "{{ form.juzgado.vars['id']}}_container");
+        var oficialia = $( "#" + "{{ form.oficialia.vars['id']}}_container");
+
+        distrito.prop('disabled',true);
+        oficialia.prop('disabled',true);
+        juzgado.prop('disabled',true);
+
+        distrito.css('display','none');
+        juzgado.css('display','none');
+        oficialia.css('display','none');
+
+        $(document).off('change', tipoInstancia);
+        $(document).on('change', tipoInstancia, function () {
+            if(tipoInstancia.val() != TipoInstancia.CentroAdministracion && tipoInstancia.val() != ''){
+                distrito.prop('disabled',false);
+                distrito.css('display','inline');
+                if(tipoInstancia.val() == TipoInstancia.Oficialia) {
+                    oficialia.prop('disabled', false);
+                    juzgado.prop('disabled',true);
+
+                    juzgado.css('display','none');
+                    oficialia.css('display','inline');
+                }
+                else {
+                    juzgado.prop('disabled', false);
+                    oficialia.prop('disabled', true);
+
+                    juzgado.css('display','inline');
+                    oficialia.css('display','none');
+                }
+
+            }
+            else{
+                distrito.prop('disabled',true);
+                oficialia.prop('disabled',true);
+                juzgado.prop('disabled',true);
+
+                distrito.css('display','none');
+                juzgado.css('display','none');
+                oficialia.css('display','none');
+            }
+        });
+</script>

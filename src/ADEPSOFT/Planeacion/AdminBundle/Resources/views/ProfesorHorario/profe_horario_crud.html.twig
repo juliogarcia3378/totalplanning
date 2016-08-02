@@ -1,0 +1,28 @@
+{#{% if local is defined and local == true %}#}
+    {#{% extends '::base.html.twig' %}#}
+{#{% endif %}#}
+{% block stylesheets %}
+ <link rel="stylesheet" type="text/css" href="{{ asset('bundles/comun/base/plugins/data-tables/DT_bootstrap.css') }}"/>
+{% endblock %}
+{% block content %}
+    {% include "@PlaneacionAdmin/ProfesorHorario/profesor_horario_list.html.twig" %}
+{% endblock content %}
+{% block javascript %}
+    <script src="{{ asset('bundles/comun/base/plugins/data-tables/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ asset('bundles/comun/base/plugins/data-tables/DT_bootstrap.js') }}"></script>
+    <script src="{{ asset('bundles/comun/base/scripts/core/datatable.js') }}"></script>
+    <script src="{{ asset('bundles/comun/base/scripts/custom/table-ajax.js') }}"></script>
+    <script src="{{ asset('bundles/comun/js/ajaxify_form.js') }}"></script>
+    <script>
+        $("#{{ model.tableId }}"+"_exportar_horario_submit").on('click', function(e){
+            var el = $(this);
+            var id = e.id;
+
+            $('form.horario_datos_form input.id_row').val(id);
+            $('form.horario_datos_form')[0].submit();
+        });
+    </script>
+{% endblock %}
+
+
+

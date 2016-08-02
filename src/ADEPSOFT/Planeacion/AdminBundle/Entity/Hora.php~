@@ -1,0 +1,185 @@
+<?php
+namespace ADEPSOFT\Planeacion\AdminBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints as DocAssert;
+
+/**
+ * Hora
+ *
+ * @ORM\Table(name="hora")
+ * @ORM\HasLifecycleCallbacks()
+ * @DocAssert\UniqueEntity(fields={"hora"}, message="Ya existe esa hora.")
+ * @ORM\Entity(repositoryClass="ADEPSOFT\Planeacion\AdminBundle\Repository\HoraRepository")
+ */
+class Hora
+{
+    /**
+     *
+     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     * @ORM\SequenceGenerator(sequenceName="hora_id_seq", allocationSize=1, initialValue=1)
+     */
+    private $id;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="nombre", type="string", length=50, nullable=false)
+     */
+    private $nombre;
+
+    /**
+     * @var time
+     *
+     * @ORM\Column(name="hora", type="time",  nullable=false)
+     */
+    private $hora;
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="activa", type="boolean", nullable=true, options={"defaults"=1})
+     */
+    private $activo;
+    /**
+     * @var \HoraPeriodo
+     *
+     * @ORM\OneToMany(targetEntity="HoraPeriodo", mappedBy="hora")
+     */
+    private $horaPeriodo;
+        /**
+     * @var \Doctrine\Common\Collections\Collection
+     *
+     * @ORM\ManyToMany(targetEntity="Dia")
+     * @ORM\JoinTable(name="hora_dia",
+     *   joinColumns={
+     *     @ORM\JoinColumn(name="hora_periodo", referencedColumnName="id", onDelete="CASCADE")
+     *   },
+     *   inverseJoinColumns={
+     *     @ORM\JoinColumn(name="dia", referencedColumnName="id", onDelete="CASCADE")
+     *   }
+     * )
+     */
+    protected $dia;
+    /**
+     * Get nombre
+     *
+     * @return string
+     */
+    public function getDiaStringList()
+    {
+        $r = '';
+        $count = 0;
+        foreach($this->dia as $dia)
+        {
+            /**
+             * @var $materia Materia
+             */
+            if($count++ == 0)
+                $r.= $dia->getNombre();
+            else
+                $r.= ', '.$dia->getNombre();
+        }
+        return $r;
+    }
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->activo=true;
+        $this->horaPeriodo =new ArrayCollection();
+        $this->dia = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+    /**
+     * Get id
+     *
+     * @return integer 
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+    /**
+     * @ORM\PrePersist
+     * @ORM\PreUpdate
+     */
+    public function event()
+    {
+        $hora = $this->hora;
+//        ldd($hora);
+        $this->nombre = $hora->format('H').":".$hora->format('i');
+    }
+
+    /**
+     * Set nombre
+     *
+     * @param string $nombre
+     * @return Hora
+     */
+    public function setNombre($nombre)
+    {
+        $this->nombre = $nombre;
+    
+        return $this;
+    }
+
+    /**
+     * Get nombre
+     *
+     * @return string 
+     */
+    public function getNombre()
+    {
+        return $this->nombre;
+    }
+
+    /**
+     * Set hora
+     *
+     * @param \DateTime $hora
+     * @return Hora
+     */
+    public function setHora($hora)
+    {
+        $this->hora = $hora;
+    
+        return $this;
+    }
+
+    /**
+     * Get hora
+     *
+     * @return \DateTime 
+     */
+    public function getHora()
+    {
+        return $this->hora;
+    }
+
+    /**
+     * Set activo
+     *
+     * @param boolean $activo
+     * @return Hora
+     */
+    public function setActivo($activo)
+    {
+        $this->activo = $activo;
+    
+        return $this;
+    }
+
+    /**
+     * Get activo
+     *
+     * @return boolean 
+     */
+    public function getActivo()
+    {
+        return $this->activo;
+    }
+}

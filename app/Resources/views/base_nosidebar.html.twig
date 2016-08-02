@@ -1,0 +1,394 @@
+
+<!DOCTYPE html>
+<html lang="es" class="no-js">
+<head>
+    <meta charset="utf-8"/>
+    <title>{% block title %}{% endblock %}</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta content="width=device-width, initial-scale=1" name="viewport"/>
+    <meta content="" name="description"/>
+    <meta content="" name="author"/>
+    <link href="//fonts.googleapis.com/css?family=Lato:400,300,700&amp;subset=latin,latin-ext" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" type="text/css" href="{{ asset('bundles/comun/base/font-awesome/css/font-awesome.min.css') }}"/>
+    <link rel="stylesheet" type="text/css" href="{{ asset('bundles/comun/base/bootstrap/css/bootstrap.min.css') }}"/>
+    <link rel="stylesheet" type="text/css" href="{{ asset('bundles/comun/base/uniform/css/uniform.default.min.css') }}"/>
+    <link rel="stylesheet" type="text/css" href="{{ asset('bundles/comun/base/plugins/bootstrap-toastr/toastr.min.css') }}"/>
+    <link rel="stylesheet" type="text/css" href="{{ asset('bundles/comun/css/style-metronic.css') }}"/>
+    <link rel="stylesheet" type="text/css" href="{{ asset('bundles/comun/css/style.css') }}"/>
+    <link rel="stylesheet" type="text/css" href="{{ asset('bundles/comun/css/style-responsive.css') }}"/>
+    <link rel="stylesheet" type="text/css" href="{{ asset('bundles/comun/css/plugins.css') }}"/>
+    <link rel="stylesheet" type="text/css" href="{{ asset('bundles/comun/css/themes/light.css') }}"/>
+    <link rel="stylesheet" type="text/css" href="{{ asset('bundles/comun/base/plugins/select2/select2.css') }}"/>
+    <link rel="stylesheet" type="text/css" href="{{ asset('bundles/comun/base/plugins/select2/select2-metronic.css') }}"/>
+    <link rel="stylesheet" type="text/css" href="{{ asset('bundles/comun/css/custom.css') }}"/>
+    {% block stylesheets %}{% endblock %}
+
+
+</head>
+
+<body class="page-header-fixed page-sidebar-closed">
+<div class="header navbar navbar-fixed-top">
+    {#style="background: #28b779 none repeat scroll 0 0 !important;     border-top-color: transparent !important;     color: #fff !important;">#}
+    <div class="header-inner">
+        {#FACULTAD DE DERECHO Y CRIMINOLOGÍA#}
+        <a class="navbar-brand" href="javascript:;">
+            {#<img  src="{{ asset('bundles/comun/images/facdyc negro-3.png') }}" alt="Logo" class="img-responsive"/>#}
+        </a>
+        <a href="javascript:;" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <img src="{{ asset('bundles/comun/img/menu-toggler.png') }}" alt=""/>
+        </a>
+        <ul class="nav navbar-nav pull-right">
+
+            <li class="dropdown" id="header_notification_bar">
+                <a href="" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
+                    <i class="fa fa-warning"></i>
+                    <div id="pendingTaskNotifer">
+                    </div>
+                </a>
+                <ul class="dropdown-menu extended notification">
+                    <li>
+                        <p id="pendingTasks">
+                            No tiene tareas pendientes
+                        </p>
+                    </li>
+                    <li>
+                        <ul class="dropdown-menu-list scroller" style="height: 250px;" id="pendingTaskEvent">
+                            <li>
+                                <a href="">
+									<span class="label label-sm label-icon label-success">
+										<i class="fa fa-plus"></i>
+									</span>
+                                    New user registered.
+									<span class="time">
+										 Just now
+									</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="">
+									<span class="label label-sm label-icon label-warning">
+										<i class="fa fa-bell-o"></i>
+									</span>
+                                    Server 2 not responding.
+									<span class="time">
+										 22 mins
+									</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="external">
+                        <a href="">
+                            See all notifications <i class="m-icon-swapright"></i>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+            <!-- END NOTIFICATION DROPDOWN -->
+            <!-- BEGIN INBOX DROPDOWN -->
+            <li class="dropdown" id="header_inbox_bar">
+                <a href="" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
+                    <i class="fa fa-envelope"></i>
+					<span class="badge">
+						 5
+					</span>
+                </a>
+                <ul class="dropdown-menu extended inbox">
+                    <li>
+                        <p>
+                            You have 12 new messages
+                        </p>
+                    </li>
+                    <li>
+                        <ul class="dropdown-menu-list scroller" style="height: 250px;">
+                            <li>
+                                <a href="inbox.html?a=view">
+									<span class="photo">
+										<img src="" alt=""/>
+									</span>
+									<span class="subject">
+										<span class="from">
+											 Lisa Wong
+										</span>
+										<span class="time">
+											 Just Now
+										</span>
+									</span>
+									<span class="message">
+										 Vivamus sed auctor nibh congue nibh. auctor nibh auctor nibh...
+									</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="inbox.html?a=view">
+									<span class="photo">
+										<img src="" alt=""/>
+									</span>
+									<span class="subject">
+										<span class="from">
+											 Richard Doe
+										</span>
+										<span class="time">
+											 16 mins
+										</span>
+									</span>
+									<span class="message">
+										 Vivamus sed congue nibh auctor nibh congue nibh. auctor nibh auctor nibh...
+									</span
+                                </a>
+                            </li>
+                            <li>
+                                <a href="inbox.html?a=view">
+									<span class="photo">
+										<img src="" alt=""/>
+									</span>
+									<span class="subject">
+										<span class="from">
+											 Bob Nilson
+										</span>
+										<span class="time">
+											 2 hrs
+										</span>
+									</span>
+									<span class="message">
+										 Vivamus sed nibh auctor nibh congue nibh. auctor nibh auctor nibh...
+									</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="inbox.html?a=view">
+									<span class="photo">
+										<img src="" alt=""/>
+									</span>
+									<span class="subject">
+										<span class="from">
+											 Lisa Wong
+										</span>
+										<span class="time">
+											 40 mins
+										</span>
+									</span>
+									<span class="message">
+										 Vivamus sed auctor 40% nibh congue nibh...
+									</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="inbox.html?a=view">
+									<span class="photo">
+										<img src="" alt=""/>
+									</span>
+									<span class="subject">
+										<span class="from">
+											 Richard Doe
+										</span>
+										<span class="time">
+											 46 mins
+										</span>
+									</span>
+									<span class="message">
+										 Vivamus sed congue nibh auctor nibh congue nibh. auctor nibh auctor nibh...
+									</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="external">
+                        <a href="inbox.html">
+                            See all messages <i class="m-icon-swapright"></i>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+            <!-- END INBOX DROPDOWN -->
+            <!-- BEGIN TODO DROPDOWN -->
+            <li class="dropdown" id="header_task_bar">
+                <a href="" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true" >
+                    <i class="fa fa-calendar"></i>
+                    <div id="eventsCalendarNotifier">
+                    </div>
+                </a>
+
+                <ul class="dropdown-menu extended tasks">
+                    <li>
+                        <p id="eventsCalendarToday">
+                            No tiene eventos programados para hoy
+                        </p>
+                    </li>
+                    <li>
+                        <ul class="dropdown-menu-list scroller" style="height: 250px;" id="events">
+
+
+
+                        </ul>
+                    </li>
+
+                </ul>
+            </li>
+            <!-- END TODO DROPDOWN -->}
+            <!-- BEGIN USER LOGIN DROPDOWN -->
+            {% if is_granted("IS_AUTHENTICATED_FULLY") %}
+                <li class="dropdown user" id="dropdown_user">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
+                        <img width="29px"  height="29px" alt="" src="{% if foto is defined and foto is not null%} {{ foto }} {% endif %}" />
+					<span class="username" style="vertical-align: middle">
+						 {{ app.user.nombre }}
+					</span>
+                        <i class="fa fa-angle-down"></i>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <img  class="profile_img_100" alt="" src="{% if foto is defined and foto is not null%} {{ foto }} {% endif %}" />
+                            <p class="profile_user"> {{ app.user.nombre }}</p>
+                        </li>
+                        <li class="divider"></li>
+                        <li>
+                            <a href="{{ path('security_crud_my_account') }}" class="ajaxify">
+                                <i class="fa fa-user"></i> Mi Perfil
+
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ path('general_config_homepage') }}" class="ajaxify">
+                                <i class="fa fa-cog"></i> Configuraci&oacute;n General
+                            </a>
+                        </li>
+                        <li class="divider"></li>
+                        <li>
+                            <a href="" class="ajaxify">
+                                <i class="fa fa-money"></i> Planes de Pagos
+                            </a>
+                        </li>
+                        <li>
+                            <a href="" class="ajaxify">
+                                <i class="fa fa-question-circle"></i> Soporte t&eacute;cnico
+                            </a>
+                        </li>
+                        <li class="divider"></li>
+                        <li>
+                            <a href="javascript:;" id="trigger_fullscreen">
+                                <i class="fa fa-arrows"></i> Pantalla completa
+                            </a>
+                        </li>
+                        <li>
+                            <a data-toggle="modal" href="#modal_change_user_pass" >
+                                <i class="fa fa-lock"></i> Cambiar contraseña
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ path("fos_user_security_logout") }}">
+                                <i class="fa fa-key"></i> Cerrar sesión
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+            {% endif %}
+            <!-- END USER LOGIN DROPDOWN -->
+        </ul>
+        <!-- END TOP NAVIGATION MENU -->
+    </div>
+    <!-- END TOP NAVIGATION BAR -->
+</div>
+<!-- END HEADER -->
+<div class="clearfix">
+</div>
+<!-- BEGIN CONTAINER -->
+<div class="page-container">
+
+
+    <div class="page-content-wrapper">
+        <div class="modal fade "  data-backdrop="static" data-keyboard="false" id="modal_change_user_pass" role="basic" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content ajax_form_block">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                        <h4 class="modal-title">Cambiar contraseña</h4>
+                    </div>
+                    <form  action="{{path('security_crud_user_change_pass') }}"  id="change_user_pass_form" method="POST" class="ajax_form">
+                        <div class="modal-body">
+                            <div id="change_user_pass_form_container" >
+                                {{ render(path('security_crud_user_change_pass'))}}
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn default" data-dismiss="modal">Cerrar</button>
+                            <button class="btn blue " type="submit"  value="Aceptar">Aceptar</button>
+                        </div>
+                    </form>
+                </div>
+                <!-- /.modal-content -->
+            </div>
+        </div>
+
+        <div class="page-content">
+        {% block pagecontent %}
+
+
+
+
+            {% endblock %}
+        </div>
+    </div>
+
+</div>
+<!-- END CONTAINER -->
+<!-- BEGIN FOOTER -->
+<div class="footer">
+    <div class="footer-inner">
+        {{ "now"|date("Y") }} &copy;  <a target="_blank" class="blue" href="http://www.adepsoft.com"><img style="vertical-align: baseline;" height="16px" src="{{ asset('bundles/planeacionadmin/img/adepsoft_small.png')}}"></a>
+    </div>
+    <div class="footer-tools">
+		<span class="go-top">
+			<i class="fa fa-angle-up"></i>
+		</span>
+    </div>
+</div>
+</body>
+
+<script src="{{ asset('bundles/comun/base/plugins/jquery-1.10.2.min.js') }}"></script>
+<script src="{{ asset('bundles/comun/base/plugins/jquery-migrate-1.2.1.min.js') }}"></script>
+<script src="{{ asset('bundles/comun/base/plugins/jquery-ui/jquery-ui-1.10.3.custom.min.js') }}"></script>
+
+<script src="{{ asset('bundles/comun/base/bootstrap/js/bootstrap.min.js') }}"></script>
+<script src="{{ asset('bundles/comun/base/plugins/bootstrap-hover-dropdown/bootstrap-hover-dropdown.min.js') }}"></script>
+<script src="{{ asset('bundles/comun/base/plugins/jquery.blockui.min.js') }}"></script>
+<script src="{{ asset('bundles/comun/base/plugins/jquery.cokie.min.js') }}"></script>
+<script src="{{ asset('bundles/comun/base/plugins/jquery-slimscroll/jquery.slimscroll.min.js') }}"></script>
+<script src="{{ asset('bundles/comun/base/uniform/jquery.uniform.min.js') }}"></script>
+<script src="{{ asset('bundles/comun/base/plugins/bootstrap-toastr/toastr.min.js') }}"></script>
+<script src="{{ asset('bundles/comun/base/jquery.validate.min.js') }}"></script>
+<script src="{{ asset('bundles/comun/base/plugins/bootbox/bootbox.min.js') }}"></script>
+<script src="{{ asset('bundles/comun/base/dndenablescroll.js') }}"></script>
+
+{% include "ComunBundle::global_conf.html.twig" %}
+{#<script src="{{ asset('bundles/comun/base/validation_msgs.js') }}"></script>#}
+<script src="{{ asset('bundles/comun/base/plugins/select2/select2.js') }}"></script>
+<script src="{{ asset('bundles/comun/js/chained_remote.js') }}"></script>
+
+<script src="{{ asset('bundles/comun/base/scripts/core/app.js') }}"></script>
+{% include '::ajax_form.html.twig' %}
+{% block javascript %}        {% endblock %}
+<script src="{{ asset('bundles/comun/Utiles/automation.js') }}"></script>
+<script>
+    jQuery(document).ready(function() {
+        App.init(); // initlayout and core plugins
+        $("#change_user_pass_form").validate({
+            rules: {
+                'fos_user_change_password_form[new][second]':{
+                    'equalTo':"#fos_user_change_password_form_new_first"
+                }
+            }
+        });
+        $("#modal_change_user_pass").on('hidden.bs.modal',function(){
+            $("#change_user_pass_form")[0].reset();
+            $("#change_user_pass_form").find('div.has-error').removeClass('has-error');
+            $("#change_user_pass_form").find('span.help-block').remove();
+        });
+        AjaxForm.makeAjax($("#modal_change_user_pass"));
+        {% block onreadyjs %}        {% endblock %}
+    });
+
+
+</script>
+{% block script %}        {% endblock %}
+</html>

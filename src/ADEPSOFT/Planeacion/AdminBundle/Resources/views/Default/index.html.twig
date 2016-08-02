@@ -1,0 +1,8 @@
+<div class="text-center">
+    {% autoescape %}
+      {%if content_portada.html is defined%}
+        {{ content_portada.html |raw}}
+      {%endif%}
+
+    {% endautoescape %}
+</div>

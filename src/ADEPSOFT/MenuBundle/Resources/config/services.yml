@@ -1,0 +1,12 @@
+parameters:
+#    adepsoft_menu.example.class: ADEPSOFT\MenuBundle\Example
+
+services:
+#    adepsoft_menu.example:
+#        class: %adepsoft_menu.example.class%
+#        arguments: [@service_id, "plain_value", %parameter%]
+    adepsoft.twig.menu:
+
+        class: ADEPSOFT\MenuBundle\Twig\MenuExtension
+        tags:
+            - { name: twig.extension }

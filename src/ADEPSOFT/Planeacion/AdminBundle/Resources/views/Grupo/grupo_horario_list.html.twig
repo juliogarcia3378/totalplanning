@@ -1,0 +1,15 @@
+{% extends '@Comun/architecture/components/CRUD/list.html.twig' %}
+{% block form_block %}
+    {{ parent() }}
+    <div class="" style="display: none">
+        <form class="horario_datos_form" id="{{ model.tableId }}_exportar_horario_form" target="_blank" method="get" action="{{ path("planeacion_admin_crud_grupo_horario_expotar_hoja") }}">
+            <input  name="id" value="" class="id_row"/>
+            <a name="submit" id="{{ model.tableId }}_exportar_horario_submit"></a>
+        </form>
+    </div>
+{% endblock %}
+{% block redefine %}
+    <script>
+        App.scrollTop();
+    </script>
+{% endblock %}

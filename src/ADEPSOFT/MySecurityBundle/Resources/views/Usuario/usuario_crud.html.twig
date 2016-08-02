@@ -1,0 +1,22 @@
+
+{#{% extends '::base.html.twig' %}#}
+
+{% block stylesheets %}
+    <link rel="stylesheet" type="text/css" href="{{ asset('bundles/comun/base/plugins/data-tables/DT_bootstrap.css') }}"/>
+    <link rel="stylesheet" type="text/css" href="{{ asset('bundles/comun/base/plugins/jstree/dist/themes/default/style.min.css') }}"/>
+    {#<link rel="stylesheet" type="text/css" href="{{ asset('bundles/comun/assets/img/loading-spinner-grey.gif') }}"/>#}
+{% endblock %}
+
+{% block javascript %}
+
+    <script src="{{ asset('bundles/comun/base/plugins/data-tables/jquery.dataTables.js') }}"></script>
+    <script src="{{ asset('bundles/comun/base/plugins/data-tables/DT_bootstrap.js') }}"></script>
+    <script src="{{ asset('bundles/comun/base/scripts/core/datatable.js') }}"></script>
+    <script src="{{ asset('bundles/comun/base/scripts/custom/table-ajax.js') }}"></script>
+    <script src="{{ asset('bundles/comun/base/plugins/jstree/dist/jstree.js') }}"></script>
+    <script src="{{ asset('bundles/comun/js/ajaxify_form.js') }}"></script>
+{% endblock %}
+
+{% block content %}
+    {% include "@MySecurity/Usuario/list.html.twig" %}
+{% endblock content %}

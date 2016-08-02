@@ -1,0 +1,189 @@
+
+{% block form_block %}
+    {% if rutas.new is not null  %}
+        <div class="modal fade "  data-backdrop="static" data-keyboard="false" id="{{ model.tableId }}_modal_create" role="basic" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content ajax_form_block">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                        <h4 class="modal-title">Adicionar {{ model.editTitle|lower }}</h4>
+                    </div>
+                    <form  action="{{path(rutas.new) }}"  id="{{ model.tableId }}_new_form" method="POST" class="ajax_form">
+                        <div class="modal-body">
+                            <div id="{{ model.tableId }}_new_form_container" >
+                                {{ render(path(rutas.new))}}
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn default" data-dismiss="modal">Cerrar</button>
+                            <button class="btn blue " type="submit"  value="Aceptar">Aceptar</button>
+                        </div>
+                        <input type="hidden" name="modified" value="false"/>
+                    </form>
+                </div>
+                <!-- /.modal-content -->
+            </div>
+        </div>
+    {% endif %}
+    {% if rutas.edit is not null  %}
+                    <form  action="{{ path(rutas.edit) }}"  method="POST" id="{{ model.tableId }}_edit_form" class="ajax_form">
+                    </form>
+
+    {% endif %}
+    {% if rutas.details is not null  %}
+        <div class="modal fade modal_detalles"  data-backdrop="static" data-keyboard="false" id="{{ model.tableId }}_modal_detalles" tabindex="-1" role="basic" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content ajax_form_block">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                        <h4 class="modal-title">Detalles {{ model.name }}</h4>
+                    </div>
+                    <form  action="{{ path(rutas.details) }}" method="POST" id="{{ model.tableId }}_detalles_form" class="ajax_form">
+                        <div class="modal-body">
+                            <div id="{{ model.tableId }}_detalles_form_container">
+                                {#{{ render(path(rutas.details))}}#}
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn default" data-dismiss="modal">Cerrar</button>
+                        </div>
+                    </form>
+                </div>
+                <!-- /.modal-content -->
+            </div>
+        </div>
+    {% endif %}
+
+{% endblock form_block %}
+{% block table %}
+    <div class="row">
+        <div class="col-md-12">
+            <!-- Begin: life time stats -->
+            <div class="portlet">
+                {% if model.hasTitle == true %}
+                    <div class="portlet-title">
+                        <div class="caption">
+                            <i class="{{ model.icon }}"></i>{{ model.name }}
+                        </div>
+                        <div class="actions">
+                            {% block add %}
+                            {% if model.allowAdd == true %}
+                                <a  class="btn blue "  href="#{{ model.tableId }}_modal_create" data-toggle="modal">
+                                    <i class="fa fa-plus"></i>
+                                        <span class="hidden-480">
+                                            Adicionar
+                                        </span>
+                                </a>
+                            {% endif %}
+                            {% endblock %}
+                            <div class="btn-group">
+                                {#{% block button_group_tools %}#}
+                                {#{% enblock  button_group_tools %}#}
+                            </div>
+                        </div>
+
+                    </div>
+                {% endif %}
+                <div class="portlet-body" >
+                    <div class="table-container" id="{{ model.tableId }}_table-container">
+
+                        <div class="table-actions-wrapper">
+									<span>
+									</span>
+                            {% if model.hasGroupActions == true %}
+                                <select class="table-group-action-input form-control input-inline input-small input-sm">
+                                    <option value="">Seleccionar...</option>
+                                    {% if rutas.delete is not null %}
+                                        <option value="delete">Eliminar</option>
+                                    {% endif %}
+                                    {% block table_actions %}
+                                    {% endblock table_actions %}
+                                </select>
+                                <button class="btn btn-sm blue table-group-action-submit"><i class="fa fa-check"></i> Enviar</button>
+                            {% endif %}
+                        </div>
+
+                        <table  {% if(model.rowNumberColumn) %} rowNumber="true"{%endif  %}class="table table-striped table-bordered table-hover" type="dataTable" url="{{ path(rutas.list) }}" url2="{{ rutas.delete is not null ? path(rutas.delete) : ""}}" id="{{ model.tableId }}"  extra_actions="{{ model.extraActions }}" extra_params="{{ model.extraParams}}">
+                            <thead>
+                            <tr role="row" class="heading">
+                                {#<div class="row">#}
+                                {% if(model.rowNumberColumn) %}
+                                    <th width="1%" style="text-align: center" sort="false">
+                                        #
+                                    </th>
+                                {% endif %}
+                                {% if(model.hasCheck) %}
+                                    <th width="1%" class="text-center" sort="false">
+                                        <input type="checkbox" class="group-checkable">
+                                    </th>
+                                {% endif %}
+                                {% for columna in model.columns %}
+                                    <th  width="{{ columna.ancho }}" class='{{ columna.hidden ? "hidden": "" }} '  {{ columna.sortable ? 'sort=true sort-order='~columna.sortOrder : 'sort=false'}} {{ columna.defaultOrder==true?'defaultorder=true':"defaultorder=false" }} >
+                                        {{ columna.nombre }}
+                                    </th>
+                                {% endfor %}
+                                <th width="{{ model.actionsWidth}}%"   style="text-align: center" sort="false">
+                                    Acciones
+                                </th>
+                                {#</div>#}
+                            </tr>
+                            <tr role="row" class="filter">
+                                {% if(model.rowNumberColumn) %}
+                                    <td>
+                                    </td>
+                                {% endif %}
+                                {% if(model.hasCheck) %}
+                                    <td>
+                                    </td>
+                                {% endif %}
+                                {% for columna in model.columns %}
+                                    <td {% if columna.alineacion is not null %} class="{{ columna.alineacion }}"{% endif %}>
+                                        {% if columna.filterName is not null and columna.filterType=='text'%}
+                                            <input type="text" class="form-control form-filter" name="{{ columna.filterName }}">
+                                        {% elseif columna.filterName is not null and columna.filterType=='select' %}
+                                            <select name="{{ columna.filterName }}" class="form-control form-filter input-sm select2me" data-placeholder="Seleccionar...">
+                                                <option value=""></option>
+                                                {% if columna.filterData is defined %}
+                                                    {% for filterData in columna.filterData.data %}
+                                                        <option value="{{attribute(filterData,columna.filterData.idValue ) }}">{{ attribute(filterData,columna.filterData.showValue ) }}</option>
+                                                    {% endfor %}
+                                                {% endif %}
+                                            </select>
+                                        {% elseif columna.filterName is not null and columna.filterType=='check' %}
+                                            <div class="text-center">
+                                                <input type="checkbox" value="1"  name="{{ columna.filterName }}"  class="form-control form-filter" >
+                                            </div>
+                                        {% endif %}
+                                    </td>
+                                {% endfor %}
+
+                                <td>
+                                    <div class="margin-bottom-5" style="text-align: center">
+                                        <button class="btn btn-sm blue filter-submit margin-bottom"><i class="fa fa-search"></i> Buscar</button>
+                                        <button class="btn btn-sm red filter-cancel"><i class="fa fa-times"></i></button>
+                                    </div>
+                                </td>
+                            </tr>
+                            </thead>
+                            <tbody   ></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <!-- End: life time stats -->
+        </div>
+    </div>
+    {% if title is defined %}
+        <script>
+            {
+                var tableObj = $("#" + "{{ model.tableId}}");
+                var formObj = tableObj.closest('form');//.prop('tableId',"{{ model.tableId}}");
+                var modalObj = formObj.closest('.modal');
+                $('h4 b', modalObj).text("{{ title }}");
+            }
+        </script>
+    {% endif %}
+{% endblock table %}
+
+{% block redefine %}
+{% endblock %}

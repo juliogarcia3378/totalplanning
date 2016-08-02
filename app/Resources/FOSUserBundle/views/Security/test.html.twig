@@ -1,0 +1,472 @@
+{#
+Este componente grid es el mas basico y facil de usar.
+
+Referencia a la documentación del componente
+- ftp://10.52.20.1/pub/documentacion/tecnologias/jquery/datatables.zip
+
+Referencia al manual de uso
+- ftp://10.52.20.1/pub/documentacion/proyecto/Componentes_Grid.pdf
+
+Variables disponibles
+---------------------
+// objeto oTable del componente
+GRID_{{modelo.idtabla}} = GRID['{{modelo.idtabla}}']['grid']
+// fila seleccionada
+GRID_fila{{modelo.idtabla}} = GRID['{{modelo.idtabla}}']['fila']
+// todos los datos del grid
+GRID_datos{{modelo.idtabla}} = GRID['{{modelo.idtabla}}']['datos']
+// filas seleccionadas (multiselect)
+GRID_filas{{modelo.idtabla}} = GRID['{{modelo.idtabla}}']['filas']
+// parametros a utilizar en las peticiones internas del grid
+parametros{{modelo.idtabla}} = GRID['{{modelo.idtabla}}']['parametros']
+// indice de la fila seleccionada (SOLO PARA CUANDO NO ES MULTISELECT)
+GRID['{{modelo.idtabla}}']['filaindex']
+
+Metodos disponibles que implementan los que lo necesiten
+-------------------
+//notificacion de que se completo la inicializacion
+gridInicializado{{modelo.idtabla}}(oSettings,json.aaData.length){
+    //...
+}
+
+//notificacion de que se desselecciono una fila
+filaDeseleccionada{{modelo.idtabla}}(selected){
+    //..
+}
+
+// notificacion de que se selecciono una fila
+filaSeleccionada{{modelo.idtabla}}(selected){
+    //...
+}
+
+// notificacion de que se cargo el ajax
+ajaxCompleto{{modelo.idtabla}}(evento,objeto,json){
+    //...
+}
+
+Funcionamiento: 
+    Click: obtener los datos de la tabla mediante la variable GRID_datos{{modelo.idtabla}}
+    DobleClick: dar doble click sobre un elemento para redirigir a otra pagina
+    y enviar el ID del elemento (columna 0)
+    La ruta en la aplicacion debe ser de la forma /ruta/{id}
+#}
+
+{# Estructura de tabla que será llenada por el componente DataTable #}
+{%spaceless%}
+    <table id="{{modelo.idtabla}}" class="hide">
+        <thead>
+        <tr>
+            {% for col in modelo.columnas %}
+                <th>{{col.nombre}}
+                    {% if col.marcartodos %}
+                        <input type="checkbox" id="selectAll{{modelo.idtabla}}" name="selectAll" onclick="marcarTodos{{modelo.idtabla}}(this)">
+                    {% endif %}</th>
+            {% endfor %}
+        </tr>
+        </thead>
+        <tbody>
+
+        </tbody>
+        <tfoot>
+        <tr>
+            {% for col in modelo.columnas %}
+                <th></th>
+            {% endfor %}
+        </tr>
+        </tfoot>
+    </table>
+{%endspaceless%}
+<script>
+// Variables del grid
+// objeto oTable del componente
+var GRID_{{modelo.idtabla}};
+// fila seleccionada
+var GRID_fila{{modelo.idtabla}};
+// todos los datos del grid
+var GRID_datos{{modelo.idtabla}};
+// filas seleccionadas (multiselect)
+var GRID_filas{{modelo.idtabla}} = new Array();
+// parametros a utilizar en las peticiones internas del grid
+var parametros{{modelo.idtabla}} = '';
+
+//Inicializacion de variable redundante
+if(GRID == undefined){
+    var GRID = new Array();
+}
+
+$(document).ready(Inicializar{{modelo.idtabla}});
+
+
+function Inicializar{{modelo.idtabla}}(){
+    // Inicializamos el componente DataTable
+    var oTable = $('#{{modelo.idtabla}}').dataTable({
+        "bProcessing": true,
+        "bServerSide": false,
+        "bDeferRender": true,
+        "bAutoWidth": false,
+        {% if ruta.autoCargar %}
+        // Le seteamos la ruta de donde cargará los datos mediante ajax
+        "sAjaxSource": '{{path(ruta.rutaDatosAjax)}}',
+        {% endif %}
+        // En caso de tener parametros se añaden aqui
+        "fnServerParams": function ( aoData ) {
+            {% for parametro in ruta.parametrosExtra %}
+            aoData.push({"name": "{{parametro.clave}}", "value":"{{parametro.valor}}"});
+            {%endfor%}
+            // inicializamos la variable con los parametros especificados
+            parametros{{modelo.idtabla}} = {
+            {% for parametro in ruta.parametrosExtra %}
+            {% if loop.last %}
+            {{parametro.clave}}:"{{parametro.valor}}"
+            {% else %}
+            {{parametro.clave}}:"{{parametro.valor}}",
+            {% endif %}
+            {% endfor %}
+        };
+},
+// Funcion que se ejecuta terminada la inicializacion del datatable
+"fnInitComplete": function(oSettings, json) {
+    // llamamos un metodo como forma de notificacion de que se completo la inicializacion
+    if (typeof(gridInicializado{{modelo.idtabla}}) != "undefined") {
+        if(json != undefined){
+            gridInicializado{{modelo.idtabla}}(oSettings,json.aaData.length);
+        }else{
+            gridInicializado{{modelo.idtabla}}(oSettings,0);
+        }
+    }
+},
+// especificamos las caracteristicas de las columnas segun las especificadas en el tablemodel
+"aoColumns": [
+    {% for col in modelo.columnas %}
+    {
+        {% if col.oculta %}
+        "bVisible": false,
+        "bSortable": false,
+        "bSearchable": false,
+        {% else %}
+        "bVisible": true,
+        {% if col.marcartodos %}
+        "bSortable": false,
+        {% endif %}
+        {% endif %}
+
+        {% if col.ancho is not empty %}
+        "sWidth": "{{col.ancho}}",
+        {% endif %}
+
+        {% if col.alineacion == "centro" %}
+        "sClass": "center",
+        {% elseif col.alineacion == "der" %}
+        "sClass": "derecha",
+        {% else %}
+        "sClass": "izquierda",
+        {% endif %}
+    },
+
+
+    {% endfor %}],
+    // funcion que se ejecuta para cada fila cuando se inserta al datatable,
+    // aqui se chequea si viene seleccionada y activa para pintarla de esa forma
+        "fnRowCallback": function( nRow, aData, iDisplayIndex ) {
+    // chequeamos si viene seleccionada
+    if ( aData.DT_RowClass == 'row_selected' ) {
+        //si es multiselect, la chequeamos y marcamos
+        {% if modelo.multiselect %}
+        $(nRow).addClass('row_selected');
+        $(nRow).find('input').attr('checked','');
+        {% else %}
+        // si no es multiselect deseleccionamos las anteriormente seleccionadas, quedando solo
+        // seleccionada la ultima en procesarse
+        oTable.$('tr.row_selected').find('input').removeAttr('checked');
+        oTable.$('tr.row_selected').removeClass('row_selected');
+        $(nRow).addClass('row_selected');
+        $(nRow).find('input').attr('checked','');
+        {% endif %}
+        aData.DT_RowClass = '';
+    }
+    // chequeamos si ponerla activa o no
+    if ( aData[1] === false ) {
+        $(nRow).addClass('dataTable_desactivado');
+        $(nRow).find('input').attr('disabled','');
+    }
+
+    {#se le pone la clase tr_link a las filas, cuando tienen configurado rutaRedireccionar, para q salgo el cursor de tipo mano#}
+    {% if ruta.rutaRedireccion is not empty %}
+    $(nRow).addClass('tr_link');
+    {% endif %}
+    // chequeamos impedir que redireccione
+    if(typeof(aData[2])!='undefined'){
+        if ( aData[2] === false ) {
+            $(nRow).addClass('no_redireccionar');
+            $(nRow).removeClass('tr_link');
+        }
+    }
+}
+});
+
+// ponemos visible el grid
+$('#{{modelo.idtabla}}').removeClass("hide");
+
+// redundancia de variables por si se trabaja en un fichero javascript externo
+GRID['{{modelo.idtabla}}'] = new Array();
+GRID['{{modelo.idtabla}}']['grid'] = GRID_{{modelo.idtabla}} = oTable;
+GRID['{{modelo.idtabla}}']['fila'] = undefined;
+GRID['{{modelo.idtabla}}']['datos'] = undefined;
+GRID['{{modelo.idtabla}}']['parametros'] = parametros{{modelo.idtabla}};
+GRID['{{modelo.idtabla}}']['filas'] = GRID_filas{{modelo.idtabla}};
+GRID['{{modelo.idtabla}}']['filaindex'] = undefined;
+
+// suscribimos el evento click de la fila
+$('#{{modelo.idtabla}} tbody tr').live('click', function (e) {
+    // obtenemos la fila sobre la que se dio el clic
+    var selected = oTable.fnGetData(this);
+    // obtenemos la posicion de la fila (util si se quiere editar luego)
+    var pos = oTable.fnGetPosition(this);
+    // chequeamos si la fila se encontraba seleccionada (deseleccion)
+    if ( $(this).hasClass('row_selected') ) {
+        // deseleccionamos y deschequeamos la fila visualmente sino tiene la clase dataTable_desactivado
+        $(this).removeClass('row_selected');
+        if(!$(this).hasClass('dataTable_desactivado')){
+            $(this).find('input').removeAttr('checked');
+        }
+        // si es multiselect buscamos la fila en la variable y la eliminamos
+        {% if modelo.multiselect %}
+        var i = 0;
+        var l = GRID_filas{{modelo.idtabla}}.length;
+        while ( i < l) {
+            if(GRID_filas{{modelo.idtabla}}[i] !== undefined && GRID_filas{{modelo.idtabla}}[i][0] == selected[0]){
+                GRID_filas{{modelo.idtabla}}.splice(i,1);
+                break;
+            }
+            i++;
+        }
+        checkMarcarTodos{{modelo.idtabla}}();
+        {% else %}
+        // si no es multiselect ponemos la variable y el indice a undefined
+        GRID['{{modelo.idtabla}}']['fila'] = GRID_fila{{modelo.idtabla}} = undefined;
+        GRID['{{modelo.idtabla}}']['filaindex'] = undefined;
+        {% endif %}
+        // llamamos un metodo como forma de notificacion de que se desselecciono una fila
+        if (typeof(filaDeseleccionada{{modelo.idtabla}}) != "undefined") {
+            filaDeseleccionada{{modelo.idtabla}}(selected);
+        }
+    } else {
+        //como no estaba seleccionada, procedemos a seleccionarla
+        // variable que nos indica si se dio clic en una fila real
+        var noVacia = $(this).find('td.dataTables_empty').length == 0;
+        if(noVacia){
+            {% if modelo.multiselect %}
+            // adicinamos la fila a la variable de las filas seleccionadas
+            GRID_filas{{modelo.idtabla}}.push(selected);
+            // seleccionamos visualmente la fila
+            $(this).addClass('row_selected');
+            if(!$(this).hasClass('dataTable_desactivado')){
+                $(this).find('input').attr('checked','');
+            }
+            // llamamos un metodo como forma de notificacion de que se selecciono una fila
+            if (typeof(filaSeleccionada{{modelo.idtabla}}) != "undefined") {
+                filaSeleccionada{{modelo.idtabla}}(selected);
+            }
+            checkMarcarTodos{{modelo.idtabla}}();
+            {% else %}
+            // en caso de no ser multiselect, desmarcamos todos los que estaban anteriormente
+            oTable.$('tr.row_selected').find('input').removeAttr('checked');
+            oTable.$('tr.row_selected').removeClass('row_selected');
+
+            // si no es fila vacia, actualizamos variables
+            GRID['{{modelo.idtabla}}']['fila'] = GRID_fila{{modelo.idtabla}} = selected;
+            GRID['{{modelo.idtabla}}']['filaindex'] = pos;
+            // seleccionamos visualmente la fila
+            $(this).addClass('row_selected');
+            if(!$(this).hasClass('dataTable_desactivado')){
+                $(this).find('input').attr('checked','');
+            }
+            // llamamos un metodo como forma de notificacion de que se selecciono una fila
+            if (typeof(filaSeleccionada{{modelo.idtabla}}) != "undefined") {
+                filaSeleccionada{{modelo.idtabla}}(selected);
+            }
+            {% endif %}
+        }
+    }
+    // actualizamos las variables redundantes
+    GRID['{{modelo.idtabla}}']['filas'] = GRID_filas{{modelo.idtabla}};
+});
+
+// chequeamos si se especifico una ruta para la redireccion y suscribimos el doble clic de la fila
+{% if ruta.rutaRedireccion is not empty %}
+$('#{{modelo.idtabla}} tbody tr').live('dblclick', function () {
+    // si la fila se encuentra desactivada se ignora el evento
+    if ( $(this).hasClass('no_redireccionar') ) {
+        return false;
+    }
+    // obtenemos el valor de la primera columna para pasarlo en la ruta de redireccion
+    var aData = oTable.fnGetData(this);
+    var id = aData[0];
+    // redireccionamos para la ruta
+    document.location.href = "{{path(ruta.rutaRedireccion)}}/"+id;
+});
+{% endif %}
+
+// nos suscribimos al evento XHR que se ejecuta una vez finalizada la carga del AJAX
+oTable.on('xhr',function(evento,objeto,json){
+    GRID_fila{{modelo.idtabla}} = undefined;
+    // filas seleccionadas (multiselect)
+    GRID_filas{{modelo.idtabla}} = new Array();
+    // llenamos las variables que contienen las filas seleccionadas segun los datos devueltos
+    // en la peticion ajax
+    for(var i = 0; i < json.aaData.length; i++) {
+        if(json.aaData[i].DT_RowClass == 'row_selected'){
+            {% if modelo.multiselect %}
+            GRID_filas{{modelo.idtabla}}.push(json.aaData[i]);
+            {% else %}
+            GRID_fila{{modelo.idtabla}} = json.aaData[i];
+            GRID['{{modelo.idtabla}}']['filaindex'] = i;
+            {% endif %}
+        }
+    }
+    GRID['{{modelo.idtabla}}']['filas'] = GRID_filas{{modelo.idtabla}};
+    GRID['{{modelo.idtabla}}']['fila'] = GRID_fila{{modelo.idtabla}};
+    // llenamos la variable que contiene todos los datos
+    GRID['{{modelo.idtabla}}']['datos'] = GRID_datos{{modelo.idtabla}} = json.aaData;
+    // llamamos un metodo como forma de notificacion de que se cargo el ajax
+    if (typeof(ajaxCompleto{{modelo.idtabla}}) != "undefined") {
+        ajaxCompleto{{modelo.idtabla}}(evento,objeto,json);
+    }
+});
+
+{% if modelo.multiselect %}
+oTable.on('draw',function(e,s){
+    checkMarcarTodos{{modelo.idtabla}}();
+});
+{% endif %}
+};
+
+//funcion para marcar o desmarcar el checkbox de la cabecera de columna para marcar todos
+function checkMarcarTodos{{modelo.idtabla}}(){
+    // los marcamos por defecto
+    $('#selectAll{{modelo.idtabla}}').attr('checked','');
+    // vamos comprobando por cada fila
+    $('#{{modelo.idtabla}} tbody tr').each(function (e){
+        // si hay alguna fila desmarcada
+        if ($(this).find('input').attr('checked') == undefined ){
+            // deseleccionamos el checkbox para marcar todos
+            $('#selectAll{{modelo.idtabla}}').removeAttr('checked');
+            return true;
+        }
+    });
+}
+// funcion para marcar o desmarcar los checkbox de todas las filas
+function marcarTodos{{modelo.idtabla}}(e){
+    {% if modelo.multiselect %}
+
+    //acciones para desseleccionar todas las filas
+    if(!e.checked){
+        //por cada fila visible del grid
+        $('#{{modelo.idtabla}} tbody tr').each(function (e){
+            //verificamos que no sea la fila vacia
+            var noVacia = $(this).find('td.dataTables_empty').length == 0;
+            if(noVacia){
+
+                // obtenemos el contenido de la fila y la dasseleccionamos
+                var data = GRID_{{modelo.idtabla}}.fnGetData(this);
+                data.DT_RowClass = '';
+
+                //eliminamos la fila de la coleccion de seleccionadas
+                var i = 0;
+                var l = GRID_filas{{modelo.idtabla}}.length;
+                while ( i < l) {
+                    if(GRID_filas{{modelo.idtabla}}[i] !== undefined && GRID_filas{{modelo.idtabla}}[i][0] == data[0]){
+                        GRID_filas{{modelo.idtabla}}.splice(i,1);
+                        break;
+                    }
+                    i++;
+                }
+
+                // desmarcamos visualmente la fila
+                $(this).removeClass('row_selected');
+                //desmarcamos el checbox de la fila
+                $(this).find('input').removeAttr('checked');
+            }
+            //si es la fila vacia deseleccionamos el checkbox de la cabecera de columna para marcar todos
+            else
+            {
+                $('#selectAll{{modelo.idtabla}}').removeAttr('checked');
+            }
+        });
+    }
+    //acciones para seleccionar todas las filas
+    else{
+        //por cada fila visible del grid
+        $('#{{modelo.idtabla}} tbody tr').each(function (e){
+            //verificamos que no sea la fila vacia
+            var noVacia = $(this).find('td.dataTables_empty').length == 0;
+            if(noVacia){
+
+                // obtenemos el contenido de la fila y la seleccionamos
+                var data = GRID_{{modelo.idtabla}}.fnGetData(this);
+                data.DT_RowClass = 'row_selected';
+
+                //verificamos si la fila ya estaba marcada en la coleccion de seleccionadas
+                var i = 0;
+                var l = GRID_filas{{modelo.idtabla}}.length;
+                var existe = false;
+                while ( i < l) {
+                    if(GRID_filas{{modelo.idtabla}}[i] !== undefined && GRID_filas{{modelo.idtabla}}[i][0] == data[0]){
+                        existe = true;
+                        break;
+                    }
+                    i++;
+                }
+                // de no estar se adiciona
+                if(!existe)
+                    GRID_filas{{modelo.idtabla}}.push(data);
+
+                //marcamos visualmente la fila
+                $(this).addClass('row_selected');
+                //marcamos el checbox de la fila
+                $(this).find('input').attr('checked','');
+            }
+            //si es la fila vacia deseleccionamos el checkbox de la cabecera de columna para marcar todos
+            else
+            {
+                $('#selectAll{{modelo.idtabla}}').removeAttr('checked');
+            }
+        });
+    }
+
+    //  actualizamos variables
+    GRID['{{modelo.idtabla}}']['filas'] = GRID_filas{{modelo.idtabla}};
+
+    {% endif %}
+}
+
+//funcion para recargar el grid
+{% if not ruta.autoCargar %}
+function cargarGrid{{ modelo.idtabla }}(param){
+    GRID_{{modelo.idtabla}}.fnSettings().sAjaxSource='{{path(ruta.rutaDatosAjax)}}';
+
+    //se recogen los parametros extras
+    parametros{{modelo.idtabla}} = {
+    {% for parametro in ruta.parametrosExtra %}
+    {% if loop.last %}
+    {{parametro.clave}}:"{{parametro.valor}}"
+    {% else %}
+    {{parametro.clave}}:"{{parametro.valor}}",
+    {% endif %}
+    {% endfor %}
+};
+
+//se agregan los parametros nuevos en caso de que se pasen \
+for (var clave in param) {
+    parametros{{modelo.idtabla}}[clave]=param[clave];
+}
+
+//se manda a recargar el grid
+grid.setParametrosAjax(parametros{{ modelo.idtabla }});
+GRID_{{modelo.idtabla}}.fnReloadAjax(GRID_{{modelo.idtabla}}.fnSettings());
+}
+{% endif %}
+
+</script>
+
+

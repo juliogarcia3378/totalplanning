@@ -1,0 +1,151 @@
+﻿.room {
+	margin:2px;
+	float:left;
+}
+.slot {
+	width:110px;
+	height:25px;
+	padding:0px;
+	border:1px solid #dddddd;
+}
+.slot_mark {
+	width:110px;
+	height:25px;
+	padding:0px;
+	border:1px solid red;
+	background-color: #ff8888;
+}
+.group-label {
+	padding: 4px 5px;
+	background-color: rgba(240, 240, 240, 0.3);
+	float: left;
+	width: 110px;
+	height: 25px;
+	font-size: 14px;
+	color: black;
+}
+.t1 span {
+	color: blue;
+	cursor: grab;
+}
+.t2 span {
+	color: red;
+	cursor: grab;
+}
+.t3 span {
+	color: orange;
+	cursor: grab;
+}
+.t4 span {
+	color: blue;
+	cursor: grab;
+}
+.t5 span {
+	color: magenta;
+	cursor: grab;
+}
+.t6 span {
+	color: brown;
+	cursor: grab;
+}
+.t1.lock span {
+	color: lightgray;
+	cursor: grab;
+}
+.t2.lock span {
+	color: lightgray;
+	cursor: grab;
+}
+.t3.lock span {
+	color: lightgray;
+	cursor: grab;
+}
+.t4.lock span {
+	color: lightgray;
+	cursor: grab;
+}
+.t5.lock span {
+	color: lightgray;
+	cursor: grab;
+}
+.t6.lock span {
+	color: lightgray;
+	cursor: grab;
+}
+.t1.t2.t3.t4.lock span {
+	color: lightgray;
+	cursor: grab;
+}
+.t1.t2.t3.t4 span {
+	color: gray;
+	cursor: grab;
+}
+.t1,
+.t2,
+.t3,
+.t4,
+.t5,
+.t6,
+.t1.t2.t3.t4 {
+	margin: 0px;
+	padding: 0px;
+	font-size: 12px;	
+}
+.t1.t2.t3.t4.lock {
+	margin: 0px;
+	padding: 0px;
+	font-size: 12px;	
+}
+.group-name {
+	padding: 0px 7px;
+}
+.signalize {
+	background-color: #bbeebb;/*ddffdd*/
+}
+.group-context-menu {
+	width:220px;
+}
+.group-context-menu h6 {
+	font-size:10px;
+	padding-top:0px;
+	margin-bottom:4px;
+	color:#aaaaaa;
+}
+.group-context-menu h6:first-of-type {
+	margin-top: -5px;
+}
+.group-context-menu hr {
+	margin-top:0px;
+	margin-bottom:5px;
+}
+.group-context-menu .row {
+    margin-bottom: 0px;
+    margin-top: 0px;
+}
+.group-context-menu .control-label {
+    padding-top: 3px;
+    margin-top: 10px;
+}
+.group-context-menu .form-control {
+   	height: 25px;
+    padding: 4px 8px;
+    margin-top: 10px; 
+}
+.group-context-menu p {
+   	text-align: center;
+   	margin: 0px -10px 0px;
+}
+
+#create-group-form .row {
+    margin-bottom: 3px;
+    margin-top: 3px;
+}
+#create-group-form .control-label {
+    padding-top: 3px;
+    margin-top: 10px;
+}
+#create-group-form .form-control {
+    height: 25px;
+    padding: 4px 8px;
+    margin-top: 10px;
+}

@@ -1,0 +1,6 @@
+parameters:
+#    horario.example.class: Adepsoft\Planeacion\HorarioBundle\Example
+
+services:
+    planeacion.horario.grupoestudiantescambio.tm:
+        class:  ADEPSOFT\Planeacion\HorarioBundle\TableDescription\GrupoEstudiantesCambioTable

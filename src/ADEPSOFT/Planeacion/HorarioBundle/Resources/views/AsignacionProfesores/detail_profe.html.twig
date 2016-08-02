@@ -1,0 +1,77 @@
+<div class="row form-group">
+     <div class="col-md-12 text-center">
+        <div class="table-responsive">
+            <table class="table table-bordered">
+                {% if datosC['preferenciaMaterias']is defined %}
+                    <tr>
+                        <td  class="text-left">
+                            <b> Materias </b>
+                        </td>
+                        <td class="text-left" >
+
+                                {% for materia in datosC['preferenciaMaterias']  %}
+                                    <div style="margin-bottom:2px">
+                                        {{ loop.index }}) {{ materia.nombre}}
+                                    </div>
+                                {% endfor %}
+
+                        </td>
+                    </tr>
+                {% endif %}
+                {% if datosC['preferenciaHoras']['1'] is defined or datosC['preferenciaHoras']['3'] is defined %}
+                    <tr>
+                        <td  class="text-left">
+                            <b> Horas de preferencia 1 </b>
+                        </td>
+                        <td class="text-left" >
+                            {% if datosC['preferenciaHoras']['1'] is defined %}
+                                <b> Lunes a Viernes</b>
+                                {% for preferencia in datosC['preferenciaHoras']['1']  %}
+                                    <div style="margin-bottom:2px">
+                                        {{ loop.index }}) {{ preferencia.hora.nombre}}
+                                    </div>
+                                {% endfor %}
+                                <br>
+                            {% endif %}
+                            {% if datosC['3'] is defined %}
+                                <b>S&aacute;bado</b>
+                                {% for preferencia in datosC['3']  %}
+                                    <div style="margin-bottom:2px">
+                                        {{ loop.index }}) {{ preferencia.hora.nombre}}
+                                    </div>
+
+                                {% endfor %}
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% endif %}
+                {% if datosC['2'] is defined or datosC['4'] is defined %}
+                    <tr>
+                        <td  class="text-left">
+                            <b> Horas de preferencia 2</b>
+                        </td>
+                        <td class="text-left" >
+                            {% if datosC['2'] is defined %}
+                                <b> Lunes a Viernes</b>
+                                {% for preferencia in datosC['2']  %}
+                                    <div style="margin-bottom:2px">
+                                        {{ loop.index }}) {{ preferencia.hora.nombre}}
+                                    </div>
+                                {% endfor %}
+                                <br>
+                            {% endif %}
+                            {% if datosC['4'] is defined %}
+                                <b> S&aacute;bado</b>
+                                {% for preferencia in datosC['4']  %}
+                                    <div style="margin-bottom:2px">
+                                        {{ loop.index }}) {{ preferencia.hora.nombre}}
+                                    </div>
+                                {% endfor %}
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% endif %}
+            </table>
+        </div>
+     </div>
+</div>

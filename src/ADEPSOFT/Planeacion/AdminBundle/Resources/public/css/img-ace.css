@@ -1,0 +1,480 @@
+/*profile-picture*/
+.profile-picture {
+  border: 1px solid #CCC;
+  background-color: #FFF;
+  padding: 4px;
+  display: inline-block;
+  max-width: 120%;
+  -moz-box-sizing: border-box;
+  box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.15);
+}
+/*editable
+editable-click 
+editable-empty 
+editable-open
+editableform
+editable-input 
+editable-image
+editable-submit
+editable-cancel
+editable-error-block
+editable-buttons*/
+.editable-container .popover-title {
+  color: #438EB9;
+}
+.editable-click {
+  border-bottom: 1px dashed #BBB;
+  cursor: pointer;
+  font-weight: normal;
+}
+img.editable-click {
+  border: 1px dotted #BBB;
+}
+.editable-click:hover {
+  border-color: #0088CC;
+  color: #0088CC;
+}
+img.editable-click:hover {
+  opacity: 0.75;
+  filter: alpha(opacity=75);
+}
+.editable-buttons,
+.editable-input {
+  display: inline-block;
+}
+.editable-buttons {
+  margin-left: 1px;
+}
+.editable-buttons .btn {
+  padding: 0;
+  width: 28px;
+  line-height: 24px;
+  border-width: 3px;
+  font-size: 12px;
+  margin: 0 1px 0 0;
+}
+.editable-buttons .btn > [class*="icon-"] {
+  margin: 0;
+}
+.editable-clear-x {
+  cursor: pointer;
+  color: #888;
+  background: none;
+}
+.editable-clear-x:hover {
+  color: #D15B47;
+}
+.editable-clear-x:before {
+  display: inline-block;
+  content: "\f057";
+  font-family: FontAwesome;
+  font-size: 15px;
+  position: absolute;
+  margin-top: -9px;
+  width: 16px;
+  height: 30px;
+  line-height: 30px;
+  text-align: center;
+}
+.editable-input .ace-spinner {
+  margin-right: 8px;
+}
+.editable-inline .editable-slider {
+  margin-top: 10px;
+  margin-right: 4px;
+}
+.editable-popup .editable-slider {
+  display: block;
+  margin-bottom: 16px;
+  margin-top: 4px;
+}
+.editable-slider input {
+  display: none;
+}
+.editable-input .ace-file-input {
+  display: block;
+}
+.editable-image .ace-file-multiple label.selected {
+  border-color: transparent;
+}
+.editable-image + .editable-buttons,
+.editable-wysiwyg + .editable-buttons {
+  display: block;
+  text-align: center;
+  margin-top: 8px;
+}
+.editable-wysiwyg {
+  width: 95%;
+}
+.editable-wysiwyg .wysiwyg-editor {
+  height: auto;
+  overflow-y: hidden;
+}
+.editableform .input-append.dropdown-menu {
+  display: none;
+}
+.editableform .open .input-append.dropdown-menu {
+  display: block;
+}
+.editable-container .editableform {
+  margin-bottom: 10px;
+}
+.editable-inline .editableform {
+  margin-bottom: 0;
+}
+.editableform-loading {
+  background: none;
+}
+.editableform-loading [class*="icon-"],
+.editableform-loading .progress {
+  position: relative;
+  top: 35%;
+}
+/*img-responsive 
+form-inline*/
+.form-inline .radio [type=radio] + label,
+.form-search .checkbox [type=checkbox] + label,
+.form-inline .checkbox [type=checkbox] + label {
+  float: left;
+  margin-left: -20px;
+}
+.form-search .form-search .radio [type=radio] + label,
+.form-search .form-inline .radio [type=radio] + label,
+.form-search .form-search .checkbox [type=checkbox] + label,
+.form-search .form-inline .checkbox [type=checkbox] + label,
+.form-inline .form-search .radio [type=radio] + label,
+.form-inline .form-inline .radio [type=radio] + label,
+.form-inline .form-search .checkbox [type=checkbox] + label,
+.form-inline .form-inline .checkbox [type=checkbox] + label {
+  margin-left: 0;
+  margin-right: 3px;
+}
+/*ace-file-input 
+file-label
+file-name
+icon-picture
+remove
+icon-remove
+btn 
+btn-info*/ 
+.ace-file-input {
+  position: relative;
+  height: 38px;
+  line-height: 38px;
+  margin-bottom: 9px;
+}
+.ace-file-input input[type=file] {
+  position: fixed;
+  z-index: -2;
+  opacity: 0;
+  filter: alpha(opacity=0);
+}
+.ace-file-input .file-label {
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 30px;
+  background-color: #ffffff;
+  border: 1px solid #d5d5d5;
+  cursor: pointer;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+  -webkit-transition: all 0.15s;
+  transition: all 0.15s;
+}
+.ace-file-input .file-label:hover {
+  -webkit-box-shadow: none;
+  box-shadow: none;
+  border-color: #f59942;
+}
+.ace-file-input .file-label:before {
+  /* the button */
+
+  display: inline-block;
+  content: attr(data-title);
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  padding: 0 8px;
+  line-height: 24px;
+  text-align: center;
+  background-color: #6fb3e0;
+  color: #FFF;
+  font-size: 11px;
+  font-weight: bold;
+  border: 2px solid #FFF;
+  border-left-width: 4px;
+  -webkit-transition: all 0.3s;
+  transition: all 0.3s;
+}
+.ace-file-input .file-label .file-name {
+  /* the file name container */
+
+  display: inline-block;
+  height: 28px;
+  max-width: 80%;
+  white-space: nowrap;
+  overflow: hidden;
+  line-height: 28px;
+  color: #888888;
+  font-size: 13px;
+  vertical-align: top;
+  position: static;
+  padding-left: 30px;
+}
+.ace-file-input .file-label .file-name:after {
+  /* the file name */
+
+  display: inline-block;
+  content: attr(data-title);
+}
+.ace-file-input .file-label.selected {
+  right: 16px;
+}
+.ace-file-input .file-label.selected .file-name {
+  color: #666666;
+}
+.ace-file-input .file-label [class*="icon-"] {
+  display: inline-block;
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  line-height: 24px;
+  width: 26px;
+  text-align: center;
+  font-family: FontAwesome;
+  font-size: 13px;
+  border: 2px solid #FFF;
+  color: #FFF;
+  -webkit-transition: all 0.1s;
+  transition: all 0.1s;
+  background-color: #d1d1d1;
+}
+.ace-file-input .file-label.selected .file-name [class*="icon-"] {
+  background-color: #efad62;
+}
+.ace-file-input .file-label.selected .file-name .icon-picture {
+  background-color: #bd7a9d;
+}
+.ace-file-input .file-label.selected .file-name .icon-film {
+  background-color: #87b87f;
+}
+.ace-file-input .file-label.selected .file-name .icon-music {
+  background-color: #8b7ac9;
+}
+.ace-file-input .file-label.selected .file-name .icon-archive {
+  background-color: #efad62;
+}
+.ace-file-input .file-label.hide-placeholder:before {
+  display: none;
+}
+.ace-file-input a:hover {
+  text-decoration: none;
+}
+.ace-file-input .remove {
+  /* the remove button */
+
+  position: absolute;
+  right: -8px;
+  top: 6px;
+  display: none;
+  width: 17px;
+  text-align: center;
+  height: 17px;
+  line-height: 15px;
+  font-size: 11px;
+  font-weight: normal;
+  background-color: #fb7142;
+  border-radius: 100%;
+  color: #FFF;
+  text-decoration: none;
+}
+.ace-file-input .file-label.selected + .remove {
+  display: inline-block;
+}
+/*ace-file-multiple*/
+.ace-file-multiple {
+  height: auto;
+}
+.ace-file-multiple .file-label {
+  position: relative;
+  height: auto;
+  border: 1px dashed #aaaaaa;
+  border-radius: 4px;
+  text-align: center;
+}
+.ace-file-multiple .file-label:before {
+  /* the button */
+
+  display: inline-block;
+  content: attr(data-title);
+  position: relative;
+  right: 0;
+  left: 0;
+  margin: 12px;
+  line-height: 22px;
+  background-color: #FFF;
+  color: #CCC;
+  font-size: 18px;
+  font-weight: bold;
+  border: none;
+}
+.ace-file-multiple .file-label.selected .file-name [class*="icon-"] {
+  display: inline-block;
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  line-height: 24px;
+  width: 26px;
+  text-align: center;
+  font-family: FontAwesome;
+  font-size: 13px;
+  border: 2px solid #FFF;
+  color: #FFF;
+  -webkit-transition: all 0.1s;
+  transition: all 0.1s;
+}
+.ace-file-multiple .file-label .file-name {
+  position: relative;
+  display: block;
+  padding: 0;
+  height: auto;
+  width: auto;
+  max-width: 100%;
+  margin: 0 4px;
+  border-bottom: 1px solid #DDD;
+  text-align: left;
+}
+.ace-file-multiple .file-label .file-name:first-child {
+  margin-top: 1px;
+}
+.ace-file-multiple .file-label .file-name:last-child {
+  border-bottom-width: 0;
+  margin-bottom: 1px;
+}
+.ace-file-multiple .file-label .file-name img {
+  padding: 2px;
+  border: 1px solid #D7D7D7;
+  background-color: #FFF;
+  background-repeat: no-repeat;
+  background-position: center;
+  margin: 4px 8px 4px 1px;
+}
+.ace-file-multiple .file-label .file-name:after {
+  /* the file name */
+
+  display: none;
+}
+.ace-file-multiple .file-label.selected .file-name:after {
+  /* the file name */
+
+  display: inline-block;
+  white-space: pre;
+}
+.ace-file-multiple .file-label .file-name img + [class*="icon-"],
+.ace-file-multiple .file-label.selected .file-name img + [class*="icon-"] {
+  display: none;
+}
+.ace-file-multiple .remove {
+  right: -11px;
+  top: -11px;
+  border: 3px solid #BBB;
+  border-radius: 32px;
+  background-color: #FFF;
+  color: red;
+  width: 22px;
+  height: 22px;
+  line-height: 15px;
+}
+.ace-file-multiple .file-label.selected + .remove:hover {
+  border-color: #f4c0b1;
+}
+.ace-file-multiple .file-label .file-name [class*="icon-"] {
+  position: relative;
+  display: block;
+  text-align: center;
+  height: auto;
+  line-height: 64px;
+  width: auto;
+  font-size: 64px;
+  color: #D5D5D5;
+  margin: 4px 0;
+  background-color: transparent;
+}
+.ace-file-multiple .file-label.selected:after {
+  display: none;
+}
+.ace-file-multiple .file-label.selected .file-name [class*="icon-"] {
+  position: relative;
+  margin-right: 4px;
+  margin-left: 2px;
+  line-height: 24px;
+}
+.ace-file-multiple .file-label .file-name.large {
+  text-align: center;
+  border-bottom: 2px solid #222;
+  margin: 0 1px 3px;
+}
+.ace-file-multiple .file-label .file-name.large:last-child {
+  margin: 0 1px;
+  border-bottom-width: 0;
+}
+.ace-file-multiple .file-label .file-name.large:after {
+  /* image caption */
+
+  position: absolute;
+  top: auto;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 0 4px;
+  background-color: #555;
+  color: #FFF;
+  opacity: 0.8;
+  filter: alpha(opacity=80);
+}
+.ace-file-multiple .file-label .file-name.large img {
+  border-width: 0;
+  margin: 0;
+  padding: 0;
+}
+
+
+
+
+ 
+/*help-block*/
+.form-group.has-success .control-label,
+.form-group.has-success .help-block,
+.form-group.has-success .help-inline {
+  color: #7ba065;
+}
+.form-group.has-info .control-label,
+.form-group.has-info .help-block,
+.form-group.has-info .help-inline {
+  color: #657ba0;
+}
+.form-group.has-error .control-label,
+.form-group.has-error .help-block,
+.form-group.has-error .help-inline {
+  color: #d16e6c;
+}
+.form-group.has-warning .control-label,
+.form-group.has-warning .help-block,
+.form-group.has-warning .help-inline {
+  color: #d19d59;
+}
+
+/*space-4*/
+.space-4 {
+  max-height: 1px;
+  min-height: 1px;
+  overflow: hidden;
+  margin: 12px 0;
+  margin: 4px 0 3px;
+}

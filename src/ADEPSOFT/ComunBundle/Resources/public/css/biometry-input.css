@@ -1,0 +1,38 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : Mar 31, 2015, 3:42:18 PM
+    Author     : luis
+*/
+
+table.biometry-input {
+	border-collapse: collapse;
+}
+
+table.biometry-input-focused {
+	border-collapse: collapse;
+}
+
+table.biometry-input td {
+    border: 1px solid #e5e5e5;
+    width: 25em;
+    height: 7em;
+    padding: .5em;
+    cursor: text;
+}
+
+table.biometry-input td:hover {
+    border: 1px solid #999;
+    width: 25em;
+    height: 7em;
+    padding: .5em;
+    cursor: text;
+}
+
+table.biometry-input td:nth-child(2) {
+    border: 0px;
+    padding: .5em;
+}

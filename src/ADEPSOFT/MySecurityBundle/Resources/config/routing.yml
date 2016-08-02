@@ -1,0 +1,144 @@
+#----------------------Permissions-----------------
+security_crud_permission:
+    pattern:  /permission
+    defaults: { _controller: MySecurityBundle:Permission:main }
+
+security_crud_permission_move:
+    pattern:  /permission/moveNode
+    defaults: { _controller: MySecurityBundle:Permission:moveNode}
+
+security_crud_permission_list:
+    pattern:  /permission/list
+    defaults: { _controller: MySecurityBundle:Permission:list }
+
+security_crud_permission_edit:
+    pattern:  /permission/edit
+    defaults: { _controller: MySecurityBundle:Permission:edit}
+
+security_crud_permission_delete:
+    pattern:  /permission/delete
+    defaults: { _controller: MySecurityBundle:Permission:delete}
+
+security_crud_permission_new:
+    pattern:  /permission/new
+    defaults: { _controller: MySecurityBundle:Permission:new}
+
+security_crud_permission_details:
+    pattern:  /permission/details
+    defaults: { _controller: MySecurityBundle:Permission:details }
+
+    #----------------------Groups-----------------
+#
+#security_group_checkExistance:
+#    pattern:  /group/checkExistance
+#    defaults: { _controller: MySecurityBundle:Group:checkExistance }
+
+security_crud_group:
+    pattern:  /group
+    defaults: { _controller: MySecurityBundle:Group:main }
+
+security_crud_group_listAjax:
+    pattern:  /group/list
+    defaults: { _controller: MySecurityBundle:Group:listAjax }
+
+security_crud_group_details:
+    pattern:  /group/details
+    defaults: { _controller: MySecurityBundle:Group:details}
+
+security_crud_group_permisos:
+    pattern:  /group/permisos
+    defaults: { _controller: MySecurityBundle:Group:permisos}
+
+security_crud_group_edit:
+    pattern:  /group/edit
+    defaults: { _controller: MySecurityBundle:Group:edit}
+
+security_crud_group_new:
+    pattern:  /group/new
+    defaults: { _controller: MySecurityBundle:Group:new}
+
+security_crud_group_delete:
+    pattern:  /group/delete
+    defaults: { _controller: MySecurityBundle:Group:delete }
+
+      #----------------------Users-----------------
+#security_user_checkUserNameExistance:
+#    pattern:  /user/checkUserNameExistance
+#    defaults: { _controller: MySecurityBundle:User:checkUserNameExistance}
+
+#security_user_checkMailExistance:
+#    pattern:  /user/checkMailExistance
+#    defaults: { _controller: MySecurityBundle:User:checkMailExistance}
+
+security_crud_user:
+    pattern:  /user
+    defaults: { _controller: MySecurityBundle:User:main }
+
+security_crud_user_listAjax:
+    pattern:  /user/list
+    defaults: { _controller: MySecurityBundle:User:listAjax }
+
+security_crud_user_details:
+    pattern:  /user/details
+    defaults: { _controller: MySecurityBundle:User:details}
+
+security_crud_user_edit:
+    pattern:  /user/edit
+    defaults: { _controller: MySecurityBundle:User:edit}
+
+security_crud_user_new:
+    pattern:  /user/new
+    defaults: { _controller: MySecurityBundle:User:new}
+
+security_crud_user_delete:
+    pattern:  /user/delete
+    defaults: { _controller: MySecurityBundle:User:delete }
+
+security_crud_user_permisos:
+    pattern:  /user/permisos
+    defaults: { _controller: MySecurityBundle:User:permisos}
+
+security_crud_user_roles:
+    pattern:  /user/roles
+    defaults: { _controller: MySecurityBundle:User:assignRoles}
+
+security_crud_user_list_roles:
+    pattern:  /user/listRoles
+    defaults: { _controller: MySecurityBundle:User:listRoles}
+
+security_crud_user_set_pass:
+    pattern:  /user/setPass
+    defaults: { _controller: MySecurityBundle:User:setPass}
+security_crud_user_change_pass:
+    pattern:  /user/changePass
+    defaults: { _controller: MySecurityBundle:ChangePassword:changePassword}
+
+security_crud_user_change_pass_activar:
+    pattern:  /user/activar
+    defaults: { _controller: MySecurityBundle:User:activar}
+
+security_crud_user_change_pass_desactivar:
+    pattern:  /user/desactivar
+    defaults: { _controller: MySecurityBundle:User:desactivar }
+
+security_crud_my_account:
+    pattern:  /account/
+    defaults: { _controller: MySecurityBundle:MyProfile:index}
+security_crud_my_profile:
+    pattern:  /account/details
+    defaults: { _controller: MySecurityBundle:MyProfile:details}
+#security_crud_user_assign_instancia:
+#    pattern:  /usuario/assign_instancia
+#    defaults: { _controller: MySecurityBundle:AssignInstanciaUser:main}
+#
+#security_crud_user_assign_instancia_new:
+#    pattern:  /usuario/assign_instancia/new
+#    defaults: { _controller: MySecurityBundle:AssignInstanciaUser:new}
+#
+#security_crud_user_assign_instancia_delete:
+#    pattern:  /usuario/assign_instancia/delete
+#    defaults: { _controller: MySecurityBundle:AssignInstanciaUser:delete}
+#
+#security_crud_user_assign_instancia_listAjax:
+#    pattern:  /usuario/assign_instancia/listAjax
+#    defaults: { _controller: MySecurityBundle:AssignInstanciaUser:listAjax}

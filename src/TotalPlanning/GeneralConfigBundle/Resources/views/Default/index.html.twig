@@ -1,0 +1,76 @@
+{% extends '::base_nosidebar.html.twig' %}
+
+ {% block pagecontent %}
+
+
+     <div class="grey">
+         <div class="page-content-body">
+
+
+             <div class="row">
+                 <div class="col-md-12">
+                     <!-- BEGIN PAGE TITLE & BREADCRUMB-->
+                     <h3 class="page-title">
+                         Configuraci&oacute;n General <small>Estad&iacute;sticas y m&aacute;s </small>
+                     </h3>
+                     <ul class="page-breadcrumb breadcrumb">
+                         <li>
+                             <i class="fa fa-home"></i>
+                             <a href="{{ path('home_page') }}">
+                                 Portada
+                             </a>
+                             <i class="fa fa-angle-right"></i>
+                         </li>
+                         <li>
+                             <a href="#">
+                                 Configuraci&oacute;n General
+                             </a>
+                         </li>
+                         <li class="pull-right">
+                             <div data-original-title="Change dashboard date range" data-placement="top" class="dashboard-date-range tooltips" id="dashboard-report-range" style="display: block;">
+                                 <i class="fa fa-calendar"></i>
+                                 <span></span>
+                                 <i class="fa fa-angle-down"></i>
+                             </div>
+                         </li>
+                     </ul>
+                     <!-- END PAGE TITLE & BREADCRUMB-->
+                 </div>
+             </div>
+             {% block content %}
+                 <div class="col-md-2">
+                     <ul class="ver-inline-menu tabbable margin-bottom-10">
+                         <li class="">
+                             <a href="#tab_2" data-toggle="tab">
+                                 <i class="fa fa-tint"></i> Informacion General
+                             </a>
+                         </li>
+                         <li class="">
+                             <a href="#tab_1" data-toggle="tab">
+                                 <i class="fa fa-briefcase"></i> Pantalla Inicial
+                             </a>
+							<span class="after">
+							</span>
+                         </li>
+                         <li class="">
+                             <a href="#tab_2" data-toggle="tab">
+                                 <i class="fa fa-group"></i> Reportes
+                             </a>
+                         </li>
+                         <li class="">
+                             <a href="#tab_3" data-toggle="tab">
+                                 <i class="fa fa-leaf"></i> Notificaciones
+                             </a>
+                         </li>
+
+                     </ul>
+                 </div>
+                 <div class="col-md-8">
+                     {{ render(path('general_config_homepage_crud'))}}
+                 </div>
+             {% endblock %}
+         </div>
+
+     </div>
+
+ {% endblock %}

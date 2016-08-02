@@ -1,0 +1,19 @@
+
+<div id="formDialog" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="false">&times;</button>
+                <h3 class="modal-title"> {{ name }}</h3>
+            </div>
+            <div class="modal-body">
+                {% render rutas.new %}
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal" onClick = "clearForm();" >Cancelar</button>
+                    <button type="submit" class="btn btn-success"  >Continuar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

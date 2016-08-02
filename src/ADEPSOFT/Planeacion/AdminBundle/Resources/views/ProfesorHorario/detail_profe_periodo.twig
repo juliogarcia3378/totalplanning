@@ -1,0 +1,23 @@
+<div class="row form-group">
+     <div class="col-md-12 text-center">
+        <div class="table-responsive">
+            <table class="table table-bordered">
+                {% for  clave, dato in datosS %}
+                    <tr>
+                        <td  width="20%" class="text-left">
+                           <b> {{ clave }} </b>
+                        </td>
+                        <td class="text-left">
+                           {{ dato }}
+                        </td>
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
+     </div>
+</div>
+{{ render(controller('PlaneacionAdminBundle:ProfesorHorarios:horasPeriodo', {
+    'periodo': periodo,
+    'id':id,
+    'disableScripts':true
+})) }}

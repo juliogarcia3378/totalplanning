@@ -1,0 +1,12 @@
+<div id="form_establecer_pass_content">
+{{ form_rest (form) }}
+</div>
+{% if title is defined %}
+    <script>
+        {
+            var obj = $("#form_establecer_pass_content");
+            var modalObj = obj.closest('.modal');
+            $('h4 b', modalObj).text("{{ title }}");
+        }
+    </script>
+{% endif %}

@@ -1,0 +1,49 @@
+<div class="row horas_div">
+    <div class="col-md-2"></div>
+    <div class="col-md-4 text-center ">
+        <h4>LUNES-VIERNES</h4>
+        <div class="row"  style="border: solid 1px; padding-bottom: 10px; padding-top: 10px">
+            <div class="col-md-6">
+                {% include "@PlaneacionAdmin/Profesor/header.html.twig" %}
+                {% for hora in horasLV %}
+                    {% if loop.index <= 9%}
+                        {% include "@PlaneacionAdmin/Profesor/radio_list.html.twig" with {'dia':"lunes_viernes"} %}
+                    {% endif %}
+                {% endfor %}
+            </div>
+            <div class="col-md-6">
+                {% include "@PlaneacionAdmin/Profesor/header.html.twig" %}
+                {% for hora in horasLV %}
+                    {% if loop.index > 9  %}
+                        {% include "@PlaneacionAdmin/Profesor/radio_list.html.twig" with {'dia':"lunes_viernes"} %}
+                    {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4 text-center">
+        <h4>SÁBADO</h4>
+        <div class="row " style="border: solid 1px; padding-bottom: 10px; padding-top: 10px">
+            <div class="col-md-6">
+                {% include "@PlaneacionAdmin/Profesor/header.html.twig" %}
+                {% for hora in horasS %}
+                    {% if loop.index <= 9%}
+                        {% include "@PlaneacionAdmin/Profesor/radio_list.html.twig" with {'dia':"sabado"} %}
+                    {% endif %}
+                {% endfor %}
+                {#<span>&nbsp;</span>#}
+            </div>
+            <div class="col-md-6 sabado_div_horas" >
+                {% include "@PlaneacionAdmin/Profesor/header.html.twig" %}
+                {% for hora in horasS %}
+                    {% if  loop.index > 9 %}
+                       {% include "@PlaneacionAdmin/Profesor/radio_list.html.twig" with {'dia':"sabado"} %}
+                    {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    <div class="col-md-2 div_horas_limpiador">
+        <a href="javascript:;" class="btn btn-sm red div_horas_limpiador_btn tooltips" data-original-title="Limpiar preferencias de horas."><i class="fa fa-times"></i></a>
+    </div>
+</div>

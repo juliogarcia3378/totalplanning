@@ -1,0 +1,271 @@
+<script>
+var treeObj = $("#"+"{{ model.idTree  }}");
+{% if model.hasCheck != true %}
+    treeObj.on('move_node.jstree', function (action, params) {
+    {%  if rutas.move is defined and rutas.move is not null  %}
+        $.ajax({
+            url: '{{ url(rutas.move) }}',
+            data:{node:params.node.id,parent:params.parent},
+            type:"POST",
+            complete:function(){
+                App.unblockUI( "#{{ model.idTree}}" );
+            },
+            success: function(res)
+            {
+                if(res.success) {
+                    var tree = $('#' + "{{ model.idTree }}").jstree(true);
+
+                    if (tree.get_children_dom(params.old_parent).length == 0)
+                        tree.set_icon(params.old_parent, "glyphicon glyphicon-leaf");
+
+                    if (tree.get_children_dom(params.parent).length == 0) {
+                        tree.set_icon(params.parent, "fa fa-folder");
+                    }
+                    App.toastOK();
+                }
+                else
+                    App.toastError();
+            },
+            error:function(){
+                App.toastError();
+            },
+            beforeSend:function(){
+                App.blockUI({target:"#{{ model.idTree}}",iconOnly:true,boxed:false});
+            }
+        });
+    {% endif %}
+})
+{% endif %}
+    treeObj.jstree({
+            'core' : {
+                "check_callback" : function (operation, node, node_parent, node_position, more) {
+                    // operation can be 'create_node', 'rename_node', 'delete_node', 'move_node' or 'copy_node'
+                    // in case of 'rename_node' node_position is filled with the new node name
+                    {% if model.hasCheck %}
+                        return false;
+                    {% endif %}
+                    return operation === 'rename_node' || operation === 'delete_node' || operation === 'move_node' || operation === 'create_node'? true : false;
+                },
+//                "themes" : {
+//                    "variant" : "large"
+//                },
+                worker:false,
+                'strings' : {
+                    'Loading ...' : 'Cargando ...'
+                },
+                {% if model.hasCheck  %}
+                    multiple:true,
+                {% else %}
+                    multiple:false,
+                {% endif %}
+
+                {% if model.hasCheck  %}
+                    'data' : {{ model.encodedData|raw }},
+                {% else %}
+                    'data' : {
+                        'url' : '{{ url(rutas.list) }}'
+                    }
+                {% endif %}
+            },
+             {% if model.hasCheck %}
+                "plugins" : ["types","checkbox"],
+                "checkbox":{
+                    three_state:true,
+                    tie_selection:true
+//                    whole_node:false
+//                    cacade:"up+down"
+                },
+            {% else %}
+                "plugins" : [ "dnd","contextmenu","types"],
+            {% endif %}
+            "types" : {
+                "#" : {
+                    "max_children" : 1
+                }
+            },
+            {% if model.hasCheck != true %}
+                "contextmenu":{
+                    ccp:false,
+                    "items": {
+                            "create" : {
+                                "separator_before"	: false,
+                                "separator_after"	: false,
+                                "_disabled"			: false, //(this.check("rename_node", data.reference, this.get_parent(data.reference), "")),
+                                "label"				: "Adicionar",
+                                "icon"              :"fa fa-plus-circle",
+                                "action"			: function (data) {
+                                    var inst = $.jstree.reference(data.reference);
+                                    var obj = inst.get_node(data.reference);
+                                    var modal = $('#'+"{{ model.idTree }}_modal_create");
+                                    var form = $("#"+"{{ model.idTree }}"+"_new_form");
+
+                                    var parent ='<input type="hidden" name="parent" value="'+"#{{ model.idTree}}_"+obj.id+'"/>';
+                                    form.append(parent);
+
+                                    modal.one('hidden.bs.modal', function () {
+                                        var inputId = $("#"+"{{ model.idTree }}"+"_new_form"+' input[name="id"][type="hidden"]');
+                                        var inputModified = $('#'+"{{ model.idTree }}"+"_new_form"+' input[name="modified"]');
+                                        var inputParent = $('#'+"{{ model.idTree }}"+"_new_form"+' input[name="parent"]');
+
+                                        if(inputModified.val()=='true') {
+                                            var inputNodeText =  $("#"+"{{ model.idTree }}"+"_new_form"+' input[name="nodeText"][type="hidden"]');
+                                            var parent = inst.get_selected();
+                                            var id = inputId.val();
+                                            inputId.detach();
+
+                                            inst.create_node(parent,{text:inputNodeText.val(),id:id,icon:"glyphicon glyphicon-leaf"},"last",function(){},0);
+                                            inst.set_icon(parent,"fa fa-folder");
+                                            inst.select_node(id);
+
+                                            inputNodeText.detach()
+                                        }
+                                        inputModified.detach();
+                                        inputParent.detach();
+                                        form[0].reset();
+                                        /**
+                                         * Este codigo comentareado es para si el form.reset() de arriba no pincha con los combos y checkbox y esas cosas
+                                         */
+    //                                    $('textarea, select, input', form).each(function(){
+    //                                        $(this).val("");
+    //                                    });
+    //                                    $('select', form).each(function(){
+    //                                        $(this).val("").trigger('change');
+    //                                    });
+    //                                    $('input[type="checkbox"]', form).each(function(){
+    //                                        $(this).parent().removeClass('checked');
+    //                                    });
+                                    });
+                                    modal.modal('toggle');
+                                }
+                            },
+                            "rename" : {
+                                "separator_before"	: false,
+                                "separator_after"	: false,
+                                "_disabled"			: false, //(this.check("rename_node", data.reference, this.get_parent(data.reference), "")),
+                                "label"				: "Editar",
+                                "icon"              :"fa fa-pencil-square-o",
+                                "action"			: function (data) {
+                                    var inst = $.jstree.reference(data.reference);
+                                    var obj = inst.get_node(data.reference);
+                                    var modalEdit = $('#'+"{{ model.idTree }}_modal_edit");
+                                    var formEdit = $("#"+"{{ model.idTree }}"+"_edit_form");
+                                    $.ajax({
+                                        url: '{{ url(rutas.edit) }}',
+                                        data:{id:obj.id},
+                                        type:"GET",
+                                        dataType:"json",
+                                        beforeSend:function()
+                                        {
+                                            modalEdit.one('hidden.bs.modal', function () {
+                                                $("#"+"{{ model.idTree }}"+"_edit_form"+' input[name="id"][type="hidden"]').detach();
+
+                                                var inputModified = $('#'+"{{ model.idTree }}"+"_edit_form"+' input[name="modified"]');
+                                                if(inputModified.val()=='true') {
+                                                    inputModified.detach();
+                                                    var inputNodeText =  $("#"+"{{ model.idTree }}"+"_edit_form"+' input[name="nodeText"][type="hidden"]');
+                                                    inst.set_text(obj,inputNodeText.val());
+                                                    inputNodeText.detach();
+    //                                                oSettings.oInstance.fnDraw();Reload Tree
+                                                }
+                                                else
+                                                    inputModified.detach();
+
+                                            });
+                                            App.blockUI({target:"#{{ model.idTree }}",iconOnly:true,boxed:false});
+                                        },
+                                        complete:function()
+                                        {
+                                            App.unblockUI("#{{ model.idTree }}");
+                                            modalEdit.modal('toggle');
+                                        },
+                                        success:function(res)
+                                        {
+                                            $("#"+"{{ model.idTree }}"+"_edit_form_container").html(res.form);
+                                            var inputId ='<input type="hidden" name="id" value="'+obj.id+'"/>';
+                                            //si existe el inputId estoy editando un node del tree
+                                            var inputModified ='<input type="hidden" name="modified" value="false"/>';
+    //                                       var inputNodeText ='<input type="hidden" name="nodeText" value="'+res.nodeText+'"/>';
+                                            formEdit.append(inputId);
+                                            formEdit.append(inputModified);
+    //                                      formEdit.append(inputNodeText);
+                                        },
+                                        error:function(){
+                                            App.toast(null,Mensajes.OpError,{type:TOAST.ERROR});
+    //                                            alert("Error");
+                                        }
+                                    });
+
+    //                            inst.edit(obj);
+                                }
+                            },
+                            "remove" : {
+                                "separator_before"	: false,
+                                "icon"				: false,
+                                "separator_after"	: false,
+                                "_disabled"			: false, //(this.check("delete_node", data.reference, this.get_parent(data.reference), "")),
+                                "icon"              : "fa fa-trash-o",
+                                "label"				: "Eliminar",
+                                "action"			: function (data) {
+                                    if (confirm("¿Está seguro que desea eliminar este elemento?") == false) {
+                                        return;
+                                    }
+                                    var inst = $.jstree.reference(data.reference);
+                                    var obj = inst.get_node(data.reference);
+                                    $.ajax({
+                                        url: '{{ url(rutas.delete) }}',
+                                        data:{id:obj.id},
+                                        type:"POST",
+                                        beforeSend: function(){
+                                            App.blockUI({target:"#{{ model.idTree}}",iconOnly:true,boxed:false});
+                                        },
+                                        complete: function(){
+                                            App.unblockUI( "#{{ model.idTree}}" );
+                                        },
+                                        success: function(res){
+                                            var inst = $.jstree.reference(data.reference);
+                                            var obj = inst.get_node(data.reference);
+                                            if(inst.get_children_dom(obj.parent).length == 1)
+                                            {
+                                                inst.set_icon(obj.parent,"glyphicon glyphicon-leaf");
+                                            }
+                                            if(inst.is_selected(obj)) {
+                                                inst.delete_node(inst.get_selected());
+                                            }
+                                            else {
+                                                inst.delete_node(obj);
+                                            }
+                                            if(res.success) {
+                                                if(!(res.sMessage))
+                                                    App.toast(null, Mensajes.OpOK, TOAST.SUCCESS);
+                                                else
+                                                    App.toast(null, res.sMessage, TOAST.SUCCESS);
+                                            }
+                                            else
+                                                App.toast(null,Mensajes.OpError,TOAST.ERROR);
+                                        },
+                                        error:function()
+                                        {
+                                            App.toast(null,Mensajes.OpError,{type:TOAST.ERROR});
+                                            App.unblockUI( "#{{ model.idTree}}" );
+                                        }
+                                    });
+
+                                }
+                            }
+                        }
+                }
+            {% endif %}
+        });
+{% if model.hasCheck %}
+{
+    var form = treeObj.closest('form');
+    form.prop('treeId', "{{ model.idTree }}");
+    {%  if title is defined %}
+    var modal = form.closest('.modal');
+    $('h4 b', modal).text("{{ title }}");
+    {%  endif %}
+    treeObj.jstree(true).select_node(JSON.parse('{{ model.checkeds|json_encode |raw}}'));
+}
+{% endif %}
+
+</script>

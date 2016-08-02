@@ -1,0 +1,177 @@
+{#
+
+Requiere como parámetro la cantidad de huellas a capturar.
+Por ahora se ha establecido de manera estática en la variable 'printcount'
+El componente ya tiene embebido el código javascript necesario.
+Para que funcione adecuadamente, el escritorio cliente debe tener 
+en ejecución el servicio de captura biométrica
+
+#}
+
+{% set printcount = 3 %}
+<div id="biometricsign" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="false">&times;</button>
+                <h3 class="modal-title">Verificación Biom&eacute;trica</h3>
+            </div>
+
+            <div class="modal-body">
+                <table align="center">
+                    <tr><td align="center" id="biometryPane"><td></tr>
+                </table>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal" onclick="mw.cancel();
+                            count = {{ printcount }};
+                            document.getElementById('dlgbtncontinue').setAttribute('class', 'hidden');
+                            document.getElementById('biometryPane').innerHTML = '';">Cancelar</button>
+                <button id="dlgbtncontinue" type="button" class="btn btn-success hidden" onclick="if (captured === true) {
+                                document.getElementById('userform').submit();
+                            }
+                            ;"
+                        >Continuar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="checkdevice" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-body">
+                <table align="center">
+                    <tr><td align="center"><h3><spam class="glyphicon glyphicon-remove-sign text-danger"></spam> El dispositivo no est&aacute; listo</h3><td></tr>
+                </table>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal" >Aceptar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="capturingPane" class="hidden" style="position: fixed; left: 0; bottom: 0;"></div>
+
+<script>
+    var captured = false;
+    var ready = false;
+    var mw = {};
+    var count = {{ printcount }};
+    var seq = "";
+    document.getElementById('btnsubmit').setAttribute('onClick', 'mw.checkstatus();');
+    var fpp = ['{{ asset('bundles/tv/images/fpp/1.png') }}',
+        '{{ asset('bundles/tv/images/fpp/2.png') }}',
+        '{{ asset('bundles/tv/images/fpp/3.png') }}',
+        '{{ asset('bundles/tv/images/fpp/4.png') }}',
+        '{{ asset('bundles/tv/images/fpp/5.png') }}',
+        '{{ asset('bundles/tv/images/fpp/6.png') }}',
+        '{{ asset('bundles/tv/images/fpp/7.png') }}',
+        '{{ asset('bundles/tv/images/fpp/8.png') }}',
+        '{{ asset('bundles/tv/images/fpp/9.png') }}'];
+    mw.socket = null;
+    mw.connect = function(host) {
+        if ('WebSocket' in window) {
+            mw.socket = new WebSocket(host);
+        }
+        else if ('MozWebSocket' in window) {
+            mw.socket = new MozWebSocket(host);
+        }
+        else {
+            alert('Este navegador no soporta websockets');
+            return;
+        }
+
+        mw.socket.onopen = function() {
+            mw.devicetest();
+            document.getElementById('userform').innerHTML += "<input type=\"hidden\" name=\"bioseq\" id=\"bioseq\" value =\"\">";
+        };
+
+        mw.socket.onclose = function() {
+            if (!captured)
+            {
+                mw.nodevicedriver();
+            }
+            else
+            {
+                document.getElementById('capturingPane').setAttribute('class', 'hidden');
+            }
+            ready = false;
+        };
+
+        mw.socket.onmessage = function(m) {
+            var fmd = m.data;
+            if (fmd.substring(0, 3) === 'drd') {
+                captured = false;
+                ready = true;
+                mw.deviceready();
+            }
+            else if (fmd.substring(0, 3) === 'dnr') {
+                captured = false;
+                ready = false;
+                mw.devicenotready();
+            }
+            else {
+                seq += fmd;
+                var index = Math.round(Math.random() * 8);
+                document.getElementById("biometryPane").innerHTML += "<img src=\"" + fpp[index] + "\">";
+                if (--count > 0 && ready)
+                {
+                    seq += ',';
+                    mw.socket.send('start\n');
+                }
+                else
+                {
+                    count = {{ printcount }};
+                    captured = true;
+                    document.getElementById('bioseq').value = seq;
+                    document.getElementById("dlgbtncontinue").setAttribute('class', 'btn btn-success');
+                }
+            }
+        };
+    };
+    mw.initialize = function() {
+        mw.connect('ws://127.0.0.1:60000');
+    };
+    mw.send = function(m) {
+        mw.socket.send(m + '\n');
+    };
+    mw.start = function() {
+        mw.socket.send('start\n');
+    };
+    mw.cancel = function() {
+        mw.socket.send('cancel\n');
+    };
+    mw.devicetest = function() {
+        mw.socket.send('check\n');
+    };
+    mw.checkstatus = function() {
+        if (ready)
+        {
+            mw.start();
+            $('#biometricsign').modal('show');
+        }
+        else
+        {
+            $('#checkdevice').modal('show');
+        }
+    };
+    mw.deviceready = function() {
+        document.getElementById('capturingPane').setAttribute('class', 'visible');
+        document.getElementById('capturingPane').innerHTML = "<spam class='label label-primary'><img src=\"{{ asset('bundles/tv/images/reader_state/reader-on.png') }}\"> El dispositivo biom&eacute;trico se encuentra listo</spam>";
+    };
+    mw.devicenotready = function() {
+        document.getElementById('capturingPane').setAttribute('class', 'visible');
+        document.getElementById('capturingPane').innerHTML = "<spam class='label label-default'><img src=\"{{ asset('bundles/tv/images/reader_state/reader-off.png') }}\"> El dispositivo biom&eacute;trico est&aacute; desconectado</spam>";
+    };
+    mw.nodevicedriver = function() {
+        document.getElementById('capturingPane').setAttribute('class', 'visible');
+        document.getElementById('capturingPane').innerHTML = "<spam class='label label-danger'><img src=\"{{ asset('bundles/tv/images/reader_state/no-reader.png') }}\"> Se ha perdido la comunicaci&oacute;n con el dispositivo biom&eacute;trico</spam>";
+    };
+    mw.initialize();
+</script>

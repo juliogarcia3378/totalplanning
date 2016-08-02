@@ -1,0 +1,83 @@
+<div class="container">
+    <div class="row">
+        <h1>OCUPACION DE AULAS</h1>
+    </div>
+</div>
+<div class="row form-group ">
+    <div class="table-responsive col-md-12">
+        {% for key, capacidad in aulas %}
+            <div class="container" style="width: auto;position: relative;float: left;">
+                <h1>Capacidad: {{ key }} </h1>
+
+                <div class="" style="border-bottom: solid 1px;border-left: solid 1px;border-right: solid 1px;">
+                    {% for aula in capacidad %}
+
+                        <div class="room" id="{{ aula.id }}" capacidad=" {{ key }}" htotal="90" hactual="0"
+                             style="height:220px;margin-right:10px;padding:10px;min-width: 110px;width:auto;position: relative;float:left;{%  if loop.last%}border-right: solid 1px;{% endif %} border-bottom: solid 1px;border-left: solid 1px">
+                            <h4><b>{{ aula.nombre }}</b></h4>
+                            {% for key2,turno in turnos %}
+                                <div class="slot" accepts="sel{{ turno.id }}" ondrop="drop(event)"
+                                     onclick="close(event)"
+                                     ondragover="allowDrop(event)" id="{{ aula.id }}_{{ turno.id }}">
+                                </div>
+                            {% endfor %}
+                            <span class="label label-default pull-right">Horas: 0/90</span>
+                        </div>
+
+                    {% endfor %}
+                </div>
+            </div>
+        {% endfor %}
+
+    </div>
+</div>
+
+{% block javascript %}
+    {#<script src="{{ asset('bundles/horario/js/dndenablescroll.js') }}"></script>#}
+    {#<script src="{{ asset('bundles/horario/js/classroom-groups.js') }}"></script>#}
+
+    {#<script>
+        {%  set selector=''%}
+        {% for turno in turnos %}
+        {%  set selector =selector~ ' sel'~turno.id %}
+        {% endfor %}
+        jQuery(document).ready(function () {
+            $("#asignacionTrigger").click(function () {
+                var turnos = $(".slot");
+                for (var i = 0; i < turnos.length; i++) {
+                    var childs = turnos[i].childNodes;
+                    while ( turnos[i].hasChildNodes()) {
+                        turnos[i].removeChild( turnos[i].firstChild);
+                    }
+                }
+                $.ajax({
+                    url: "{{path('planeacion_horario_crud_cambio_listComponentAjax') }}",
+                    success: function (resp) {
+                        for (var i = 0; i < resp.length; i++) {
+                            var el = resp[i];
+                            if (el.terceros == true)
+                                $("#" + el.aula + "_" + el.turno + "").html('<div class="group label label-default  {{ selector }}" id="' + el.grupoId + '" nivel="' + el.nivel + '"bilingue="'
+                                        + el.bilingue + '" terceros="' + el.terceros + '"' + ' horas="' + el.horas + '"  draggable="true"  ondragstart="drag(event)" ondrag="dragging(event)" ondrop="swapdrop(event)" ' +
+                                        ' ondragover="allowDrop(event)" > </div>');
+                            else {
+                                var selector = "sel" + el.turno;
+                                $("#" + el.aula + "_" + el.turno + "").html('<div class="group label label-default ' + selector + '" id="' + el.grupoId + '" nivel="' + el.nivel + '"bilingue="'
+                                        + el.bilingue + '" terceros="' + el.terceros + '"' + ' horas="' + el.horas + '"  draggable="true"  ondragstart="drag(event)" ondrag="dragging(event)" ondrop="swapdrop(event)" ' +
+                                        ' ondragover="allowDrop(event)" > </div>');
+                            }
+
+                            $("#" + el.grupoId).html('<p><span class="label group"> <span class="group-menu text-info fa fa-chevron-circle-right fa-lg" style="cursor:pointer;"  data-toggle="dropdown"></span>' +
+                                    '<span class="group-name">' + el.grupoNombre + '</span><span class="group-close fa fa-times fa-lg"  style="cursor:pointer;"></span></span></p>');
+                        }
+                    }
+
+                });
+            });
+        });
+
+
+    </script>#}
+{% endblock %}
+
+
+

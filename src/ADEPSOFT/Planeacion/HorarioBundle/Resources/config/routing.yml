@@ -1,0 +1,156 @@
+horario_homepage:
+    pattern:  /components/
+    defaults: { _controller: HorarioBundle:Default:index }
+
+#--------------------- Anteproyecto--------------------
+planeacion_horario_crud_anteproyecto:
+    pattern:  /anteproyecto
+    defaults: { _controller: HorarioBundle:Anteproyecto:renderMain }
+planeacion_horario_crud_anteproyecto_eliminar:
+    pattern:  /anteproyecto/eliminar
+    defaults: { _controller: HorarioBundle:Anteproyecto:delete}
+planeacion_horario_crud_anteproyecto_publicar:
+    pattern:  /anteproyecto/publish
+    defaults: { _controller: HorarioBundle:Anteproyecto:publicarAnteproyecto}
+planeacion_horario_crud_anteproyecto_new:
+    pattern:  /anteproyecto/new
+    defaults: { _controller: HorarioBundle:Anteproyecto:new}
+planeacion_horario_grupos_sin_asignacion_pdf:
+    pattern:  /anteproyecto/gruposSinAsignacion
+    defaults: { _controller: HorarioBundle:Anteproyecto:gruposSinAsignacionPdf }
+planeacion_horario_horarioSemestreMateriaPdf:
+    pattern:  /anteproyecto/HorarioSemestre
+    defaults: { _controller: HorarioBundle:Anteproyecto:horarioSemestreMateriaPdf }
+planeacion_horario_SIASE_pdf:
+    pattern:  /anteproyecto/SIASEData
+    defaults: { _controller: HorarioBundle:Anteproyecto:horarioSIASEPdf }
+#---------------------Descargas------------------------
+
+#--------------------- Asignacion Profesores--------------------
+planeacion_horario_crud_asignacion_profesores:
+    pattern:  /profesores
+    defaults: { _controller: HorarioBundle:AsignacionProfesores:renderMain }
+planeacion_horario_crud_asignacion_profesores_detalles:
+    pattern:  /profesor/detalles
+    defaults: { _controller: HorarioBundle:AsignacionProfesores:detalles }
+planeacion_horario_crud_asignacion_profesor_horario_grupo:
+    pattern:  /profesor/horario/grupo
+    defaults: { _controller: HorarioBundle:AsignacionProfesores:HorarioByGroup}
+planeacion_horario_crud_asignacion_profesor_materias_grupos:
+    pattern:  /profesor/materia/grupos
+    defaults: { _controller: HorarioBundle:AsignacionProfesores:gruposByMateria }
+planeacion_horario_asignar_profesor_materia:
+    pattern:  /profesor/materia/asignar
+    defaults: { _controller: HorarioBundle:AsignacionProfesores:asignarProfesor }
+planeacion_horario_eliminar_profesor_materia:
+    pattern:  /profesor/materia/eliminar
+    defaults: { _controller: HorarioBundle:AsignacionProfesores:eliminarProfesor }
+planeacion_horario_load_profesor_categoria:
+    pattern:  /profesor/categoria/listar
+    defaults: { _controller: HorarioBundle:AsignacionProfesores:listarProfesores }
+planeacion_horario_load_profesor_materias:
+    pattern:  /profesor/materias/listar
+    defaults: { _controller: HorarioBundle:AsignacionProfesores:listarMateriasByProfesor }
+planeacion_horario_load_profesor_grupos_candidatos:
+    pattern:  /profesor/grupo_candidatos/listar
+    defaults: { _controller: HorarioBundle:AsignacionProfesores:listarGruposCandidatosByMateria}
+planeacion_horario_load_profesor_horario_candidato:
+    pattern:  /profesor/horario_candidato/listar
+    defaults: { _controller: HorarioBundle:AsignacionProfesores:horarioProfesor}
+#--------------------- Asignacion Materias--------------------
+planeacion_horario_crud_asignacion_materias:
+    pattern:  /materias
+    defaults: { _controller: HorarioBundle:AsignacionMaterias:renderMain }
+planeacion_horario_crud_asignacion_materias_horas_horario:
+    pattern:  /horas_periodo
+    defaults: { _controller: HorarioBundle:AsignacionMaterias:horasPeriodo }
+planeacion_horario_crud_asignacion_materias_generar_propuesta:
+    pattern:  /generar/propuesta
+    defaults: { _controller: HorarioBundle:AsignacionMaterias:generarPropuestaBase }
+planeacion_horario_eliminar_materia:
+    pattern:  /asignacion/eliminar
+    defaults: { _controller: HorarioBundle:AsignacionMaterias:eliminarMateria }
+planeacion_horario_asignar_materia:
+    pattern:  /asignacion/asignar
+    defaults: { _controller: HorarioBundle:AsignacionMaterias:asignarMateria }
+planeacion_horario_materias_group:
+    pattern:  /asignacion/materias/group
+    defaults: { _controller: HorarioBundle:AsignacionMaterias:MateriasByGroup }
+planeacion_horario_grupos_licenciatura:
+    pattern:  /asignacion/grupos/licenciatura
+    defaults: { _controller: HorarioBundle:AsignacionMaterias:gruposByLicenciatura}
+planeacion_horario_materias_adicionar_aula:
+    pattern:  /asignacion/materias/aula
+    defaults: { _controller: HorarioBundle:AsignacionMaterias:asociarAula}
+planeacion_horario_actualizar_materias_grupo:
+    pattern:  /asignacion/materias/total
+    defaults: { _controller: HorarioBundle:AsignacionMaterias:asignaciones}
+planeacion_horario_asignacion_directa:
+    pattern:  /asignacion/materias/directa
+    defaults: { _controller: HorarioBundle:AsignacionMaterias:asignacionDirecta}
+#---------------------Descargas------------------------
+
+#---------------------Distribucion Cambio------------------------
+planeacion_horario_crud_cambio:
+    pattern:  /cambio
+    defaults: { _controller: HorarioBundle:GrupoEstudiantesCambio:renderMain }
+
+planeacion_horario_crud_cambio_eliminar_aula:
+    pattern:   /cambio/grupo/desasociar/aula
+    defaults: { _controller: HorarioBundle:GrupoEstudiantesCambio:desAsociarAula}
+
+planeacion_horario_crud_cambio_listAjax:
+    pattern:   /cambio/list
+    defaults: { _controller: HorarioBundle:GrupoEstudiantesCambio:listAjax}
+planeacion_horario_crud_cambio_listComponentAjax:
+    pattern:   /cambio/listComponent
+    defaults: { _controller: HorarioBundle:GrupoEstudiantesCambio:listComponentAjax}
+
+planeacion_horario_crud_cambio_export_xls:
+    pattern:   /cambio/exportxls
+    defaults: { _controller: HorarioBundle:GrupoEstudiantesCambio:exportXls}
+
+planeacion_horario_crud_cambio_export_pdf:
+    pattern:   /cambio/exportPdf
+    defaults: { _controller: HorarioBundle:GrupoEstudiantesCambio:exportarDistribucion}
+
+planeacion_horario_crud_cambio_export_aulasygrupos_pdf:
+    pattern:   /cambio/exportAulasYGruposPdf
+    defaults: { _controller: HorarioBundle:Anteproyecto:exportarAulasYGrupos}
+
+planeacion_horario_crud_cambio_edit:
+    pattern:   /cambio/edit
+    defaults: { _controller: HorarioBundle:GrupoEstudiantesCambio:edit}
+
+planeacion_horario_crud_cambio_new:
+    pattern:   /cambio/new
+    defaults: { _controller: HorarioBundle:GrupoEstudiantesCambio:new}
+
+planeacion_horario_crud_cambio_delete:
+    pattern:   /cambio/delete
+    defaults: { _controller: HorarioBundle:GrupoEstudiantesCambio:delete }
+
+planeacion_horario_crud_cambio_activar:
+    pattern:   /cambio/activar
+    defaults: { _controller: HorarioBundle:GrupoEstudiantesCambio:activar }
+
+planeacion_horario_crud_cambio_desactivar:
+    pattern:   /cambio/desactivar
+    defaults: { _controller: HorarioBundle:GrupoEstudiantesCambio:desactivar }
+
+planeacion_horario_crud_cambio_create_group:
+    pattern:   /cambio/create_grupo
+    defaults: { _controller: HorarioBundle:GrupoEstudiantesCambio:createGrupo}
+
+planeacion_horario_crud_cambio_update_group:
+    pattern:   /cambio/update_grupo
+    defaults: { _controller: HorarioBundle:GrupoEstudiantesCambio:updateGrupo}
+
+planeacion_horario_crud_cambio_remove_group:
+    pattern:   /cambio/remove_grupo
+    defaults: { _controller: HorarioBundle:GrupoEstudiantesCambio:removeGrupo}
+
+planeacion_horario_crud_cambio_filtro_avanzado_view:
+    pattern:   /cambio/filtro
+    defaults: { _controller: HorarioBundle:GrupoEstudiantesCambio:filtroAvanzado }
+

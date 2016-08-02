@@ -1,0 +1,74 @@
+
+{#{% extends '::base.html.twig' %}#}
+
+{% block stylesheets %}
+    <link rel="stylesheet" type="text/css" href="{{ asset('bundles/comun/base/plugins/data-tables/DT_bootstrap.css') }}"/>
+    {#<script>#}
+        {#App.onceCSS("{{ asset('bundles/comun/base/plugins/data-tables/DT_bootstrap.css') }}");#}
+    {#</script>#}
+    {#<link rel="stylesheet" type="text/css" href="{{ asset('bundles/comun/base/plugins/dropzone/basic.css') }}"/>#}
+    {#<link rel="stylesheet" type="text/css" href="{{ asset('bundles/comun/base/plugins/dropzone/dropzone.css') }}"/>#}
+    {#<link rel="stylesheet" type="text/css" href="{{ asset('bundles/comun/assets/img/loading-spinner-grey.gif') }}"/>#}
+{% endblock %}
+{% block content %}
+    {% include "PlaneacionAdminBundle:Profesor:profesor_list.html.twig" %}
+{% endblock content %}
+{% block javascript %}
+    <script src="{{ asset('bundles/comun/base/plugins/data-tables/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ asset('bundles/comun/base/plugins/data-tables/DT_bootstrap.js') }}"></script>
+    <script src="{{ asset('bundles/comun/base/scripts/core/datatable.js') }}"></script>
+    <script src="{{ asset('bundles/comun/base/scripts/custom/table-ajax.js') }}"></script>
+    <script src="{{ asset('bundles/comun/js/ajaxify_form.js') }}"></script>
+
+
+    <script>
+$("#{{ model.tableId }}"+"_email_export").on('click', function(e) {
+    $.ajax({
+        url:"{{path(rutas.exportEmail) }}",
+        success:function(resp) {
+            $("#{{ model.tableId }}"+"_modal_email_export").modal();
+           $("#listaCorreos").html("<textarea rows='20' style='word-wrap: break-word;width:100% '>"+resp.lista+"</textarea>");
+
+        }
+
+    });
+
+
+});
+
+
+        $("#{{ model.tableId }}"+"_exportar_hoja_submit").on('click', function(e){
+            var el = $(this);
+            var id = e.id;
+
+            {#$('#{{ model.tableId }} th').each(function(index){#}
+                {#if($(this).hasClass('sorting_asc') ) {#}
+                    {#$('form.hoja_datos_form input.order_column').val(index);#}
+                    {#$('form.hoja_datos_form input.order_dir').val("asc");#}
+                {#}#}
+                {#else  if($(this).hasClass('sorting_desc')) {#}
+                    {#$('form.hoja_datos_form input.order_column').val(index);#}
+                    {#$('form.hoja_datos_form input.order_dir').val("desc");#}
+                {#}#}
+            {#});#}
+
+            $('form.hoja_datos_form input.id_row').val(id);
+            $('form.hoja_datos_form')[0].submit();
+        });
+        {#$("input","#{{ model.tableId }}"+"_modal_materias").on('keypress',function(e){#}
+            {#if(e.which == 13) {#}
+                {#$(this).closest('.form-group').find("button[type=submit]").click();#}
+                {#return false;#}
+            {#}#}
+        {#}) ;#}
+        $("#{{ model.tableId }}"+"_modal_materias").on('show.bs.modal',function(){
+            $("select[name=materia]").select2('focus');
+        });
+        $("#{{ model.tableId }}"+"_modal_materias").on('shown.bs.modal',function(){
+            $("select[name=materia]").select2('open');
+        });
+
+    </script>
+{% endblock %}
+
+

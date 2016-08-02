@@ -1,0 +1,146 @@
+<?php
+namespace ADEPSOFT\Planeacion\AdminBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints as DocAssert;
+
+/**
+ * Periodo
+ *
+ * @ORM\Table(name="periodo")
+ * @ORM\HasLifecycleCallbacks()
+ * @DocAssert\UniqueEntity(fields={"anno","tipoPeriodo"}, message="Ya existe ese período en ese año.")
+ * @ORM\Entity(repositoryClass="ADEPSOFT\Planeacion\AdminBundle\Repository\PeriodoRepository")
+ */
+class Periodo
+{
+    /**
+     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     * @ORM\SequenceGenerator(sequenceName="periodo_id_seq", allocationSize=1, initialValue=1)
+     */
+    private $id;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="anno", type="integer",  nullable=true)
+     */
+    private $anno;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="nombre", type="string", length=50, nullable=true)
+     */
+    private $nombre;
+
+    /**
+     * @var \ProfePeriodo
+     *
+     * @ORM\OneToMany(targetEntity="ProfePeriodo",mappedBy="periodo")
+     */
+    private $profePeriodo;
+    /**
+     * @var \TipoPeriodo
+     *
+     * @ORM\ManyToOne(targetEntity="TipoPeriodo")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="tipo_periodo", referencedColumnName="id")
+     * })
+     */
+    private $tipoPeriodo;
+    /**
+     * @ORM\PrePersist
+     * @ORM\PreUpdate
+     */
+    public function events()
+    {
+        $this->nombre =  $this->getTipoPeriodo()->getNombre().'/'.$this->getAnno();
+    }
+    public function getAbreviado()
+    {
+        return $this->getTipoPeriodo()->getId().'/'.$this->getAnno();
+    }
+
+    /**
+     * Get id
+     *
+     * @return integer 
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set anno
+     *
+     * @param string $anno
+     * @return Periodo
+     */
+    public function setAnno($anno)
+    {
+        $this->anno = $anno;
+    
+        return $this;
+    }
+
+    /**
+     * Get anno
+     *
+     * @return string 
+     */
+    public function getAnno()
+    {
+        return $this->anno;
+    }
+
+    /**
+     * Set tipoPeriodo
+     *
+     * @param \ADEPSOFT\Planeacion\AdminBundle\Entity\TipoPeriodo $tipoPeriodo
+     * @return Periodo
+     */
+    public function setTipoPeriodo(\ADEPSOFT\Planeacion\AdminBundle\Entity\TipoPeriodo $tipoPeriodo = null)
+    {
+        $this->tipoPeriodo = $tipoPeriodo;
+    
+        return $this;
+    }
+
+    /**
+     * Get tipoPeriodo
+     *
+     * @return \ADEPSOFT\Planeacion\AdminBundle\Entity\TipoPeriodo 
+     */
+    public function getTipoPeriodo()
+    {
+        return $this->tipoPeriodo;
+    }
+
+    /**
+     * Set nombre
+     *
+     * @param string $nombre
+     * @return Periodo
+     */
+    public function setNombre($nombre)
+    {
+        $this->nombre = $nombre;
+    
+        return $this;
+    }
+
+    /**
+     * Get nombre
+     *
+     * @return string 
+     */
+    public function getNombre()
+    {
+        return $this->nombre;
+    }
+}

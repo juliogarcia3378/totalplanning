@@ -1,0 +1,360 @@
+<div class="tabbable tabbable-custom col-md-12">
+    <ul class="nav nav-tabs">
+        <li class="active" style="border-top: 1px solid #A2A09A">
+            <a href="#tab_1_1" data-toggle="tab">
+                Hist&oacute;rico de materias
+            </a>
+        </li>
+    </ul>
+    <div class="tab-content">
+        <div class="tab-pane active" id="tab_1_1">
+            <div class="row">
+                <div class="col-md-2">
+                    <div class="form-group "><label for="filtro_periodo_materia_id" class="control-label">Per&iacute;odo:</label>
+                        <select name="filtro_periodo_materia" id="filtro_periodo_materia_id"
+                                class="form-control form-filter input-sm select2me" data-placeholder="Seleccionar...">
+                            <option value=""></option>
+                            {% for periodo in periodos %}
+                                <option value="{{ periodo.id }}">{{ periodo.abreviado }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group ">
+                        <label for="dia_clase_materia_id" class="control-label">D&iacute;a:</label>
+                        <select name="dia_clase_materia" id="dia_clase_materia_id"
+                                class="form-control form-filter input-sm select2me" data-placeholder="Seleccionar...">
+                            <option value=""></option>
+                            {% for dia in dias %}
+                                <option value="{{ dia.id }}">{{ dia.nombre }}</option>
+                            {% endfor %}
+                            </optgroup>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group ">
+                        <label for="hora_clase_materia_id" class="control-label">Hora:</label>
+                        <select name="hora_clase_materia" name="hora_clase_materia_id"
+                                class="form-control form-filter input-sm select2me" data-placeholder="Seleccionar...">
+                            <option value=""></option>
+                            {% for hora in horas %}
+                                <option value="{{ hora.nombre }}">{{ hora.nombre }}</option>
+                            {% endfor %}
+                            </optgroup>
+                        </select>
+                    </div>
+                </div>
+
+
+                <div class="col-md-6">
+                    <div class="form-group "><label for="materia_imparte_id" class="control-label">Materia:</label>
+                        <select name="materia_imparte" id="materia_imparte_id"
+                                class="form-control form-filter input-sm select2me" data-placeholder="Seleccionar...">
+                            <option value=""></option>
+                            <optgroup label="Derecho">
+                                {% for materia in materiasDerecho %}
+                                    <option value="{{ materia.id }}">{{ materia.texto }}</option>
+                                {% endfor %}
+                            </optgroup>
+                            <optgroup label="Criminología">
+                                {% for materia in materiasCriminologia %}
+                                    <option value="{{ materia.id }}">{{ materia.texto }}</option>
+                                {% endfor %}
+                            </optgroup>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="tabbable tabbable-custom col-md-12">
+    <ul class="nav nav-tabs">
+        <li class="active" style="border-top: 1px solid #A2A09A">
+            <a href="#tab_1_1" data-toggle="tab">
+                Disponibilidad
+            </a>
+        </li>
+    </ul>
+    <div class="tab-content">
+        <div class="tab-pane active" id="tab_1_1">
+            <div class="row from-group">
+                <div class="col-md-2">
+                    <div class="form-group "><label for="filtro_periodo_id"
+                                                    class="control-label">Per&iacute;odo:</label>
+                        <select name="filtro_periodo" id="filtro_periodo_id"
+                                class="form-control form-filter input-sm select2me" data-placeholder="Seleccionar...">
+                            <option value=""></option>
+                            {% for periodo in periodos %}
+                                <option value="{{ periodo.id }}">{{ periodo.abreviado }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group "><label for="filtro_turno_id" class="control-label">Turno:</label>
+                        <select name="filtro_turno" id="filtro_turno_id"
+                                class="form-control form-filter input-sm select2me"
+                                data-placeholder="Seleccionar...">
+                            <option value=""></option>
+                            {% for turno in turnos %}
+                                <option value="{{ turno.id }}">{{ turno }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group ">
+                        <label for="dia_clase_id" class="control-label">D&iacute;a:</label>
+                        <select name="dia_clase" name="dia_clase_id" class="form-control form-filter input-sm select2me"
+                                data-placeholder="Seleccionar...">
+                            <option value=""></option>
+                            {% for dia in dias %}
+                                <option value="{{ dia.id }}">{{ dia.nombre }}</option>
+                            {% endfor %}
+                            </optgroup>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group ">
+                        <label for="hora_clase_id" class="control-label">Hora:</label>
+                        <select name="hora_clase" name="hora_clase_id"
+                                class="form-control form-filter input-sm select2me" data-placeholder="Seleccionar...">
+                            <option value=""></option>
+                            {% for hora in horas %}
+                                <option value="{{ hora.nombre }}">{{ hora.nombre }}</option>
+                            {% endfor %}
+                            </optgroup>
+                        </select>
+                    </div>
+                </div>
+
+
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="control-label" style="display: block">&nbsp;</label>
+                        <label class="radio-inline " style="padding-left: 0px">Disponible
+                            <input type="radio" class="form-control  form-filter" name="libre_ocupado" value="1">
+                        </label>
+                        <label class="radio-inline" style="margin-left: 5px;padding-left: 5px">Ocupado
+                            <input type="radio" class="form-control  form-filter" checked="true" name="libre_ocupado"
+                                   value="2">
+                        </label>
+                        {#<input type="checkbox" name="dia_hora_ocupado" id="dia_hora_ocupado_id"  />#}
+                        {#<label for="dia_hora_ocupado_id" class="control-label">Tiene clases</label>#}
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="tabbable tabbable-custom col-md-12">
+    <ul class="nav nav-tabs">
+        <li class="active" style="border-top: 1px solid #A2A09A">
+            <a href="#tab_1_1" data-toggle="tab">
+                Preferencias
+            </a>
+        </li>
+    </ul>
+    <div class="tab-content">
+        <div class="tab-pane active" id="tab_1_1">
+            <div class="row from-group">
+                <div class="col-md-5">
+                    <div class="form-group "><label for="materia_pref_id" class="control-label">Materia:</label>
+                        <select name="materia_pref" id="materia_pref_id"
+                                class="form-control form-filter input-sm select2me" data-placeholder="Seleccionar...">
+                            <option value=""></option>
+                            <optgroup label="Derecho">
+                                {% for materia in materiasDerecho %}
+                                    <option value="{{ materia.id }}">{{ materia.texto }}</option>
+                                {% endfor %}
+                            </optgroup>
+                            <optgroup label="Criminología">
+                                {% for materia in materiasCriminologia %}
+                                    <option value="{{ materia.id }}">{{ materia.texto }}</option>
+                                {% endfor %}
+                            </optgroup>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group "><label for="orden_materia_id" class="control-label">Orden:</label>
+                        <select name="orden_materia" id="orden_materia_id"
+                                class="form-control form-filter input-sm select2me" data-placeholder="Seleccionar...">
+                            <option value=""></option>
+                            {% for i in 1..15 %}
+                                <option value="{{ i }}">{{ i }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+
+
+            </div>
+            <div class="row from-group">
+                <div class="col-md-2">
+                    <div class="form-group ">
+                        <label for="hora_pref_id" class="control-label">Hora:</label>
+                        <select name="hora_pref" name="hora_pref_id" class="form-control form-filter input-sm select2me"
+                                data-placeholder="Seleccionar...">
+                            <option value=""></option>
+                            {% for hora in horas %}
+                                <option value="{{ hora.id }}">{{ hora.nombre }}</option>
+                            {% endfor %}
+                            </optgroup>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group "><label for="dia_pref_id" class="control-label">Preferencia
+                            :</label>
+                        <select name="dia_pref" id="dia_pref_id" class="form-control form-filter input-sm select2me"
+                                data-placeholder="Seleccionar...">
+                            <option value=""></option>
+                            <option value="1">Lunes a Viernes</option>
+                            <option value="7">S&aacute;bado</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label class="control-label" style="display: block">&nbsp;</label>
+                        <label class="radio-inline " style="padding-left: 0px">1
+                            <input type="radio" class="form-control  form-filter" checked="true" name="hora_orden"
+                                   value="1">
+                        </label>
+                        <label class="radio-inline" style="margin-left: 5px;padding-left: 5px">2
+                            <input type="radio" class="form-control  form-filter" name="hora_orden" value="2">
+                        </label>
+                        <label class="radio-inline" style="margin-left: 5px;padding-left: 5px">Sin importancia
+                            <input type="radio" class="form-control  form-filter" name="hora_orden" value="-1">
+                        </label>
+                        {#<input type="checkbox" name="dia_hora_ocupado" id="dia_hora_ocupado_id"  />#}
+                        {#<label for="dia_hora_ocupado_id" class="control-label">Tiene clases</label>#}
+                    </div>
+
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="tabbable tabbable-custom col-md-12">
+    <ul class="nav nav-tabs">
+        <li class="active" style="border-top: 1px solid #A2A09A">
+            <a href="#tab_1_1" data-toggle="tab">
+                Aulas y Grupos
+            </a>
+        </li>
+    </ul>
+    <div class="tab-content">
+        <div class="tab-pane active" id="tab_1_1">
+            <div class="row from-group">
+                <div class="col-md-2">
+                    <div class="form-group "><label for="filtro_periodo_grupo_id"
+                                                    class="control-label">Per&iacute;odo:</label>
+                        <select name="filtro_periodo_grupo" id="filtro_periodo_grupo_id"
+                                class="form-control form-filter input-sm select2me" data-placeholder="Seleccionar...">
+                            <option value=""></option>
+                            {% for periodo in periodos %}
+                                <option value="{{ periodo.id }}">{{ periodo.abreviado }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group ">
+                        <label for="aula_id" class="control-label">Aula:</label>
+                        <select name="aula" id="aula_id" class="form-control form-filter input-sm select2me"
+                                data-placeholder="Seleccionar...">
+                            <option value=""></option>
+                            {% for aula in aulas %}
+                                <option value="{{ aula.id }}">{{ aula.nombre }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group ">
+                        <label for="grupo_id" class="control-label">Grupo:</label>
+                        <select parent="#filtro_periodo_grupo_id"
+                                path="{{ path('planeacion_admin_crud_profesor_filtro_json_read_grupo') }}"
+                                param="filtro_periodo_grupo" index="periodo" filter="periodo" name="grupo" id="grupo_id"
+                                class="form-control form-filter input-sm select2me" data-placeholder="Seleccionar...">
+                            {#<option value=""></option>#}
+                            {#{% for grupo in grupos %}#}
+                            {#<option value="{{grupo.id}}">{{ grupo.nombreCompleto}}</option>#}
+                            {#{% endfor %}#}
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group ">
+                        <label for="dia_grupo_id" class="control-label">D&iacute;a:</label>
+                        <select name="dia_grupo" name="dia_grupo_id" class="form-control form-filter input-sm select2me"
+                                data-placeholder="Seleccionar...">
+                            <option value=""></option>
+                            {% for dia in dias %}
+                                <option value="{{ dia.id }}">{{ dia.nombre }}</option>
+                            {% endfor %}
+                            </optgroup>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group ">
+                        <label for="hora_grupo_id" class="control-label">Hora:</label>
+                        <select name="hora_grupo" name="hora_grupo_id"
+                                class="form-control form-filter input-sm select2me" data-placeholder="Seleccionar...">
+                            <option value=""></option>
+                            {% for hora in horas %}
+                                <option value="{{ hora.nombre }}">{{ hora.nombre }}</option>
+                            {% endfor %}
+                            </optgroup>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label class="control-label" style="display: block">Bilingue</label>
+                        <label class="radio-inline " style="padding-left: 0px">Si
+                            <input type="radio" class="form-control  form-filter" name="bilingue"
+                                   value="1">
+                        </label>
+                        <label class="radio-inline" style="margin-left: 5px;padding-left: 5px">No
+                            <input type="radio" class="form-control  form-filter"    name="bilingue" value="2">
+                        </label>
+                        <label class="radio-inline" style="margin-left: 5px;padding-left: 5px">Sin importancia
+                            <input type="radio" class="form-control  form-filter" checked="true" name="bilingue" value="-1">
+                        </label>
+                    </div>
+
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label class="control-label" style="display: block">Terceros</label>
+                        <label class="radio-inline " style="padding-left: 0px">Si
+                            <input type="radio" class="form-control  form-filter" name="terceros"
+                                   value="1">
+                        </label>
+                        <label class="radio-inline" style="margin-left: 5px;padding-left: 5px">No
+                            <input type="radio" class="form-control  form-filter"    name="terceros" value="2">
+                        </label>
+                        <label class="radio-inline" style="margin-left: 5px;padding-left: 5px">Sin importancia
+                            <input type="radio" class="form-control  form-filter" checked="true" name="terceros" value="-1">
+                        </label>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

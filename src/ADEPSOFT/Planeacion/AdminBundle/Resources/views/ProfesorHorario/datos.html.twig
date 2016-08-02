@@ -1,0 +1,121 @@
+<div class="row form-group">
+    <div class="col-md-4">
+        <div class="input-group">
+            <span class="input-group-btn">
+                <label class="btn" type="button">Catedrático:</label>
+            </span>
+            <input class="form-control placeholder-no-fix" max="40" type="text" disabled="true" value="{{ profesor.nombre }}">
+        </div>
+    </div>
+    <div class="col-md-4 form-group">
+        <div class="input-group">
+            <span class="input-group-btn">
+                <label class="btn" type="button">Fecha ingreso a FACDYC:</label>
+            </span>
+            <input type="text" class="form-control" size="16"  disabled="true" {% if profesor.fechaIngresoFac is null %} value="--" {% else %} value="{{ profesor.fechaIngresoFac | date('d-m-Y')}}" {% endif %} >
+               <span class="input-group-btn">
+                   <button class="btn default" type="button"><i class="fa fa-calendar"></i></button>
+               </span>
+        </div>
+    </div>
+    <div class="col-md-4 form-group">
+        <div class="input-group">
+            <span class="input-group-btn">
+                <label class="btn" type="button">Fecha ingreso a UANL:</label>
+            </span>
+            <input type="text" class="form-control" size="16"  disabled="true" {% if profesor.fechaIngresoUanl is null %} value="--" {% else %} value="{{ profesor.fechaIngresoUanl|date('d-m-Y')}}" {% endif %} >
+               <span class="input-group-btn">
+                   <button class="btn default" type="button"><i class="fa fa-calendar"></i></button>
+               </span>
+        </div>
+    </div>
+</div>
+<div class="row form-group">
+    <div class="col-md-3 form-group">
+        <div class="input-group">
+            <span class="input-group-btn">
+                <label class="btn" type="button">Período:*</label>
+            </span>
+            {% if edit %}
+                {{form_widget(form.periodo,{'attr':{'disabled':true}} )}}
+                <input  value="{{ form.periodo.vars['value'] }}"  name="{{ form.periodo.vars['full_name'] }}"  id="{{ form.periodo.vars['id'] }}"  type="hidden" />
+                {#<input  class="form-control placeholder-no-fix" max="40" type="text" value="{{ periodo.abreviado }}"  disabled="true" />#}
+            {% else %}
+                {{form_widget(form.periodo)}}
+            {% endif %}
+        </div>
+    </div>
+    <div class="col-md-3 form-group">
+        <div class="input-group">
+            <span class="input-group-btn">
+                <label class="btn" type="button">Antigüedad:</label>
+            </span>
+            {{form_widget(form.antiguedad )}}
+        </div>
+    </div>
+    <div class="col-md-4 form-group">
+        <div class="input-group">
+            <span class="input-group-btn">
+                <label class="btn" type="button">Categoría:</label>
+            </span>
+            {{form_widget(form.categoria )}}
+        </div>
+    </div>
+</div>
+<div class="row form-group">
+    <div class="col-md-6 form-group">
+        <div class="input-group">
+            <span class="input-group-btn">
+                <label class="btn" type="button">Porcentaje de asistencia del semestre anterior:</label>
+            </span>
+            {{form_widget(form.asistenciaSemAnterior )}}
+        </div>
+    </div>
+    <div class="col-md-6"></div>
+    {# <div class="col-md-4 form-group">
+         <div class="input-group">
+             <span class="input-group-btn">
+                 <label class="btn" type="button">Horas que debe cubrir:</label>
+             </span>
+             {{form_widget(form.horasCubrir )}}
+         </div>
+     </div> #}
+</div>
+<div class="row form-group">
+    <div class="col-md-12 form-group">
+        <div class="input-group">
+            <span class="input-group-btn">
+                <label class="btn" type="button">Materias asignadas:</label>
+            </span>
+            {{form_widget(form.materia )}}
+        </div>
+    </div>
+
+</div>
+<div class="row form-group">
+    <div class="col-md-offset-5 col-md-4 text-right"> <label class="btn">Horas que debe cubrir:</label></div>
+    <div class="col-md-2">
+        {{form_widget(form.horasCubrir )}}
+    </div>
+</div>
+{% if profesor.categoria.id ==  1 %}
+    <div class="row form-group">
+        <div class="col-md-offset-5 col-md-4 text-right"> <label class="btn" type="button">Descarga anterior:</label></div>
+        <div class="col-md-2">
+            {{form_widget(form.descargaAnt) }}
+        </div>
+    </div>
+{% endif %}
+<div class="row form-group">
+    <div class="col-md-offset-5 col-md-4 text-right"><label class="btn" type="button">Descarga administrativa:</label></div>
+    <div class="col-md-2">
+            {{form_widget(form.descargaADMVA) }}
+    </div>
+</div>
+<div class="row form-group">
+    <div class="col-md-offset-5 col-md-4 text-right"><label class="btn" type="button">Horas asignadas:</label></div>
+    <div class="col-md-2">
+            {{form_widget(form.horasAsignadas) }}
+        </div>
+</div>
+{% block form_fields %}{% endblock %}

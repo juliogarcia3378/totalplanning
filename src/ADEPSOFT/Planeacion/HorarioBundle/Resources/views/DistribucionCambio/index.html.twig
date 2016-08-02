@@ -1,0 +1,617 @@
+{% block stylesheets %}
+    <link rel="stylesheet" type="text/css" href="{{ asset('bundles/planeacionadmin/css/img-ace.css') }}"/>
+    <link rel="stylesheet" type="text/css" href="{{ asset('bundles/planeacionadmin/css/bootstrap-editable.css') }}"/>
+    <link rel="stylesheet" type="text/css" href="{{ asset('bundles/horario/css/anteproyecto.css') }}"/>
+    <link rel="stylesheet" type="text/css" href="{{ asset('bundles/horario/css/classroom-groups.css') }}"/>
+    <link rel="stylesheet" type="text/css" href="{{ asset('bundles/horario/css/bootstrap-select.min.css') }}"/>
+    <link rel="stylesheet" type="text/css" href="{{ asset('bundles/comun/base/plugins/gritter/css/jquery.gritter.css') }}"/>
+    <link rel="stylesheet" type="text/css" href="{{ asset('bundles/comun/base/plugins/bootstrap-datepicker/css/datepicker.css') }}"/>
+{% endblock %}
+
+{% block content %}
+    <div class="row" >
+                 <div class="col-md-12">
+                     <div class="portlet">
+                         <div class="portlet-title">
+                            <div class="caption">
+                                <i class="fa fa-list-ul"></i> Disponibilidad de matr&iacute;cula para el periodo
+                            </div>
+                            <div class="actions">
+                            <div class="btn-group">
+                                <a class="btn blue" data-toggle="dropdown">
+                                    <i class="fa fa-share"></i>
+                                        <span class="hidden-480">Exportar</span>
+                                    <i class="fa fa-angle-down"></i>
+                                </a>
+                                <ul class="dropdown-menu pull-right" style="padding: 10px;float: left;margin-left: 10px;text-align: left">
+                                <li>
+                                    <a id="exportAulasYGrupos" style="cursor: pointer;">
+                                        <i class="fa fa-list"></i>
+                                        Exportar Distribución de Grupos
+                                    </a>
+                                </li>
+                                <li>
+                                    <a id="exportMovimientos" style="cursor: pointer;">
+                                        <i class="fa fa-file-text"></i>
+                                        Exportar Movimientos
+                                    </a>
+                                </li>
+                                </ul>
+                            </div>
+                            </div>
+                         </div>
+                     </div>
+                 </div>
+    </div>
+
+    <div class="row" >
+            {{ include ("@Horario/DistribucionCambio/inicio_cambios.html.twig") }}
+    </div>
+<form class="exportarMovimientos" id="exportarMovimientos_form" target="_blank" method="get" action="{{ path("planeacion_horario_crud_cambio_export_pdf") }}">
+    <a name="submit" id="_exportar_hoja_submit"></a>
+</form>
+<form class="exportarXls" id="exportarXls_form" target="_blank" method="get" action="{{ path("planeacion_horario_crud_cambio_export_xls") }}">
+    <a name="submit" id="_exportar_hoja_submit"></a>
+</form>
+    <form id="exportarAulasYGrupos_form" target="_blank" method="get" action="{{ path("planeacion_horario_crud_cambio_export_aulasygrupos_pdf") }}">
+    </form>
+
+
+{% endblock %}
+
+{% block javascript %}
+    <script src="{{ asset('bundles/comun/base/plugins/gritter/js/jquery.gritter.min.js') }}"></script>
+    <script src="{{ asset('bundles/comun/base/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js') }}"></script>
+    <script src="{{ asset('bundles/comun/base/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js') }}"></script>
+    <script src="{{ asset('bundles/comun/base/plugins/bootstrap-datetimepicker/js/components-pickers.js') }}"></script>
+    <script src="{{ asset('bundles/planeacionadmin/js/bootstrap-editable.min.js') }}"></script>
+    <script src="{{ asset('bundles/planeacionadmin/js/ace-editable.min.js') }}"></script>
+    <script src="{{ asset('bundles/planeacionadmin/js/ace-elements.min.js') }}"></script>
+    <script src="{{ asset('bundles/comun/js/ajaxify_form.js') }}"></script>
+    <script>
+        $("#exportMovimientos").on('click', function(e){
+            var el = $(this);
+            $('#exportarMovimientos_form')[0].submit();
+        });
+        $("#exportXls").on('click', function(e){
+            var el = $(this);
+            $('#exportarXls_form')[0].submit();
+        });
+        $("#exportAulasYGrupos").on('click', function(e){
+            var el = $(this);
+            $('#exportarAulasYGrupos_form')[0].submit();
+        });
+    </script>
+
+    <script>
+
+        //# sourceURL=classroom-groups.js
+
+        $(document).ready(function() {
+            $().dndPageScroll();
+            updateClassRooms();
+        });
+
+        function createGroup(ev){
+            var turno = ev.target.getAttribute('accepts').slice(-1);
+            var aula = ev.target.parentNode.getAttribute('id');
+            var nivel = ev.target.parentNode.getAttribute('capacidad');
+            if (turno !== null) {
+                $('#create-group-nivel').prop('value',nivel);
+                $('#create-group-turno').prop('value',turno);
+                $('#create-group-aula').prop('value',aula);
+                //Clear interface
+                $('#create-group-nombre').prop('value','');
+                $('#create-group-bil').prop('checked',false);
+                $.uniform.update();
+                $("#create-group-form").modal('show');
+            }
+        };
+
+        function tryCreateGroup(){
+            var nombre = $('#create-group-nombre').val();
+            var used_name = false;
+            $('.group-name').each(function(){
+                var content = $(this).html();
+                if(content.match(nombre)){
+                    used_name= true;
+                    return false;
+                }
+            });
+            if (!used_name) {
+                var aula = $('#create-group-aula').val();
+                var nivel = $('#create-group-nivel').val();
+                var turno = $('#create-group-turno').val();
+                var campus = $('#create-group-campus').val();
+                var semestre = $('#create-group-semestre').val();
+                var carrera = $('#create-group-carrera').val();
+                var plan = $('#create-group-plan').val();
+                var bil = $('#create-group-bil').prop('checked');
+                var periodo = $('#create-group-periodo').val();
+                create_group(nombre, nivel, semestre, carrera, plan, periodo, turno, aula, campus, bil);
+            } else {
+                alert('Ya existe un grupo con ese nombre. Verifique si los datos son correctos');
+            }
+        };
+
+        function create_group(nombre, nivel, semestre, carrera, plan, periodo, turno, aula, campus, bil) {
+            $.ajax({
+                url:"{{ path('planeacion_horario_crud_cambio_create_group') }}",
+                data: { nombre: nombre,
+                    nivel: nivel,
+                    semestre: semestre,
+                    carrera: carrera,
+                    plan: plan,
+                    periodo: periodo,
+                    turno: turno,
+                    aula: aula,
+                    campus: campus,
+                    bil: bil
+                },
+                success:function(resp) {
+                    if (resp.success==false) {
+                        App.toast(null, resp.sMessage, TOAST.ERROR);
+                        $("#create-group-form").modal('show');
+                    }
+                    else {
+                        var grupo = resp.grupo_node;
+                        var aula = resp.aula_id;
+                        var turno = resp.turno;
+                        var slot = $('#' + aula + ' [accepts]')[turno - 1];
+                        slot.innerHTML = grupo;
+                        updateClassRooms();
+                     }
+                }
+            });
+        };
+
+        function dragstart(ev) {
+            ev.dataTransfer.setData("elem", ev.target.id);
+            var class_request = ev.target.getAttribute('class');
+            var elem = ev.target;
+            var request_room_id = elem.parentNode.parentNode.getAttribute('id');
+            var elem_room_online = elem.getAttribute('online');
+            $('.slot').each(function(ev) {
+                var class_target = $(this).attr('accepts');
+                if(class_request.search(class_target) !== -1) {
+                    if ($(this).children().length === 0) {
+                        var target_room_id = $(this).parent().attr('id');
+                        var target_room_online = $(this).parent().attr('online');
+                        if (target_room_online === elem_room_online) {
+                            if (request_room_id === target_room_id){
+                                $(this).addClass('signalize');
+                            } else {
+                                var horas = parseInt(elem.getAttribute('horas'));
+                                var htotal = parseInt($(this)[0].parentNode.getAttribute('htotal'));
+                                var hactual = parseInt($(this)[0].parentNode.getAttribute('hactual'));
+                                if (htotal >= hactual + horas) {
+                                    $(this).addClass('signalize');
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        };
+
+        function target_dragover(ev) {
+            ev.preventDefault();
+        };
+
+        function target_drop(ev) {
+            ev.preventDefault();
+            var data = ev.dataTransfer.getData("elem");
+            var elem = document.getElementById(data);
+            var class_request = elem.getAttribute('class');
+            var class_target = ev.target.getAttribute('accepts');
+            if(class_request.search(class_target) !== -1) {
+                if(tryAssigment(elem, ev)) {
+                    var level_request = parseInt(elem.getAttribute('nivel'));
+                    var level_available = parseInt(ev.target.parentNode.getAttribute('capacidad'));
+                    if (elem.parentNode.parentNode.className === 'room') {
+                        elem.parentNode.className = 'slot';
+                        if (level_request > level_available) {
+                            ev.target.className = 'slot_mark';
+                        }
+                    }
+                }
+            }
+        };
+
+        function tryAssigment(elem, ev) {
+            var level_request = parseInt(elem.getAttribute('nivel'));
+            var level_available = parseInt(ev.target.parentNode.getAttribute('capacidad'));
+            var horas = parseInt(elem.getAttribute('horas'));
+            var htotal_target = parseInt(ev.target.parentNode.getAttribute('htotal'));
+            var hactual_target = parseInt(ev.target.parentNode.getAttribute('hactual'));
+            var request_room_id = ev.target.parentNode.id;
+            var target_room_id = elem.parentNode.parentNode.id;
+            if (request_room_id === target_room_id){
+                if (elem.parentNode.parentNode.className === 'room') {
+                    elem.parentNode.className = 'slot';
+                    if (level_request > level_available) {
+                        ev.target.className = 'slot_mark';
+                    }
+                }
+                ev.target.appendChild(elem);
+            } else if ((horas + hactual_target) <= htotal_target) {
+                hactual_target += horas;
+                ev.target.parentNode.setAttribute('hactual',hactual_target);
+
+                if (elem.parentNode.parentNode.className === 'room') {
+                    elem.parentNode.className = 'slot';
+                    if (level_request > level_available) {
+                        ev.target.className = 'slot_mark';
+                    }
+                    var htotal_origin = parseInt(elem.parentNode.parentNode.getAttribute('htotal'));
+                    var hactual_origin = parseInt(elem.parentNode.parentNode.getAttribute('hactual'));
+                    if (hactual_origin - horas >= 0) {
+                        elem.parentNode.parentNode.setAttribute('hactual',hactual_origin - horas);
+                        $(elem.parentNode.parentNode).children().last().html('Horas: ' + (hactual_origin - horas) + '/' + htotal_origin);
+                    }
+                }
+                $(ev.target.parentNode).children().last().html('Horas: ' + hactual_target + '/' + htotal_target);
+                ev.target.appendChild(elem);
+                update_group(elem.getAttribute('id'));
+                return true;
+            }
+            else{
+                errorMsg('La cantidad de horas necesarias: <span>' + horas + '</span>, sobrepasa las disponibles: <span>' + (htotal_target - hactual_target) + '</span>');
+                return false;
+            }
+        };
+
+        function dragend(ev) {
+            $('.slot').removeClass('signalize');
+        };
+
+        function swap_drop(ev) {
+            ev.preventDefault();
+            if(!$(ev.target.parentNode.parentNode).hasClass('lock')){
+                var data = ev.dataTransfer.getData("elem");
+                var elem = document.getElementById(data);
+                //Get Nodes
+                var request_group = ev.target.parentNode.parentNode;
+                var request_slot = ev.target.parentNode.parentNode.parentNode;
+                var target_slot = elem.parentNode;
+                var request_fusion = ($(request_group).attr('fusion') === 'true');
+                var target_fusion = ($(elem).attr('fusion') === 'true');
+                var request_bil = $(elem).attr('bilingue');
+                var target_bil = $(request_group).attr('bilingue');
+                if((request_fusion && target_fusion) && (request_bil === target_bil)){
+					    var target_semestre = parseInt(elem.getAttribute('semestre'));
+                        var request_semestre = parseInt(request_group.getAttribute('semestre'));
+                        if(request_semestre === target_semestre) {
+                            var target_plan = elem.getAttribute('plan');
+                            var request_plan = request_group.getAttribute('plan');
+                            if (request_plan === target_plan){
+                                var nivel = parseInt(request_group.getAttribute('nivel')) + parseInt(elem.getAttribute('nivel'));
+                                request_group.setAttribute('nivel',nivel);
+                                request_group.setAttribute('fusion','false');
+                                elem.parentNode.className = 'slot';
+                                var elem_id = elem.getAttribute('id');
+                                group_close(elem_id);
+                                updateClassRooms();
+                                update_group(request_group.getAttribute('id'));
+                            } else {
+                                errorMsg('La fusión no es posible porque los grupos tienen planes de estudio diferentes');
+                            }
+                        } else {
+                            errorMsg('La fusión no es posible porque los grupos son de semestres diferentes');
+                        }
+                } else {
+                    var class_request = elem.parentNode.getAttribute('accepts');
+                    var class_target = ev.target.parentNode.parentNode.parentNode.getAttribute('accepts');
+                    if(class_request.search(class_target) !== -1) {
+                        //Get Hours
+                        var request_hactual = parseInt(request_slot.parentNode.getAttribute('hactual'));
+                        var request_htotal = parseInt(request_slot.parentNode.getAttribute('htotal'));
+                        var request_horas = parseInt(request_group.getAttribute('horas'));
+                        var request_id = request_group.getAttribute('id');
+                        var target_hactual = parseInt(target_slot.parentNode.getAttribute('hactual'));
+                        var target_htotal = parseInt(target_slot.parentNode.getAttribute('htotal'));
+                        var target_horas = parseInt(elem.getAttribute('horas'));
+                        var request_control = request_hactual + target_horas - request_horas;
+                        var target_control = target_hactual + request_horas - target_horas;
+                        if ((request_control <= request_htotal) && (target_control <= target_htotal)){
+                            var tmp_request_group = $(request_group).detach();
+                            //var tmp_target_group = $(elem).detach();
+                            $(target_slot).append(tmp_request_group);
+                            $(request_slot).append(elem);
+                            updateClassRooms();
+                            update_group(elem.getAttribute('id'));
+                            update_group(request_id);
+                        } else {
+                            errorMsg('La distribución de horas clase no permite intercambiar los grupos');
+                        }
+                    }
+                }
+            }
+        };
+
+        function drag(ev) {
+            /*Should be used later...*/
+        };
+
+        function group_context_menu(ev) {
+            var group = $(ev.target).parent().parent();
+            if($(ev.target).hasClass('fa-rotate-90')) {
+                $(ev.target).removeClass('fa-rotate-90');
+                saveDialog(group);
+                $(".group-context-menu").hide();
+                updateClassRooms();
+            } else {
+                $('.group-menu').removeClass('fa-rotate-90');
+                $(ev.target).addClass('fa-rotate-90');
+                var pos = $(ev.target).parent().parent().parent().offset();
+                setupDialog(group, pos);
+                $(".group-context-menu").show();
+            }
+        };
+
+        function group_close(grupo) {
+            bootbox.dialog({
+                size: 'small',
+                message: "¿Está seguro que desea eliminar el grupo?",
+                buttons: {
+                    ok: {
+                        label: "Eliminar",
+                        className: "btn-warning red",
+                        callback: function () {
+                            $.ajax({
+                                url:"{{ path('planeacion_horario_crud_cambio_remove_group') }}",
+                                data: {grupo: grupo},
+                                success:function(resp) {
+                                    if (resp.success==false)
+                                        App.toast(null, resp.sMessage, TOAST.ERROR);
+                                    else{
+                                        $('#' + grupo).parent().removeClass('slot_mark').addClass('slot');
+                                        $('#' + grupo).detach();
+                                        updateClassRooms();
+                                    }
+                                }
+                            });
+                        }
+                    },
+                    cancel: {
+                        label: "Cancelar",
+                        className: "btn-success",
+                        callback: function () {
+                        }
+                    }
+                }
+            });
+        };
+
+        function update_group(id) {
+            var bilingue = $('#' + id).attr('bilingue');
+            var nivel = $('#' + id).attr('nivel');
+            var aula = $('#' + id).parent().parent()[0].id;
+            var turno = $('#' + id).parent().attr('accepts').slice(-1);
+            var online = $('#' + id).attr('online');
+
+            $.ajax({
+                url:"{{ path('planeacion_horario_crud_cambio_update_group') }}",
+                data: {grupo: id,
+                       nivel: nivel,
+                       bilingue: bilingue,
+                       aula: aula,
+                       turno: turno,
+                       online: online
+                },
+                success:function(resp) {
+                   if (resp.success==false)
+                      App.toast(null, resp.sMessage, TOAST.ERROR);
+                   /*else {
+
+                   }*/
+                }
+            });
+        };
+
+        function setupDialog(group, pos) {
+            $('#group-context-menu-level').val(group.attr('nivel'));
+            var fusion = (group.attr('fusion') === 'true');
+            var lock = (group.attr('lock') === 'true');
+            var bil = (group.attr('bilingue') === 'true');
+            var online = (group.attr('online') === 'true');
+            var sem = group.attr('semestre');
+            var plan = group.attr('plan');
+            var h = group.attr('horas');
+            $('#group-context-menu-fusion').prop('checked',fusion);
+            $('#group-context-menu-lock').prop('checked',lock);
+            $('#group-context-menu-bil').prop('checked',bil);
+            $('#group-context-menu-online').prop('checked',online);
+            $('#group-context-menu-sem').html(sem);
+            $('#group-context-menu-plan').html(plan);
+            $('#group-context-menu-h').html(h + 'h');
+            $('.group-context-menu').css({
+                position: 'absolute',
+                top: pos.top - 20 + 'px',
+                left: pos.left - 5 + 'px'
+            });
+            $.uniform.update();
+        };
+
+        function saveDialog(group) {
+            var lock = $('#group-context-menu-lock').prop('checked');
+            var online = $('#group-context-menu-online').prop('checked');
+            group.attr('nivel',$('#group-context-menu-level').val());
+            group.attr('fusion',$('#group-context-menu-fusion').prop('checked'));
+            group.attr('lock',lock);
+            group.attr('bilingue',$('#group-context-menu-bil').prop('checked'));
+            if (group.attr('bilingue') === 'true'){
+                group.find('sup').html('<b>B</b>');
+            } else {
+                group.find('sup').html('');
+            }
+            group.attr('online',$('#group-context-menu-online').prop('checked'));
+            var group_level = parseInt(group[0].getAttribute('nivel'));
+            var level_available = parseInt(group[0].parentNode.parentNode.getAttribute('capacidad'));
+            var group_id = group.attr('id');
+            if (group_level > level_available) {
+                group[0].parentNode.className = 'slot_mark';
+            } else {
+                group[0].parentNode.className = 'slot';
+            }
+            if (online){
+                $(group).attr('class','group label label-default t1 t2 t3 t4')
+            }
+            else{
+                var turno = $(group).parent().attr('accepts');
+                $(group).attr('class','group label label-default ' + turno);
+            }
+            if (lock){
+                if (!$(group).hasClass('lock')) {
+                    $(group).addClass('lock');
+                    $(group).attr('draggable','false');
+                }
+            }
+            else{
+                $(group).removeClass('lock');
+                $(group).attr('draggable','true');
+            }
+            update_group(group_id);
+        };
+
+        function updateClassRooms() {
+            // Actualizar el estado de las aulas
+            $('.room').each(function() {
+                var htotal = parseInt($(this).attr('htotal'));
+                var cap = parseInt($(this).attr('capacidad'));
+                var hsum = 0;
+                $(this).find('.group').each(function() {
+                    hsum += parseInt($(this).attr('horas'));
+                    var nivel = parseInt($(this).attr('nivel'));
+                    if (nivel > cap) {
+                        $(this).parent().removeClass('slot').addClass('slot_mark');
+                    } else {
+                        $(this).parent().removeClass('slot_mark').addClass('slot');
+                    }
+                });
+                var suma_span = '<span>';
+                if (hsum > htotal) {
+					suma_span = '<span style="color: red;">';					
+                }
+                suma_span += hsum + '</span>';
+                $(this).children().last().html('Horas: ' + suma_span + '/' + htotal);
+                $(this).attr('hactual',hsum);
+            });
+
+            // Mensaje resumen general de aulas libres y capacidades
+            var aulasvacias = 0;
+            var capacidadlibre = 0;
+            $('.slot').each(function() {
+                var online = $(this).parent().attr('online') === 'true';
+                if (!online) {
+                    if ($(this).children().length === 0) {
+                        aulasvacias++;
+                        capacidadlibre += parseInt($(this).parent().attr('capacidad'));
+                    }
+                }
+            });
+            $('.resumen').html(aulasvacias + ' turnos disponibles. Con capacidad total para ' + capacidadlibre + ' estudiantes.');
+
+            // Actualizar los contadores de diferencia de matrícula en el semestre
+            $('.monitor_cambio').each(function() {
+                var mtotal = parseInt($(this).html());
+                var target_id = "_" + $(this).attr('id');
+
+                var turno = target_id.substr(1,2);
+                var carrera = target_id.substr(3,1);
+                var semestre = target_id.substr(5);
+                /*var carrera = '';
+                if (c === '1') {
+                    carrera = 'D';
+                }
+                else {
+                    carrera = 'C';
+                }*/
+
+                var macumulado = 0;
+                $('.group').each(function() {
+                    var s = $(this).attr('semestre');
+                    var c = $(this).attr('carrera');
+                    var t = $(this).hasClass(turno);
+                    if ($(this).attr('online') === 'true') {
+                        t = $(this).parent().attr('accepts') === turno;
+                    }
+                    if (s === semestre) {
+                        if (c === carrera) {
+                            if (t) {
+                                macumulado += parseInt($(this).attr('nivel'));
+                            }
+                        }
+                    }
+                });
+
+                var diferencia = mtotal - macumulado;
+                if (diferencia === 0) {
+                    $('#' + target_id).html("<b>ok</b>");
+                    //Bloquear todos los grupos del mismo semestre, turno y carrera
+                    $('.slot, .slot_mark').each(function() {
+                        if ($(this).attr('accepts') === turno &&
+                                $(this).find('.group').attr('semestre') === semestre &&
+                                $(this).find('.group').attr('carrera') === carrera){
+                            $(this).find('.group').addClass('lock');
+                            $(this).find('.group').attr('lock','true');
+                            $(this).find('.group').attr('draggable','false');
+                        }
+                    });
+                }
+                else if(diferencia < 0){
+                    $('#' + target_id).html('<div class="diferencia" id="' + target_id + '" style="color: red;">' + diferencia + '</div>');
+                }
+                else {
+                    $('#' + target_id).html('<div class="diferencia" id="' + target_id + '" style="color: blue;">' + diferencia + '</div>');
+                }
+            });
+
+            // Actualizar los contadores de diferencia de matrícula en el turno
+            $('.difturno').each(function() {
+                var total = 0;
+                var carrera = $(this).attr('id').substr(4);
+                var turno = $(this).attr('id').substr(2,2);
+                $('.diferencia').each(function() {
+                    var _carrera = $(this).attr('id').substr(3,1);
+                    var _turno = $(this).attr('id').substr(1,2);
+                    if ( _turno === turno && _carrera === carrera){
+                        total += parseInt($(this).html());
+                    }
+                });
+                if (total === 0) {
+                    $(this).html("<b>ok</b>");
+                }
+                else if(total < 0){
+                    $(this).html('<div style="color: red;">' + total + '</div>');
+                }
+                else {
+                    $(this).html('<div style="color: blue;">' + total + '</div>');
+                }
+            });
+        };
+
+        function errorMsg(msg){
+            $('#error_msg .description').html(msg);
+            $('#error_msg .description span:nth-of-type(1)').css({
+                'color': 'darkblue',
+                'font-weight': 'bold'
+            });
+            $('#error_msg .description span:nth-of-type(2)').css({
+                'color': 'darkred',
+                'font-weight': 'bold'
+            });
+            $('#error_msg').modal('show');
+        };
+
+        function updateLevel(ev){
+            ev.target.parentNode.setAttribute('level',ev.target.value);
+        };
+
+    </script>
+{% endblock %}
+
+
+
+
+

@@ -1,0 +1,30 @@
+{% extends '@Comun/architecture/components/CRUD/list.html.twig' %}
+{% block form_block %}
+    {{ parent() }}
+    <div class="" style="display: none">
+        <form class="horario_datos_form" id="{{ model.tableId }}_exportar_horario_form" target="_blank" method="get" action="{{ path("planeacion_admin_crud_profesor_horario_expotar_hoja") }}">
+            <input  name="id" value="" class="id_row"/>
+            {#<input name="iSortCol_0" value="" class="order_column" />#}
+            {#<input name="sSortDir_0" value="" class="order_dir" />#}
+            <a name="submit" id="{{ model.tableId }}_exportar_horario_submit"></a>
+        </form>
+    </div>
+{% endblock %}
+{% block aftertable %}
+    <a class="btn default ajaxify pull-right " href="{{ path('planeacion_admin_crud_profesor') }}">
+        <i class="m-icon-swapleft"></i>
+        Listado de profesores
+    </a>
+{% endblock %}
+
+{% block top_button_block %}
+    <a  class="btn default ajaxify" href="{{ path('planeacion_admin_crud_profesor') }}">
+        <i class="m-icon-swapleft"></i>
+            Listado de profesores
+    </a>
+{% endblock %}
+{% block redefine %}
+    <script>
+        App.scrollTop();
+    </script>
+{% endblock %}

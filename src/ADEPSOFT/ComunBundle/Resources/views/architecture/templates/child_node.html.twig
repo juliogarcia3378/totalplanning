@@ -1,0 +1,17 @@
+{% if is_granted(menu.permiso) and parent is not defined%}
+    <li>
+        <a href="{{ menu.ruta ? url(menu.ruta):"#" }}" class="ajaxify">
+            <i class="fa {% if menu.icon is not null %}{{ menu.icon }}{% else %}fa-circle-o{% endif %}"></i>
+            {{ menu.denominacion }}
+        </a>
+    </li>
+{% elseif is_granted(menu.permiso) and  parent == true %}
+    <li>
+        <a href="{{ menu.ruta ? url(menu.ruta):"#" }}" class="ajaxify" >
+            <i class="fa fa-cogs"></i>
+                    <span class="title">
+                        {{ menu.denominacion }}
+                    </span>
+        </a>
+    </li>
+{% endif %}

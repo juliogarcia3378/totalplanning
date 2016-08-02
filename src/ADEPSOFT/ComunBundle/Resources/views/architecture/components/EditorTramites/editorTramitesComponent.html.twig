@@ -1,0 +1,134 @@
+{% extends 'ComunBundle:architecture:templates/frontend.html.twig' %}
+{% block javascript %}
+    <script src="{{ asset('bundles/comun/base/plugins/select2/select2.min.js') }}"></script>
+    <script src="{{ asset('bundles/comun/base/plugins/data-tables/jquery.dataTables.js') }}"></script>
+    <script src="{{ asset('bundles/comun/base/plugins/data-tables/DT_bootstrap.js') }}"></script>
+    <script src="{{ asset('bundles/comun/base/scripts/core/datatable.js') }}"></script>
+    <script src="{{ asset('bundles/comun/base/scripts/custom/table-ajax.js') }}"></script>
+    <script>
+        jQuery(document).ready(function() {
+            TableAjax.init("{{ url("tramites_list") }}");
+        });
+    </script>
+{% endblock %}
+{% block content %}
+<div class="row">
+    <div class="col-md-12">
+        <!-- Begin: life time stats -->
+        <div class="portlet">
+            <div class="portlet-title">
+                <div class="caption">
+                    <i class="fa fa-group"></i>Configuración de Trámites
+                </div>
+                <div class="actions">
+                    <a href="#" class="btn default yellow-stripe">
+                        <i class="fa fa-plus"></i>
+									<span class="hidden-480">
+										 Nuevo Trámite
+									</span>
+                    </a>
+                    <div class="btn-group">
+                    </div>
+                </div>
+
+            </div>
+            <div class="portlet-body">
+                <div class="table-container">
+                    <div class="table-actions-wrapper">
+									<span>
+									</span>
+                        <select class="table-group-action-input form-control input-inline input-small input-sm">
+                            <option value="">Seleccionar...</option>
+                            <option value="Eliminar">Eliminar</option>
+                        </select>
+                        <button class="btn btn-sm blue table-group-action-submit"><i class="fa fa-check"></i> Enviar</button>
+                    </div>
+                    <table class="table table-striped table-bordered table-hover" id="datatable_ajax" >
+                        <thead>
+                        <tr role="row" class="heading">
+                            <th width="1%">
+                                <input type="checkbox" class="group-checkable">
+                            </th>
+                            <th width="10%">
+                                Nombre
+                            </th>
+                            <th width="10%">
+                                Término
+                            </th>
+                            <th width="15%">
+                                Estado Inicial
+                            </th>
+                            <th width="8%">
+                                Evento
+                            </th>
+                            <th width="8%">
+                                Estado Final
+                            </th>
+                            <th width="8%">
+                               Biometría
+                            </th>
+                            <th width="8%">
+                                Buscar
+                            </th>
+                        </tr>
+                        <tr role="row" class="filter">
+                            <td>
+                            </td>
+                            <td>
+                                <input type="text" class="form-control form-filter input-sm" name="name">
+                            </td>
+                            <td>
+                                <input type="text" class="form-control form-filter input-sm" name="name">
+                            </td>
+                            <td>
+                                <select name="permiso" class="form-control form-filter input-sm">
+                                    <option value="">Seleccionar...</option>
+                                    {% if tiposTramites is defined %}
+                                        {% for tramite in tiposTramites%}
+                                            <option value="{{ tramite.id }}">{{ tramite.denominacion  }}</option>
+                                        {% endfor %}
+                                    {% endif %}
+                                </select>
+                            </td>
+                            <td>
+                                <select name="permiso" class="form-control form-filter input-sm">
+                                    <option value="">Seleccionar...</option>
+                                    {% if eventos is defined %}
+                                        {% for evento in eventos%}
+                                            <option value="{{ evento.id }}">{{ evento.denominacion  }}</option>
+                                        {% endfor %}
+                                    {% endif %}
+                                </select>
+                            </td>
+                            <td>
+                                <select name="permiso" class="form-control form-filter input-sm">
+                                    <option value="">Seleccionar...</option>
+                                    {% if tiposTramites is defined %}
+                                        {% for tramite in tiposTramites%}
+                                            <option value="{{ tramite.id }}">{{ tramite.denominacion  }}</option>
+                                        {% endfor %}
+                                    {% endif %}
+                                </select>
+                            </td>
+                            <td> <input type="checkbox" ></td>
+                            <td>
+                                <div class="margin-bottom-5">
+                                    <button class="btn btn-sm blue filter-submit margin-bottom"><i class="fa fa-search"></i> Buscar</button>
+                                    <button class="btn btn-sm blue filter-cancel"><i class="fa fa-times"></i></button>
+                                </div>
+                                {#<button class="btn btn-sm blue filter-cancel"><i class="fa fa-times"></i> Reiniciar filtros</button>#}
+                            </td>
+
+                        </tr>
+                        </thead>
+                        <tbody></tbody>
+
+                    </table>
+                </div>
+            </div>
+        </div>
+        <!-- End: life time stats -->
+    </div>
+</div>
+{% endblock %}
+

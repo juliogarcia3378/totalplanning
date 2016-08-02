@@ -1,0 +1,13 @@
+general_config_homepage:
+    pattern:  /
+    defaults: { _controller: GeneralConfigBundle:Default:index }
+
+general_config_homepage_crud:
+    pattern:  /mainScreen
+    defaults: { _controller: GeneralConfigBundle:Default:mainScreen }
+general_config_ckeditor_upload_image:
+    pattern:  /ck/upload/image
+    defaults: { _controller: GeneralConfigBundle:CkEditor:uploadImage}
+general_config_ckeditor_save_html:
+    pattern:  /ck/save
+    defaults: { _controller: GeneralConfigBundle:CkEditor:save}

@@ -1,0 +1,272 @@
+{% block stylesheets %}
+    <link rel="stylesheet" type="text/css" href="{{ asset('bundles/planeacionadmin/css/img-ace.css') }}"/>
+    <link rel="stylesheet" type="text/css" href="{{ asset('bundles/planeacionadmin/css/bootstrap-editable.css') }}"/>
+    <link rel="stylesheet" type="text/css" href="{{ asset('bundles/horario/css/anteproyecto.css') }}"/>
+    <link rel="stylesheet" type="text/css" href="{{ asset('bundles/horario/css/classroom-groups.css') }}"/>
+    <link rel="stylesheet" type="text/css" href="{{ asset('bundles/comun/base/plugins/gritter/css/jquery.gritter.css') }}"/>
+    <link rel="stylesheet" type="text/css" href="{{ asset('bundles/comun/base/plugins/bootstrap-datepicker/css/datepicker.css') }}"/>
+{% endblock %}
+
+{% block content %}
+
+    <form class="gruposSinAsignacion" id="gruposSinAsignacion_form" target="_blank" method="get" action="{{ path("planeacion_horario_grupos_sin_asignacion_pdf") }}">
+        <input type='text' name='licenciatura' hidden='true' id="licenciaturaParameter"></input>
+    </form>
+    <form class="horarioMateriaProfe" id="horarioMateriaProfe_form" target="_blank" method="get"
+          action="{{ path("planeacion_horario_SIASE_pdf") }}">
+    </form>
+
+    <div class="row">
+      
+        <div class="col-md-12">
+            <div class="portlet">
+                                    <div class="portlet-title">
+                        <div class="caption" style="width:60%">
+                            <i class="fa fa-list-ul"></i> Anteproyecto del periodo {{ periodo.nombre }}. <span class="text text-success">{{ estado }}</span>
+                        </div>
+                        <div class="actions">
+                                 
+                         
+                            <div class="btn-group">
+                        <a class="btn blue" href="#" data-toggle="dropdown">
+                            <i class="fa fa-print "></i>
+                                                <span class="hidden-480">
+                                                     Exportar
+                                                </span>
+                            <i class="fa fa-angle-down"></i>
+                        </a>
+                        <ul class="dropdown-menu pull-right" style="padding: 10px;float: left;margin-left: 10px;text-align: left">
+
+                            <li>
+                                <a id="gruposSinAsignacion" style="cursor:pointer;">
+                                    <i class="fa fa-file-text"></i>
+                                    Grupos sin Asignación
+                                </a>
+                            </li>
+
+                            <li>
+                                <a id="horariosCompletos" style="cursor:pointer;">
+                                    <i class="fa fa-group"></i>
+                                    Exportar datos SIASE
+                                </a>
+                            </li>
+                            <!--# <li>
+                                 <a id="horarioXMateria" >
+                                     <i class="fa fa-file-text"></i>
+                                     Horario por Materia
+                                 </a>
+                             </li>-->
+                        </ul>
+                    </div>
+                         
+                                            
+                                        </div>
+                                            
+                        </div>
+
+                    </div>
+            <div class="row">
+                <div class="form-actions left col-md-12">
+                    <button class="btn red" id="eliminar_anteproyecto"><i class="fa fa-times"></i>
+                        <span class="hidden-480"> Eliminar</span>
+                    </button>
+                        <button class="btn blue" id="publicar_anteproyecto"><i class="fa fa-check"></i>
+                        <span class="hidden-480"> Publicar</span>
+                    </button>
+                    <button class="btn blue" id="reporte_cambios" href="#reporte_cambios_modal" data-toggle="modal"><i class="fa fa-list"></i>
+                        <span class="hidden-480"> Cambios</span>
+                    </button>
+                </div>
+       
+            </div>
+        </div>
+    </div>
+    <div class="row anteproyecto_worksheet" >
+    </div>
+    <div class="tab-content">
+
+    </div>
+
+    <div class="modal fade" id="reporte_cambios_modal" tabindex="-1" role="basic" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                    <h4 class="modal-title">Reporte de cambios</h4>
+                </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <h5><b>Solicitudes rechazadas</b></h5>
+                            <table width="100%">
+                            {% for i,carrera in cambios.rechazados %}
+                                <tr><td colspan="4"><h5>{% if i == 1 %}Derecho{% else %}Criminolog&iacute;a{% endif %}</h5></td></tr>
+                                <tr><td>Semestre</td><td>Turno actual</td><td>Turno solicitado</td><td>Cantidad</td></tr>
+                                    {% for j,semestre in carrera %}
+                                        {% for k,turno_a in semestre %}
+                                            {% for turno,cantidad in turno_a %}
+                                                <tr><td>{{ j }}</td><td>{{ k }}</td><td>{{ turno }}</td><td>{{ cantidad }}</td></tr>
+                                            {% endfor %}
+                                        {% endfor %}
+                                    {% endfor %}
+                            {% endfor %}
+                            </table>
+                        </div>
+                        <div class="row">
+                            <br/><h5><b>Posible creaci&oacute;n de grupos</b></h5>
+                            <table width="100%">
+                                {% for i,carrera in cambios.creacion %}
+                                    <tr><td colspan="4"><h5>{% if i == 1 %}Derecho{% else %}Criminolog&iacute;a{% endif %}</h5></td></tr>
+                                    <tr><td>Semestre</td><td>Turno actual</td><td>Turno solicitado</td><td>Cantidad</td></tr>
+                                    {% for j,semestre in carrera %}
+                                        {% for k,turno_a in semestre %}
+                                            {% for turno,cantidad in turno_a %}
+                                                <tr><td>{{ j }}</td><td>{{ k }}</td><td>{{ turno }}</td><td>{{ cantidad }}</td></tr>
+                                            {% endfor %}
+                                        {% endfor %}
+                                    {% endfor %}
+                                {% endfor %}
+                            </table>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn default" data-dismiss="modal">Cerrar</button>
+                    </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block javascript %}
+    <script src="{{ asset('bundles/comun/base/plugins/gritter/js/jquery.gritter.min.js') }}"></script>
+    <script src="{{ asset('bundles/comun/base/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js') }}"></script>
+    <script src="{{ asset('bundles/comun/base/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js') }}"></script>
+    <script src="{{ asset('bundles/comun/base/plugins/bootstrap-datetimepicker/js/components-pickers.js') }}"></script>
+    <script src="{{ asset('bundles/planeacionadmin/js/bootstrap-editable.min.js') }}"></script>
+    <script src="{{ asset('bundles/planeacionadmin/js/ace-editable.min.js') }}"></script>
+    <script src="{{ asset('bundles/planeacionadmin/js/ace-elements.min.js') }}"></script>
+    <script src="{{ asset('bundles/comun/js/ajaxify_form.js') }}"></script>
+    <script>
+        //# sourceURL=anteproyecto.js
+
+        $("#horariosCompletos").on('click', function (e) {
+            $('#horarioMateriaProfe_form')[0].submit();
+        });
+
+        $("#gruposSinAsignacion").on('click', function(e){
+            bootbox.dialog({
+                size: 'small',
+                message: "Selecciona la licenciatura.",
+                buttons: {
+                    derecho: {
+                        label: "Derecho",
+                        className: "btn-success blue",
+                        callback: function () {
+                            $('#licenciaturaParameter').attr("value","1");
+                              $('#gruposSinAsignacion_form')[0].submit();
+                        }
+                    },
+                    criminologia: {
+                        label: "Criminología",
+                        className: "btn-success blue",
+                        callback: function () {
+                            $('#licenciaturaParameter').attr("value","2");
+                            $('#gruposSinAsignacion_form')[0].submit();
+                        }
+                    },
+                    cancel: {
+                        label: "Cancelar",
+                        className: "btn-warning  red",
+                        callback: function () {
+
+                        }
+                    }
+                }
+            });
+
+
+        });
+        $("#horarioXMateria").on('click', function(e){
+            var el = $(this);
+            $('#horarioXMateria_form')[0].submit();
+        });
+    </script>
+
+    <script>
+
+        $("#eliminar_anteproyecto").on('click', function(e) {
+            
+            bootbox.dialog({
+                size: 'small',
+                message: "¿Está seguro que desea eliminar el anteproyecto?. Toda la información generada en el anteproyecto será borrada y no podrá recuperarse.",
+                buttons: {
+                    ok: {
+                        label: "Eliminar",
+                        className: "btn-warning red",
+                        callback: function () {
+                            $.ajax({
+                                url:"{{ path("planeacion_horario_crud_anteproyecto_eliminar") }}",
+                                success:function(resp) {
+                                    if (resp.success==false)
+                                        App.toast(null, resp.sMessage, TOAST.ERROR);
+                                    else{
+                                        App.toast(null, resp.sMessage, TOAST.SUCCESS);
+                                        $("li .active a")[0].click();
+                                    }
+                                }
+                            });
+                        }
+                    },
+                    cancel: {
+                        label: "Cancelar",
+                        className: "btn-success",
+                        callback: function () {
+                            $.ajax({
+                                success:function(resp) {
+                                }
+                            });
+                        }
+                    }
+                }
+            });
+        });
+
+        $("#publicar_anteproyecto").on('click', function(e) {
+            bootbox.dialog({
+                size: 'small',
+                message: "¿ Está seguro que desea publicar el anteproyecto?.  Una vez publicado los cambios deberán realizarse en el módulo de configuración.",
+                buttons: {
+                    ok: {
+                        
+                        label: "Publicar",
+                        className: "btn-warning red",
+                        callback: function () {
+                             App.blockUI();
+                            $.ajax({
+                                url:"{{ path("planeacion_horario_crud_anteproyecto_publicar") }}",
+                                success:function(resp) {
+                                    $("li .active a")[0].click();
+                                     App.toast(null, resp.sMessage, TOAST.SUCCESS);
+                                },complete: function(resp){
+                                    App.unblockUI();
+                                   }
+                            });
+                        }
+                    },
+                    cancel: {
+                        label: "Cancelar",
+                        className: "btn-success",
+                        callback: function () {
+                        
+                        }
+                    }
+                    
+                }
+            });
+        });
+        $(window).load(function () {
+        });
+    </script>
+{% endblock %}
+
+

@@ -1,0 +1,244 @@
+
+<!DOCTYPE html>
+<html lang="es" class="no-js">
+<head>
+    <meta charset="utf-8"/>
+    <title>{% block title %}{% endblock %}</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta content="width=device-width, initial-scale=1" name="viewport"/>
+    <meta content="" name="description"/>
+    <meta content="" name="author"/>
+    <link href="//fonts.googleapis.com/css?family=Open+Sans:400,300,600,700&subset=all" rel="stylesheet" type="text/css"/>
+    <link rel="stylesheet" type="text/css" href="{{ asset('bundles/Core/base/font-awesome/css/font-awesome.min.css') }}"/>
+    <link rel="stylesheet" type="text/css" href="{{ asset('bundles/Core/base/plugins/simple-line-icons/simple-line-icons.min.css') }}"/>
+    <link rel="stylesheet" type="text/css" href="{{ asset('bundles/Core/base/bootstrap/css/bootstrap.min.css') }}"/>
+    <link rel="stylesheet" type="text/css" href="{{ asset('bundles/Core/base/uniform/css/uniform.default.min.css') }}"/>
+    <link rel="stylesheet" type="text/css" href="{{ asset('bundles/Core/base/plugins//bootstrap-switch/css/bootstrap-switch.min.css') }}"/>
+    <link rel="stylesheet" type="text/css" href="{{ asset('bundles/Core/css/components.min.css') }}" id="style_components"/>
+    <link rel="stylesheet" type="text/css" href="{{ asset('bundles/Core/css/plugins.min.css') }}"/>
+
+
+    <link rel="stylesheet" type="text/css" href="{{ asset('bundles/Core/layout/css/layout.min.css') }}"/>
+
+    <!-- END THEME LAYOUT STYLES -->
+    <link rel="shortcut icon" href="favicon.ico" />
+    {% block stylesheets %}{% endblock %}
+
+aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+</head>
+<body class="page-header-fixed">
+<!-- BEGIN HEADER -->
+<div class="page-header navbar-fixed-top">
+<!-- BEGIN HEADER INNER -->
+    <div class="clearfix">
+        <!-- BEGIN BURGER TRIGGER -->
+        <div class="burger-trigger">
+            <button class="menu-trigger">
+                <img src="{{ asset('bundles/Core/layout/img/m_toggler.png') }}" alt=""> </button>
+            <div class="menu-overlay menu-overlay-bg-transparent">
+                <div class="menu-overlay-content">
+
+                    <div class="container-fluid container-lf-space">
+                        <!-- BEGIN PAGE BASE CONTENT -->
+
+                        <div class="row">
+
+                            {% block navegation_bundle %}
+                                {{ include("@Core/architecture/templates/left_menu.html.twig",{ 'menus':getMenu(),'parentsMenu':getMenuParents()}) }}
+                            {% endblock %}
+
+
+                        </div>
+
+
+                        <!-- END PAGE BASE CONTENT -->
+                    </div>
+
+                </div>
+            </div>
+            <div class="menu-bg-overlay">
+                <button class="menu-close">&times;</button>
+            </div>
+            <!-- the overlay element -->
+        </div>
+        <!-- END NAV TRIGGER -->
+        <!-- BEGIN LOGO -->
+        <div class="page-logo">
+            <a href="index.html">
+                <img src="{{ asset('bundles/Core/layout/img/logo.png') }}" alt="logo" class="logo-default" /> </a>
+        </div>
+        <!-- END LOGO -->
+        <!-- BEGIN TOP NAVIGATION MENU -->
+        <div class="top-menu">
+            <ul class="nav navbar-nav pull-right">
+                <!-- BEGIN USER LOGIN DROPDOWN -->
+                <!-- DOC: Apply "dropdown-dark" class after below "dropdown-extended" to change the dropdown styte -->
+                <li class="dropdown dropdown-user">
+                    <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
+                        <div class="dropdown-user-inner">
+
+
+                            <img width="29px"  height="29px" alt="" src="{% if foto is defined and foto is not null%} {{ foto }} {%else%}
+                         "{{ asset('bundles/Core/layout/img/avatar1.jpg') }}"{% endif %}" />
+                            <span class="username username-hide-on-mobile">  {{ app.user.nombre }} </span>
+                        </div>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-default">
+                        <li>
+                            <a href="extra_profile.html">
+                                <i class="icon-user"></i> Mi Perfil </a>
+                        </li>
+                        <li>
+                            <a href="page_calendar.html">
+                                <i class="icon-calendar"></i> Mi Calendario </a>
+                        </li>
+                        <li class="divider"> </li>
+                        <li>
+                            <a data-toggle="modal" href="#modal_change_user_pass" >
+                                <i class="fa fa-lock"></i> Cambiar contraseña
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ path("fos_user_security_logout") }}">
+                                <i class="fa fa-key"></i> Cerrar sesión
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <!-- END USER LOGIN DROPDOWN -->
+            </ul>
+        </div>
+        <!-- END TOP NAVIGATION MENU -->
+    </div>
+    <!-- END HEADER INNER -->
+</div>
+<!-- END HEADER -->
+<!-- BEGIN HEADER & CONTENT DIVIDER -->
+<div class="clearfix"> </div>
+<!-- END HEADER & CONTENT DIVIDER -->
+<!-- BEGIN CONTAINER -->
+<!-- BEGIN CONTAINER -->
+<div class="page-container">
+
+    <div class="page-content-wrapper">
+        <div class="modal fade "  data-backdrop="static" data-keyboard="false" id="modal_change_user_pass" role="basic" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content ajax_form_block">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                        <h4 class="modal-title">Cambiar contraseña</h4>
+                    </div>
+                    <form  action="{{path('security_crud_user_change_pass') }}"  id="change_user_pass_form" method="POST" class="ajax_form">
+                        <div class="modal-body">
+                            <div id="change_user_pass_form_container" >
+                                {{ render(path('security_crud_user_change_pass'))}}
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn default" data-dismiss="modal">Cerrar</button>
+                            <button class="btn green " type="submit"  value="Aceptar">Aceptar</button>
+                        </div>
+                    </form>
+                </div>
+                <!-- /.modal-content -->
+            </div>
+        </div>
+        {% block pagecontent %}
+
+            <div class="page-content">
+                <div class="page-content-body">
+                    {% block breadcrumbs %}
+                    {% endblock %}
+
+                    {% block content %}
+                        {{ render(path("planeacion_admin_homepage")) }}
+                        {#<div class="text-center"><img  class="for_center_in_page_content" width="300px" src="{{ asset('bundles/base/picmark1.png') }}"> </div>#}
+                    {% endblock %}
+                </div>
+
+            </div>
+        {% endblock %}
+    </div>
+
+    <!-- END CONTENT -->
+</div>
+<!-- END CONTAINER -->
+<!-- END CONTAINER -->
+<!-- BEGIN QUICK SIDEBAR -->
+<a href="javascript:;" class="page-quick-sidebar-toggler">
+    <i class="icon-login"></i>
+</a>
+
+<!-- END QUICK SIDEBAR -->
+<!-- BEGIN FOOTER -->
+<div class="page-footer">
+    <div class="page-footer-inner container-fluid container-lf-space">
+        <p class="page-footer-copyright">2015 &copy; Metronic by keenthemes.
+            <a href="http://themeforest.net/item/metronic-responsive-admin-dashboard-template/4021469?ref=keenthemes" title="Purchase Metronic just for 27$ and get lifetime updates for free" target="_blank">Purchase Metronic!</a>
+        </p>
+    </div>
+    <div class="go2top">
+        <i class="icon-arrow-up"></i>
+    </div>
+</div>
+<!-- END FOOTER -->
+<!-- BEGIN QUICK SIDEBAR TOGGLER -->
+<button type="button" class="quick-sidebar-toggler" data-toggle="collapse">
+    <span class="sr-only">Toggle Quick Sidebar</span>
+    <i class="icon-logout"></i>
+    <div class="quick-sidebar-notification">
+        <span class="badge badge-danger">7</span>
+    </div>
+</button>
+
+</body>
+
+<script src="{{ asset('bundles/Core/base/plugins/jquery-1.10.2.min.js') }}"></script>
+<script src="{{ asset('bundles/Core/base/plugins/jquery-migrate-1.2.1.min.js') }}"></script>
+<script src="{{ asset('bundles/Core/base/plugins/jquery-ui/jquery-ui-1.10.3.custom.min.js') }}"></script>
+
+<script src="{{ asset('bundles/Core/base/bootstrap/js/bootstrap.min.js') }}"></script>
+<script src="{{ asset('bundles/Core/base/plugins/bootstrap-hover-dropdown/bootstrap-hover-dropdown.min.js') }}"></script>
+<script src="{{ asset('bundles/Core/base/plugins/jquery.blockui.min.js') }}"></script>
+<script src="{{ asset('bundles/Core/base/plugins/jquery.cokie.min.js') }}"></script>
+<script src="{{ asset('bundles/Core/base/plugins/jquery-slimscroll/jquery.slimscroll.min.js') }}"></script>
+<script src="{{ asset('bundles/Core/base/uniform/jquery.uniform.min.js') }}"></script>
+<script src="{{ asset('bundles/Core/base/plugins/bootstrap-toastr/toastr.min.js') }}"></script>
+<script src="{{ asset('bundles/Core/base/jquery.validate.min.js') }}"></script>
+<script src="{{ asset('bundles/Core/base/plugins/bootbox/bootbox.min.js') }}"></script>
+<script src="{{ asset('bundles/Core/base/dndenablescroll.js') }}"></script>
+
+{% include "CoreBundle::global_conf.html.twig" %}
+{#<script src="{{ asset('bundles/Core/base/validation_msgs.js') }}"></script>#}
+<script src="{{ asset('bundles/Core/base/plugins/select2/select2.js') }}"></script>
+<script src="{{ asset('bundles/Core/js/chained_remote.js') }}"></script>
+
+<script src="{{ asset('bundles/Core/base/scripts/core/app.js') }}"></script>
+{% include '::ajax_form.html.twig' %}
+{% block javascript %}        {% endblock %}
+
+
+
+<script src="{{ asset('bundles/Core/Utiles/automation.js') }}"></script>
+<script>
+    jQuery(document).ready(function() {
+        App.init(); // initlayout and core plugins
+        $("#change_user_pass_form").validate({
+            rules: {
+                'fos_user_change_password_form[new][second]':{
+                    'equalTo':"#fos_user_change_password_form_new_first"
+                }
+            }
+         });
+        $("#modal_change_user_pass").on('hidden.bs.modal',function(){
+            $("#change_user_pass_form")[0].reset();
+            $("#change_user_pass_form").find('div.has-error').removeClass('has-error');
+            $("#change_user_pass_form").find('span.help-block').remove();
+        });
+        AjaxForm.makeAjax($("#modal_change_user_pass"));
+    });
+
+
+</script>
+{% block script %}        {% endblock %}
+</html>

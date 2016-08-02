@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+    <link rel="stylesheet" type="text/css" href="{{  app.request.getSchemeAndHttpHost() ~asset('bundles/comun/base/font-awesome/css/font-awesome.min.css') }}"/>
+    <link rel="stylesheet" type="text/css" href="{{  app.request.getSchemeAndHttpHost() ~asset('bundles/comun/base/bootstrap/css/bootstrap.min.css') }}"/>
+    <link rel="stylesheet" type="text/css" href="{{  app.request.getSchemeAndHttpHost() ~asset('bundles/comun/base/uniform/css/uniform.default.min.css') }}"/>
+    <link rel="stylesheet" type="text/css" href="{{  app.request.getSchemeAndHttpHost() ~asset('bundles/comun/css/style-metronic.css') }}"/>
+    <link rel="stylesheet" type="text/css" href="{{ app.request.getSchemeAndHttpHost() ~ asset('bundles/comun/css/style.css') }}"/>
+    <link rel="stylesheet" type="text/css" href="{{  app.request.getSchemeAndHttpHost() ~asset('bundles/comun/css/style-responsive.css') }}"/>
+    <link rel="stylesheet" type="text/css" href="{{ app.request.getSchemeAndHttpHost() ~asset('bundles/comun/css/plugins.css') }}"/>
+    <link rel="stylesheet" type="text/css" href="{{ app.request.getSchemeAndHttpHost() ~asset('bundles/comun/css/themes/light.css') }}"/>
+    <style>
+        label {
+            font-size: 12px;
+        }
+        input[type="radio"] {
+            font-size: 12px;
+        }
+        .table thead tr th {
+            font-size: 10px;
+            font-weight: 600;
+        }
+        .table > tbody > tr > td, .table > tfoot > tr > td {
+            padding: 4px !important;
+        }
+        .table {
+            margin-bottom: 10px;
+            line-height: 0px !important;
+            font-size: 9px;
+        }
+        div.row {
+            margin-top: 0px;
+            margin-bottom: 0px;
+        }
+    </style>
+    {#<link rel="stylesheet" type="text/css" href="{{ app.request.getSchemeAndHttpHost() ~asset('bundles/planeacionadmin/css/img-ace.css') }}"/>#}
+    {#<link rel="stylesheet" type="text/css" href="{{ app.request.getSchemeAndHttpHost() ~asset('bundles/planeacionadmin/css/bootstrap-editable.css') }}"/>#}
+    {#<link rel="stylesheet" type="text/css" href="{{ app.request.getSchemeAndHttpHost() ~asset('bundles/comun/base/plugins/gritter/css/jquery.gritter.css') }}"/>#}
+    {#<link rel="stylesheet" type="text/css" href="{{ app.request.getSchemeAndHttpHost() ~asset('bundles/comun/base/plugins/bootstrap-datepicker/css/datepicker.css') }}"/>#}
+
+</head>
+<body style="background-color: #ffffff !important;  "  >
+
+{% block content %}
+    <div class="row">
+        <div class="col-md-12">
+            <div  class="portlet">
+                <div class="portlet-body form" >
+                    <form  >
+                            <div class="form-body">
+                                {% include "@PlaneacionAdmin/Profesor/Exportar/hoja1.html.twig" %}
+                                {% include "@PlaneacionAdmin/Profesor/Exportar/horas_pref.html.twig" %}
+                                <div class="row text-center form-group" style="margin-top: 20px">
+                                    <div class="col-md-12">
+                                        <label style="font-size: 14px; border-bottom: solid 1px"><b>Ciudad Universitaria, a {{ obj.fechaActualizacionString }}.</b></label>
+                                    </div>
+                                </div>
+                                <div class="row text-center form-group" style="margin-top: 40px">
+                                    <div class="col-md-4 text-right">
+                                        <label style="font-size: 14px;"><b>Firma: </b></label>
+                                    </div>
+                                    <div class="col-md-4 text-left" style="border-bottom: solid 1px">
+                                        <label ><b> </b></label>
+                                    </div>
+                                </div>
+                                {#{% include "@PlaneacionAdmin/Profesor/seleccion_materias.html.twig" %}#}
+                            </div>
+
+                    </form>
+                </div>
+
+            </div>
+
+        </div></div>
+    <div style="page-break-after: always"></div>
+    {% include "@PlaneacionAdmin/Profesor/Exportar/plan_estudio.html.twig" %}
+{% endblock %}
+
+{% block javascript %}
+    <script src="{{ app.request.getSchemeAndHttpHost() ~  asset('bundles/comun/base/plugins/jquery-1.10.2.min.js') }}"></script>
+    <script src="{{ app.request.getSchemeAndHttpHost() ~ asset('bundles/comun/base/plugins/jquery-migrate-1.2.1.min.js') }}"></script>
+    <script src="{{ app.request.getSchemeAndHttpHost() ~ asset('bundles/comun/base/plugins/jquery-ui/jquery-ui-1.10.3.custom.min.js') }}"></script>
+
+    <script src="{{ app.request.getSchemeAndHttpHost() ~ asset('bundles/comun/base/bootstrap/js/bootstrap.min.js') }}"></script>
+    {#<script src="{{ app.request.getSchemeAndHttpHost() ~ asset('bundles/comun/base/plugins/bootstrap-hover-dropdown/bootstrap-hover-dropdown.min.js') }}"></script>#}
+    {#<script src="{{ app.request.getSchemeAndHttpHost() ~ asset('bundles/comun/base/plugins/jquery.blockui.min.js') }}"></script>#}
+    <script src="{{ app.request.getSchemeAndHttpHost() ~ asset('bundles/comun/base/jquery.validate.min.js') }}"></script>
+    <script src="{{  app.request.getSchemeAndHttpHost() ~ asset('bundles/comun/base/uniform/jquery.uniform.min.js') }}"></script>
+    <script src="{{ app.request.getSchemeAndHttpHost() ~ asset('bundles/comun/base/scripts/core/app.js') }}"></script>
+{% endblock %}
+{% block script %}
+    <script>
+        App.init();
+        $('span.materia_pref').closest('tr').css("background-color","#efefef");
+    </script>
+{% endblock %}
+
+</body>
+</html>
+

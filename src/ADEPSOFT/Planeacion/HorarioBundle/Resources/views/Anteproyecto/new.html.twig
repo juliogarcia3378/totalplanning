@@ -1,0 +1,174 @@
+{#{% extends '::base.html.twig' %}#}
+
+{% block stylesheets %}
+    <link rel="stylesheet" type="text/css" href="{{ asset('bundles/planeacionadmin/css/img-ace.css') }}"/>
+    <link rel="stylesheet" type="text/css" href="{{ asset('bundles/planeacionadmin/css/bootstrap-editable.css') }}"/>
+    <link rel="stylesheet" type="text/css"
+          href="{{ asset('bundles/comun/base/plugins/gritter/css/jquery.gritter.css') }}"/>
+    <link rel="stylesheet" type="text/css"
+          href="{{ asset('bundles/comun/base/plugins/bootstrap-datepicker/css/datepicker.css') }}"/>
+{% endblock %}
+
+{% block content %}
+    <div class="modal fade" id="cargando_modal" tabindex="-1" role="basic" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content ajax_form_block">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                    <h4 class="modal-title">Generando Datos</h4>
+                </div>
+                    <div class="modal-body">
+                    </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+    </div>
+    <div class="modal fade" id="crear_anteproyecto_modal" tabindex="-1" role="basic" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content ajax_form_block">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                    <h4 class="modal-title">Nuevo Anteproyecto</h4>
+                </div>
+                <form action="" method="POST" class="fos_user_group_new ajax_form" enctype="multipart/form-data">
+                    <div class="modal-body">
+                        <div id="crear_anteproyecto_modal_container">
+                            <div class="row ">
+                                <div class="col-md-12">
+                                    <label class="control-label" for="periodo_actual">Periodo del Anteproyecto</label>
+                                    <select name="actual" id="periodo_actual"
+                                            class="form-control input-sm select2me" data-placeholder="Seleccionar...">
+                                        <option value=""></option>
+                                        {% for periodoCandidato in periodoCandidatos %}
+                                            <option value="{{ periodoCandidato.id }}" id="p_{{ periodoCandidato.id }}"
+                                                    data-anno="{{ periodoCandidato.anno }}{{ periodoCandidato.tipoPeriodo.id }}">{{ periodoCandidato.nombre }}</option>
+                                        {% endfor %}
+                                    </select>
+                                    <br/>
+                                    <br/>
+                                    <input id="toggle_control" type="checkbox" onclick="toggleContextControls();">
+                                    <label class="control-label"> Utilizar datos de un periodo anterior</label>
+                                </div>
+                            </div>
+
+                            <div class="collapse" id="migration_context">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <br/>
+                                    <label class="control-label" for="periodo_anterior">Periodo Anterior</label>
+                                    <select name="anterior" id="periodo_anterior"
+                                            class="form-control input-sm select2me" data-placeholder="Seleccionar...">
+                                        <option value=""></option>
+                                        {% for periodoAnterior in periodosAnteriores %}
+                                            <option value="{{ periodoAnterior.id }}" id="p_{{ periodoAnterior.id }}"
+                                                    data-anno="{{ periodoAnterior.anno }}{{ periodoAnterior.tipoPeriodo.id }}">{{ periodoAnterior.nombre }}</option>
+                                        {% endfor %}
+                                    </select>
+                                    <br/>
+                                    <br/>
+                                    <label class="control-label"> Cambios reportados del Departamento de Escolar y Archivos</label>
+                                    <input id="fichero_cambios" name="fichero_cambios" type="file" accept=".txt, .csv" onchange="readDataFile();">
+                                    <br/>
+                                    <br/>
+                                    <input id="open_groups" type="checkbox" >
+                                    <label class="control-label"> Abrir nuevos grupos en turnos desocupados</label>
+                                </div>
+                            </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn red" id="btn_crear">Crear</button>
+                        <button type="button" class="btn default" data-dismiss="modal">Cerrar</button>
+                    </div>
+                </form>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="portlet">
+                <div class="portlet-body form">
+                    <form id="register_cambio_form" method="POST" class="ajax_form horizontal-form enable-to-send">
+                        <div class="row form-group enabled">
+                            <div class="col-md-12">
+                                <h4>No hay Anteproyectos registrados</h4>
+                                <button class="btn blue " id="crear_anteproyecto" href="#crear_anteproyecto_modal"
+                                        data-toggle="modal">
+                                    Crear Anteproyecto
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascript %}
+
+    <script>
+
+        var fileContent = '';
+
+        function readDataFile(){
+            var reader = new FileReader();
+            reader.readAsText($('#fichero_cambios')[0].files[0]);
+            reader.onload = function(e){
+                fileContent = e.target.result;
+            };
+        };
+
+        function toggleContextControls(){
+            $('#migration_context').toggle();
+            $('#periodo_anterior').select2().select2('val',null);
+            $('#fichero_cambios').prop('value','');
+        };
+
+        $("#btn_crear").on('click', function (e) {
+
+            //Incluir validación del cliente
+
+            var periodoAnterior = $('#periodo_anterior').select2("val");
+            var periodoActual = $('#periodo_actual').select2("val");
+            var usarReferencia = $('#toggle_control').prop('checked');
+            var abrirGrupos = $('#open_groups').prop('checked');
+             $("#crear_anteproyecto_modal").modal('hide');
+              $("#cargando_modal").modal('show');
+            $.ajax({
+                url: "{{ path("planeacion_horario_crud_anteproyecto_new") }}",
+                data: {
+                    periodoActual: periodoActual,
+                    referencia: usarReferencia,
+                    periodoAnterior: periodoAnterior,
+                    fichero_cambios: fileContent,
+                    abrirGrupos: abrirGrupos
+                },
+                contentType: 'multipart/form-data',
+                success: function (resp) {
+                        
+                    if (resp.success==false)
+                    App.toast(null, resp.sMessage, TOAST.ERROR);
+                    else{
+                        App.toast(null, resp.sMessage, TOAST.SUCCESS);
+                        $("li .active a")[0].click();
+                    }
+                },
+                error: function (resp) {
+               
+                    App.toast(null, resp.sMessage, TOAST.ERROR);
+                },
+                complete: function (resp) {
+                 
+                     $("#cargando_modal").modal('hide');
+                }
+            });
+        });
+
+    </script>
+{% endblock %}
+
+

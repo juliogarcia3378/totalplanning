@@ -1,0 +1,266 @@
+{% set disableScripts = false %}
+{% set main_room = room %}
+{% set main_group = grupo_id %}
+{% for el in response %}
+    <h2>Grupo {{ el["grupo"].nombre }}</h2>
+    {% for aula in el["aulas"] %}
+        <h4>Aula {{ aula.nombre }}</h4>
+        <div class="row form-group aula_form" id="{{ aula.id }}">
+            <div class="table-responsive col-md-12">
+                <table class="table table-striped table-bordered {% if disableScripts == true %} datatable_detail_table{% endif %}">
+                    <thead>
+                    <tr style="vertical-align: middle;border: solid 2px">
+                        <th style="width: 5%" class="text-center">HORA</th>
+                        {% for hora in el["horas"] %}
+                            <th class="text-center"><b>{{ hora.horaTime|date("H:i") }}</b></th>
+                        {% endfor %}
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for dia in el["dias"] %}
+                        <tr width="15%" style="height: 50px ; {% if loop.last %}border-bottom: solid 2px;{%endif %} " class="text-center">
+                            <td style="border-right: solid 2px; border-left: solid 2px;">
+                                <b> {{ dia.nombre|upper|truncate(3,false,"") }} </b></td>
+                            {% for hora in el["horas"] %}
+                                <td class="text-center turno_td"
+                                    style="vertical-align: middle;{% if disableScripts != true %} cursor: pointer; cursor: hand; {% endif %}
+                            {% set flag=0 %}
+                            {% for horario in el["horarios"] %}
+                                {% if horario[0]==aula.id and horario[2]==hora.id and horario[3]==dia.id %}
+                                    {% if horario[0] == main_room %}
+                                        {% if horario[7] == main_group %}
+                                            {% set flag=1 %}
+                                            background-color:#38aa47;
+                                            {% if loop.parent.loop.last %}border-right: solid 2px;{% endif %}"
+                                    value="{{ aula.id }}_{{ hora.id }}_{{ dia.id }}_{{ hora.turno.id }}_{{ horario[7] }}_{{ horario[4] }}{% if attribute(horario, 10) is defined %}_p{{ horario[9] }}{% endif %}_{{ horario[6] }}"
+                                    init="true">
+                                            <span style="color: #fff; background-color: #35aa47">
+                                            {{ horario[6] }}{% if attribute(horario, 9) is defined %}/{{ horario[9] }}  {% endif %}
+                                            </span>
+                                    {% else %}
+                                        {% set flag=1 %}
+                                        background-color:#ff9696;
+                                        {% if loop.parent.loop.last %}border-right: solid 2px;{% endif %}"
+                                        value="{{ aula.id }}_{{ hora.id }}_{{ dia.id }}_{{ hora.turno.id }}_{{ horario[7] }}_{{ horario[4] }}_0_{{ horario[6] }}" init="true">
+                                        <span style="color: #fff;">
+                                            {{ horario[6] }}/{{ horario[8] }}
+                                            </span>
+                                    {% endif %}
+                                    {% else %}
+                                        {% if horario[7] == main_group and flag == 0 %}
+                                            {% set flag=1 %}
+                                            background-color:#38aa47;
+                                            {% if loop.parent.loop.last %}border-right: solid 2px;{% endif %}"
+                                            value="{{ aula.id }}_{{ hora.id }}_{{ dia.id }}_{{ hora.turno.id }}_{{ horario[7] }}_{{ horario[4] }}{% if attribute(horario, 10) is defined %}_p{{ horario[9] }}{% endif %}_{{ horario[6] }}" init="true">
+                                            <span style="color: #fff; background-color: #35aa47">
+                                            {{ horario[6] }}{% if attribute(horario, 9) is defined %}/{{ horario[9] }}  {% endif %}
+                                            </span>
+                                        {% endif %}
+                                    {% endif %}
+                                    {% endif %}
+                                    {% endfor %}
+                                    {% if flag==0 %}
+                                        {% if loop.last %}border-right: solid 2px;{% endif %}"
+                                        value="{{ aula.id }}_{{ hora.id }}_{{ dia.id }}_{{ hora.turno.id}}_0" init="false">
+                                        <span style="color: #fff; background-color: #35aa47"></span>
+                                    {% endif %}
+                                </td>
+                            {% endfor %}
+                        </tr>
+                    {% endfor %}
+                    <tr style="border-right: solid 2px; border-left: solid 2px;border-bottom: solid 2px; border-top: solid 2px">
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    {% endfor %}
+
+    <script>
+        {% if disableScripts != true %}
+        function selectAll(e){
+            $(".aula_form")
+                    .filter(function() {
+                        return this.value.match(/abc+d/);
+                    })
+                    .html("Matched!")
+            ;
+        }
+        $("td.turno_td").on("click", function (e) {
+            var profesor = $("#profesor_");
+            var materiaTurno = e.currentTarget.attributes['value'].value.split("_", 5);
+            var materia= $("#materia_").select2("data").id;
+            var turno= e.currentTarget.attributes['value'].value.split("_")[3];
+            //  console.log(turno);
+            //   console.log({{ el["grupo"].turno.id }});
+            if (profesor.select2("data")==null)
+            {
+                App.toast(null, "Debe seleccionar un profesor", TOAST.ERROR);
+                return;
+            }
+            else{
+
+                var grupo = e.currentTarget.attributes['value'].value.split("_", 4);
+
+                if (e.currentTarget.attributes['init'].value == "true") {
+                    //  console.log("Si");
+                    //   console.log(e.currentTarget.attributes['value'].value);
+                    //  console.log(materia);
+                    // console.log(e.currentTarget.attributes['value'].value);
+                    if (materia==e.currentTarget.attributes['value'].value.split("_")[5])
+                        console.log(e.currentTarget.attributes['value'].value.split("_").length);
+                    console.log(e.currentTarget.attributes['value'].value.split("_").length==7);
+                    if (e.currentTarget.attributes['value'].value.split("_").length==7)
+                    {
+                        bootbox.dialog({
+                            size: 'small',
+                            message: "¿Qué operación desea realizar?.",
+                            buttons: {
+                                ok: {
+                                    label: "Asignar Materia",
+                                    className: "btn-success",
+                                    callback: function () {
+
+                                        var input = $("<input type='hidden' name='horario[]'/>").val(e.currentTarget.attributes['value'].value);
+                                        $.ajax({
+                                            url:"{{ path("planeacion_horario_asignar_profesor_materia") }}",
+                                            data: {data: e.currentTarget.attributes['value'].value, profesor: $("#profesor_").select2("data").id},
+
+                                            success:function(resp) {
+                                                if (resp.success==false)
+                                                    App.toast(null, resp.sMessage, TOAST.ERROR);
+                                                else
+                                                {
+                                                    App.toast(null, resp.sMessage, TOAST.OK);
+                                                    App.loadAjax("{{ path("planeacion_horario_load_profesor_horario_candidato") }}", $('#tab_horario'), {
+                                                        'periodo': {{ periodo.id }},
+                                                        'id': $("#profesor_").select2("data").id,
+                                                        //  'estado': 1,
+                                                        'disableScripts': false
+                                                    });
+
+                                                    App.loadAjax("{{ path("planeacion_horario_crud_asignacion_profesores_detalles") }}", $('#tab_preferencias'), {
+                                                        'periodo': {{ periodo.id }},
+                                                        'id': $("#profesor_").select2("data").id,
+                                                    });
+
+
+                                                    App.loadAjax("{{ path("planeacion_horario_crud_asignacion_profesor_horario_grupo") }}", $('#tab_grupos'), {
+                                                        'id': $('#grupo_').select2("data").id,
+                                                        //  'estado': 1,
+
+                                                    });                                         }
+                                            }
+                                        });
+
+                                    }
+                                }, eliminar: {
+                                    label: "Eliminar Asignación",
+                                    className: "btn-warning red",
+                                    callback: function () {
+
+                                        var input = $("<input type='hidden' name='horario[]'/>").val(e.currentTarget.attributes['value'].value);
+                                        $.ajax({
+                                            url:"{{ path("planeacion_horario_eliminar_profesor_materia") }}",
+                                            data: {data: e.currentTarget.attributes['value'].value, profesor: $("#profesor_").select2("data").id},
+
+                                            success:function(resp) {
+                                                if (resp.success==false)
+                                                    App.toast(null, resp.sMessage, TOAST.ERROR);
+                                                else
+                                                {
+                                                    App.loadAjax("{{ path("planeacion_horario_load_profesor_horario_candidato") }}", $('#tab_horario'), {
+                                                        'periodo': {{ periodo.id }},
+                                                        'id': $("#profesor_").select2("data").id,
+                                                        //  'estado': 1,
+                                                        'disableScripts': false
+                                                    });
+
+                                                    App.loadAjax("{{ path("planeacion_horario_crud_asignacion_profesores_detalles") }}", $('#tab_preferencias'), {
+                                                        'periodo': {{ periodo.id }},
+                                                        'id': $("#profesor_").select2("data").id,
+                                                    });
+
+
+                                                    App.loadAjax("{{ path("planeacion_horario_crud_asignacion_profesor_horario_grupo") }}", $('#tab_grupos'), {
+                                                        'id': $('#grupo_').select2("data").id,
+                                                        //  'estado': 1,
+
+                                                    });                                         }
+                                            }
+                                        });
+
+                                    }
+                                },
+                                cancel: {
+                                    label: "Cancelar",
+                                    className: "btn-warning",
+                                    callback: function () {
+                                    }
+                                }
+                            }
+                        });
+                    }
+                    else
+
+                    {
+                        bootbox.dialog({
+                            size: 'small',
+                            message: "¿Qué operación desea realizar?.",
+                            buttons: {
+                                ok: {
+                                    label: "Asignar Materia",
+                                    className: "btn-success",
+                                    callback: function () {
+
+                                        var input = $("<input type='hidden' name='horario[]'/>").val(e.currentTarget.attributes['value'].value);
+                                        $.ajax({
+                                            url:"{{ path("planeacion_horario_asignar_profesor_materia") }}",
+                                            data: {data: e.currentTarget.attributes['value'].value, profesor: $("#profesor_").select2("data").id},
+
+                                            success:function(resp) {
+                                                if (resp.success==false)
+                                                    App.toast(null, resp.sMessage, TOAST.ERROR);
+                                                else
+                                                {
+                                                    App.loadAjax("{{ path("planeacion_horario_load_profesor_horario_candidato") }}", $('#tab_horario'), {
+                                                        'periodo': {{ periodo.id }},
+                                                        'id': $("#profesor_").select2("data").id,
+                                                        //  'estado': 1,
+                                                        'disableScripts': false
+                                                    });
+
+                                                    App.loadAjax("{{ path("planeacion_horario_crud_asignacion_profesores_detalles") }}", $('#tab_preferencias'), {
+                                                        'periodo': {{ periodo.id }},
+                                                        'id': $("#profesor_").select2("data").id,
+                                                    });
+
+
+                                                    App.loadAjax("{{ path("planeacion_horario_crud_asignacion_profesor_horario_grupo") }}", $('#tab_grupos'), {
+                                                        'id': $('#grupo_').select2("data").id,
+                                                        //  'estado': 1,
+
+                                                    });                                         }
+                                            }
+                                        });
+
+                                    }
+                                },
+                                cancel: {
+                                    label: "Cancelar",
+                                    className: "btn-warning",
+                                    callback: function () {
+                                    }
+                                }
+                            }
+                        });
+                    }
+                }
+
+            }
+
+        });
+        {% endif %}
+
+    </script>
+{% endfor %}

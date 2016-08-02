@@ -1,0 +1,117 @@
+<div class="row form-group register_profesor_horario_form">
+    <div class="table-responsive col-md-12">
+        <table class="table table-striped table-bordered {% if disableScripts == true %} datatable_detail_table{% endif %}">
+            <thead>
+            <tr style="vertical-align: middle;border-top: solid 2px; border-left: solid 2px; border-right: solid 2px">
+                <th style="width: 5%" class="text-center">HORA</th>
+                {#<th class="text-center">CLAVE/GRUPO</th>#}
+                {% for dia in dias %}
+                    <th width="15%" class="text-center">{{ dia.nombre|upper|truncate(3,false,"") }}</th>
+                {% endfor %}
+            </tr>
+            </thead>
+            <tbody>
+            {% set turno = 1 %}
+            {% for hora in horas %}
+                {% if loop.first %}
+                    {% set turno = hora.turno.id %}
+                {% endif %}
+                {#<tr style="border-right: solid 2px; border-left: solid 2px;border-bottom: solid 2px; border-top: solid 2px">#}
+                {#<td >{{ hora.turno.id }}</td>#}
+                {#{% for dia in dias %}#}
+                {#<td></td>#}
+                {#{% endfor %}#}
+                {#</tr>#}
+                {% if hora.turno.id != turno %}
+                    {% set turno  = hora.turno.id %}
+                    <tr style="border-right: solid 2px; border-left: solid 2px;border-bottom: solid 2px; border-top: solid 2px">
+                        <td></td>
+                        {% for dia in dias %}
+                            <td></td>
+                        {% endfor %}
+                    </tr>
+                {% endif %}
+                <tr style="border-right: solid 2px; border-left: solid 2px; vertical-align: middle {% if loop.last %} ;border-bottom: solid 2px;{% endif %}">
+                    <td class="text-center"><b>{{ hora.horaTime|date("H:i") }}</b></td>
+                    {% for dia in dias %}
+                        <td class="text-center clave_grupo_td"
+                            style="vertical-align: middle;{% if disableScripts != true %} cursor: pointer; cursor: hand {% endif %};padding-left: 5px ;padding-right: 5px  ;"
+                            value="{{ hora.id }}_{{ dia.id }}" init="false">
+                            <span style="color: #fff; background-color: #35aa47"></span>
+                        </td>
+                    {% endfor %}
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+<script>
+    {#alert("{{ horarios[0][0]|length }}");#}
+    {% if horarios is defined %}
+    {
+        var td;
+        {% for horario in horarios %}
+        {
+
+            td = $('td[value="' + '{{ horario[0] }}_{{ horario[1] }}' + '"]');
+            td.attr('init', 'true');
+            td.attr('value', '{{ horario[0] }}_{{ horario[1] }}_{{ horario[2] }}_{{ horario[3] }}');
+            td.css('background-color', '#35aa47');
+            td.find("span").text("{{ horario[5]}}/{{ horario[4]}}/{{ horario[6]}}");
+            var input = $("<input type='hidden' name='horario[]'/>").val(td.attr('value'));
+            $(".register_profesor_horario_form").append(input);
+        }
+        {% endfor %}
+    }
+    {% endif %}
+    {% if disableScripts != true %}
+    $("td.clave_grupo_td").on("click", function (e) {
+        var grupo = $("#grupo_profesor");
+        var aula = $("#clave_aula");
+        var clave = $("#clave_profesor");
+        if (e.currentTarget.attributes['init'].value == "true") {
+            e.currentTarget.attributes['init'].value = "false";
+            var ids = e.currentTarget.attributes['value'].value.split("_", 2);
+            $(".register_profesor_horario_form").find('input[type="hidden"][value="' + e.currentTarget.attributes['value'].value + '"]').remove();
+            e.currentTarget.attributes['value'].value = ids[0] + "_" + ids[1];
+
+            $(e.currentTarget).find("span").text("");
+            $(e.currentTarget).css('background-color', '');
+        }
+        else {
+            if (grupo.select2("val") != "" && clave.select2("val") != "") {
+                $(e.currentTarget).css('background-color', '#35aa47');
+
+                if (aula.select2("val") == "") {
+                    e.currentTarget.attributes['value'].value = e.currentTarget.attributes['value'].value + "_" + grupo.select2("val") + "_" + clave.select2("val");
+                    $(e.currentTarget).find("span").text(clave.select2("data").text.split("-", 1)[0] + "/" + grupo.select2("data").text);
+                }
+                else {
+                    e.currentTarget.attributes['value'].value = e.currentTarget.attributes['value'].value + "_" + grupo.select2("val") + "_" + clave.select2("val") + "_" + aula.select2("val");
+                    $(e.currentTarget).find("span").text(clave.select2("data").text.split("-", 1)[0] + "/" + grupo.select2("data").text.split("/", 1)[0]+ "/" + aula.select2("data").text);
+                }
+
+                e.currentTarget.attributes['init'].value = "true";
+                var input = $("<input type='hidden' name='horario[]'/>").val(e.currentTarget.attributes['value'].value);
+                $(".register_profesor_horario_form").append(input);
+            }
+            else {
+                bootbox.alert({
+                    size: 'small',
+                    message: "Debe seleccionar la materia y el grupo.",
+                    buttons: {
+                        ok: {
+                            label: "Aceptar",
+                            className: "btn-success",
+                            callback: function () {
+                            }
+                        }
+                    }
+                });
+            }
+        }
+    });
+    {% endif %}
+
+</script>

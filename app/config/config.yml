@@ -1,0 +1,139 @@
+imports:
+    - { resource: parameters.yml }
+    - { resource: security.yml }
+
+framework:
+    #esi:             ~
+    #translator:      { fallback: %locale% }
+    secret:          %secret%
+    router:
+        resource: "%kernel.root_dir%/config/routing.yml"
+        strict_requirements: %kernel.debug%
+    form:            ~
+    csrf_protection: ~
+    validation:      { enable_annotations: true }
+    templating:
+        engines: ['twig']
+        #assets_version: SomeVersionScheme
+    default_locale:  "%locale%"
+    trusted_proxies: ~
+#    session:         ~
+    session:
+        handler_id:  ~
+    fragments:       ~
+    translator: ~
+
+services:
+ login_listener:
+     class: FOS\UserBundle\Listener\LoginListener
+     arguments: [@service_container]
+     tags:
+         - { name: kernel.event_listener, event: security.interactive_login, method :onSecurityInteractiveLogin }
+
+ twig.extension.text:
+     class: Twig_Extensions_Extension_Text
+     tags:
+         - { name: twig.extension }
+# Twig Configuration
+twig:
+    debug:            %kernel.debug%
+    strict_variables: %kernel.debug%
+#    twig.extension.text:
+#         class: Twig_Extensions_Extension_Text
+#         tags:
+#             - { name: twig.extension }
+    form:
+        resources:
+            - 'ComunBundle:Form:form_layout.html.twig'
+
+# Assetic Configuration
+assetic:
+    debug:          %kernel.debug%
+    use_controller: false
+    bundles:        [ ]
+    #java: /usr/bin/java
+    filters:
+        cssrewrite: ~
+        #closure:
+        #    jar: %kernel.root_dir%/Resources/java/compiler.jar
+        #yui_css:
+        #    jar: %kernel.root_dir%/Resources/java/yuicompressor-2.4.7.jar
+
+# Doctrine Configuration
+doctrine:
+    dbal:
+        types:
+            bytea: ADEPSOFT\ComunBundle\DataTypes\ByteaType
+            byteaArray: ADEPSOFT\ComunBundle\DataTypes\ByteaArrayType
+        driver:   %database_driver%
+        host:     %database_host%
+        port:     %database_port%
+        dbname:   %database_name%
+        user:     %database_user%
+        password: %database_password%
+        charset:  UTF8
+        # if using pdo_sqlite as your database driver, add the path in parameters.yml
+        # e.g. database_path: %kernel.root_dir%/data/data.db3
+        # path:     %database_path%
+
+    orm:
+        auto_generate_proxy_classes: %kernel.debug%
+        auto_mapping: true
+
+knp_snappy:
+    pdf:
+        binary:     "\"C:\\Program Files\\wkhtmltopdf\\bin\\wkhtmltopdf.exe\""
+        enabled:    true
+        options:    []
+    image:
+        enabled:    false
+        binary:     "\"C:\\Program Files\\wkhtmltopdf\\bin\\wkhtmltoimage.exe\""
+        options:    []
+
+# Swiftmailer Configuration
+swiftmailer:
+    transport: %mailer_transport%
+    host:      %mailer_host%
+    username:  %mailer_user%
+    password:  %mailer_password%
+    spool:     { type: memory }
+#hwi_oauth:
+    # name of the firewall in which this bundle is active, this setting MUST be set
+#    firewall_name: main
+ #   connect:
+  #      account_connector: app.provider.oauth
+   # resource_owners:
+    #    facebook:
+     #       type:                facebook
+      #      client_id:           %facebook_client_id%
+       #     client_secret:       %facebook_client_secret%
+        #    scope:               "email, public_profile"
+         #   infos_url:           "https://graph.facebook.com/me?fields=id,name,email,picture.type(large)"
+          #  paths:
+#                email: email
+#            options:
+#                display: page
+#        google:
+#            type:                google
+#            client_id:           %google_client_id%
+#            client_secret:       %google_client_secret%
+#            scope:              "https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile"
+#            paths:
+#                email: email
+fos_user:
+    db_driver: orm # other valid values are 'mongodb', 'couchdb' and 'propel'
+    firewall_name: main
+    use_username_form_type: false
+    use_listener: true # si se usa el servicio $userManager = $container->get('fos_user.user_manager'); entonces noes necesario el listener de doctrine
+    user_class: ADEPSOFT\MySecurityBundle\Entity\Usuario
+    group:
+        group_class: ADEPSOFT\MySecurityBundle\Entity\Grupo		
+oneup_uploader:
+    mappings:
+        gallery:
+            frontend: dropzone
+            enable_cancelation: true
+            namer: uploader.custom_namer
+#        use_orphanage: true
+#    orphanage:
+#        directory: %kernel.root_dir%/../web

@@ -1,0 +1,295 @@
+<div class=" row ">
+    <div class="col-md-2">
+        <img src="{{ app.request.getSchemeAndHttpHost() ~ asset('bundles/planeacionadmin/img/logo-facdyc.jpg')}}" class="img-responsive" style="max-width: 70%" alt=""/>
+    </div>
+    <div class="col-md-8">
+        <h4 class="text-center">UNIVERSIDAD AUTONÓMA DE NUEVO LEÓN <br/>FACULTAD DE DERECHO Y CRIMINOLOGÍA <br/>
+            DATOS DEL PERSONAL DOCENTE DE LA <br/>LICENCIATURA EN DERECHO/CRIMINOLOGÍA</h4>
+    </div>
+    <div class="col-md-2 img_field">
+        <span class="profile-picture">
+            <img src=" {% if foto is defined and foto != "" and foto is not null%} {{foto}} {%else%} {{app.request.getSchemeAndHttpHost() ~ asset('bundles/planeacionadmin/img/profile-pic.jpg')}} {%endif%}" class="img-responsive input-img-ace" id="avatar_planilla_profesor" name="avatar_planilla_profesor" class="editable img-responsive" alt="Foto Profesor"/>
+        </span>
+        <div class="space-4"></div>
+    </div>
+</div>
+
+<div class="row  ">
+
+    <div class="col-md-7 form-group">
+        <div class="input-group">
+                <span class="input-group-btn" style="vertical-align: bottom">
+                    <label type="button" class="control-label" style="padding-bottom: 0px !important; margin-bottom: 0px !important"> <b>Nombre:&nbsp; </b></label>
+                </span>
+            <div class=""><label class="form-control placeholder-no-fix" style="border: 0px; border-bottom: 1px solid black; padding-top:12px" type="text">{{ obj.nombre }} </label></div>
+        </div>
+    </div>
+    <div class="col-md-5 form-group">
+        <div class="input-group">
+            <span class="input-group-btn" style="vertical-align: bottom">
+                <label type="button" class="control-label" style="padding-bottom: 0px !important; margin-bottom: 0px !important"> <b>No. de Empleado:&nbsp; </b></label>
+            </span>
+            <div class=""><label class="form-control placeholder-no-fix" style="border: 0px; border-bottom: 1px solid black; padding-top:12px" type="text">{{ obj.numeroEmpleado }} </label></div>
+        </div>
+    </div>
+    {#<div class="col-md-7 form-group">#}
+        {#<div class="input-group">#}
+            {#<span class="input-group-btn">#}
+                {#<label class="control-label" type="button"  style="width: 10%"><b>Nombre:&nbsp; </b></label>#}
+                {#<label style="border-bottom: 1px solid black; width: 85%" >&nbsp;&nbsp;&nbsp;{{ obj.nombre }}</label>#}
+            {#</span>#}
+        {#</div>#}
+    {#</div>#}
+    {#<div class="col-md-5 form-group">#}
+        {#<div class="input-group">#}
+            {#<span class="input-group-btn">#}
+                {#<label class="control-label" type="button"  style="width: 10%"><b>No. de Empleado:&nbsp; </b></label>#}
+                {#<label style="border-bottom: 1px solid black; width: 85%" >&nbsp;&nbsp;&nbsp;{{ obj.numeroEmpleado }}</label>#}
+            {#</span>#}
+        {#</div>#}
+    {#</div>#}
+</div>
+<div class="row ">
+    <div class="col-md-4 form-group">
+        <div class="input-group">
+            <span class="input-group-btn" style="vertical-align: bottom">
+                <label type="button" class="control-label" style="overflow: auto; padding-bottom: 0px !important; margin-bottom: 0px !important"> <b>Fecha ingreso a FACDYC:&nbsp; </b></label>
+            </span>
+            <div class=""><label class="form-control placeholder-no-fix" style="border: 0px; border-bottom: 1px solid black; padding-top:12px;" type="text">{{ obj.fechaFACDYCString }} </label></div>
+        </div>
+    </div>
+    <div class="col-md-4 form-group">
+        <div class="input-group">
+            <span class="input-group-btn" style="vertical-align: bottom">
+                <label type="button" class="control-label" style="padding-bottom: 0px !important; margin-bottom: 0px !important"> <b>Fecha ingreso a UANL:&nbsp; </b></label>
+            </span>
+            <div class=""><label class="form-control placeholder-no-fix" style="border: 0px; border-bottom: 1px solid black; padding-top:12px" type="text">{{ obj.fechaUanlString }} </label></div>
+        </div>
+    </div>
+    <div class="col-md-4 form-group">
+        <div class="input-group">
+            <span class="input-group-btn" style="vertical-align: bottom">
+                <label type="button" class="control-label" style="padding-bottom: 0px !important; margin-bottom: 0px !important"> <b>Categor&iacute;a:&nbsp; </b></label>
+            </span>
+            <div class=""><label class="form-control placeholder-no-fix" style="border: 0px; border-bottom: 1px solid black; padding-top:12px" type="text">{{ obj.categoria.nombre }} </label></div>
+        </div>
+    </div>
+</div>
+<div class="row  ">
+    <div class="col-md-8 form-group">
+        <div class="input-group">
+            <span class="input-group-btn" style="vertical-align: bottom">
+                <label type="button" class="control-label" style="padding-bottom: 0px !important; margin-bottom: 0px !important"> <b>Licenciatura en:&nbsp; </b></label>
+            </span>
+            <div class=""><label class="form-control placeholder-no-fix" style="border: 0px; border-bottom: 1px solid black; padding-top:12px" type="text">{{ obj.licenciaturaEn }} </label></div>
+        </div>
+    </div>
+    <div class="col-md-4 form-group">
+        <div class="input-group">
+            <span class="input-group-btn" style="vertical-align: bottom">
+                <label type="button" class="control-label" style="padding-bottom: 0px !important; margin-bottom: 0px !important"> <b>G&eacute;nero:&nbsp; </b></label>
+            </span>
+            <div class=""><label class="form-control placeholder-no-fix" style="border: 0px; border-bottom: 1px solid black; padding-top:12px" type="text">{{ obj.getGeneroString}} </label></div>
+        </div>
+    </div>
+</div>
+<div class=" row ">
+    <div class="col-md-6 form-group">
+        <div class="input-group">
+            <span class="input-group-btn" style="vertical-align: bottom">
+                <label type="button" class="control-label" style="padding-bottom: 0px !important; margin-bottom: 0px !important"> <b>Maestr&iacute;a en:&nbsp; </b></label>
+            </span>
+            <div class=""><label class="form-control placeholder-no-fix" style="border: 0px; border-bottom: 1px solid black; padding-top:12px" type="text">{% if obj.maestria is not null %}  {{ obj.maestria.nombre }} {% endif %} </label></div>
+        </div>
+    </div>
+    <div class="col-md-6 form-group">
+        <div class="input-group" style="margin-top: 15px">
+            <input class="form-control placeholder-no-fix" style="border: 0px; border-bottom: 1px solid black; padding-top:12px" type="checkbox" {% if obj.maestria is not null and obj.maestria.pasante %} checked="true" {% endif %} /> Pasante
+            <input class="form-control placeholder-no-fix" style="border: 0px; border-bottom: 1px solid black; padding-top:12px" type="checkbox"{% if obj.maestria is not null and obj.maestria.titulado %} checked="true" {% endif %} /> Titulado
+        </div>
+    </div>
+</div>
+<div class="row  ">
+    <div class="col-md-6 form-group">
+        <div class="input-group">
+            <span class="input-group-btn" style="vertical-align: bottom">
+                <label type="button" class="control-label" style="padding-bottom: 0px !important; margin-bottom: 0px !important"> <b>Doctorado en:&nbsp; </b></label>
+            </span>
+            <div class=""><label class="form-control placeholder-no-fix" style="border: 0px; border-bottom: 1px solid black; padding-top:12px" type="text">{% if obj.doctorado is not null %} {{ obj.doctorado.nombre }} {% endif %} </label></div>
+        </div>
+    </div>
+    <div class="col-md-6 form-group">
+        <div class="input-group" style="margin-top: 15px">
+            <input class="form-control placeholder-no-fix" style="border: 0px; border-bottom: 1px solid black; padding-top:12px" type="checkbox" {% if obj.doctorado is not null  and obj.doctorado.pasante %} checked="true" {% endif %} /> Pasante
+            <input class="form-control placeholder-no-fix" style="border: 0px; border-bottom: 1px solid black; padding-top:12px" type="checkbox"{% if obj.doctorado is not null  and obj.doctorado.titulado %} checked="true" {% endif %} /> Titulado
+        </div>
+    </div>
+</div>
+<div class="row ">
+    <div class="col-md-4 form-group">
+        <div class="input-group">
+            <span class="input-group-btn" style="vertical-align: bottom">
+                <label type="button" class="control-label" style="padding-bottom: 0px !important; margin-bottom: 0px !important"> <b>Otros idiomas que domine:&nbsp;&nbsp;&nbsp;&nbsp;(1) </b></label>
+            </span>
+            <div class=""><label class="form-control placeholder-no-fix" style="border: 0px; border-bottom: 1px solid black; padding-top:12px" type="text">{% if obj.idioma1 is not null %} {{ obj.idioma1.idioma.nombre }} {% endif %}</label></div>
+        </div>
+    </div>
+    <div class="col-md-2 form-group">
+        <div class="input-group">
+            <span class="input-group-btn" style="vertical-align: bottom">
+                <label type="button" class="control-label" style="padding-bottom: 0px !important; margin-bottom: 0px !important"> <b>% </b></label>
+            </span>
+            <div class=""><label class="form-control placeholder-no-fix" style="border: 0px; border-bottom: 1px solid black; padding-top:12px" type="text">{% if obj.idioma1 is not null %} {{ obj.idioma1.porciento }} {% endif %}</label></div>
+        </div>
+    </div>
+    <div class="col-md-2 form-group">
+        <div class="input-group">
+            <span class="input-group-btn" style="vertical-align: bottom">
+                <label type="button" class="control-label" style="padding-bottom: 0px !important; margin-bottom: 0px !important"> <b>2 </b></label>
+            </span>
+            <div class=""><label class="form-control placeholder-no-fix" style="border: 0px; border-bottom: 1px solid black; padding-top:12px" type="text">{% if obj.idioma2 is not null %} {{ obj.idioma2.idioma.nombre }} {% endif %}</label></div>
+        </div>
+    </div>
+    <div class="col-md-2 form-group">
+        <div class="input-group">
+            <span class="input-group-btn" style="vertical-align: bottom">
+                <label type="button" class="control-label" style="padding-bottom: 0px !important; margin-bottom: 0px !important"> <b>% </b></label>
+            </span>
+            <div class=""><label class="form-control placeholder-no-fix" style="border: 0px; border-bottom: 1px solid black; padding-top:12px" type="text">{% if obj.idioma2 is not null %} {{ obj.idioma2.porciento }} {% endif %}</label></div>
+        </div>
+    </div>
+</div>
+<div class="row ">
+    <div class="col-md-10 form-group">
+        <div class="input-group">
+            <span class="input-group-btn" style="vertical-align: bottom">
+                <label type="button" class="control-label" style="padding-bottom: 0px !important; margin-bottom: 0px !important"> <b>Domicilio:&nbsp; </b></label>
+            </span>
+            <div class=""><label class="form-control placeholder-no-fix" style="border: 0px; border-bottom: 1px solid black; padding-top:12px" type="text"> {{ obj.domicilio }} </label></div>
+        </div>
+    </div>
+</div>
+<div class="row ">
+    <div class="col-md-4 form-group">
+        <div class="input-group">
+            <span class="input-group-btn" style="vertical-align: bottom">
+                <label type="button" class="control-label" style="padding-bottom: 0px !important; margin-bottom: 0px !important"> <b>Tel. Particular:&nbsp; </b></label>
+            </span>
+            <div class=""><label class="form-control placeholder-no-fix" style="border: 0px; border-bottom: 1px solid black; padding-top:12px" type="text"> {{ obj.telParticular }} </label></div>
+        </div>
+    </div>
+    <div class="col-md-4 form-group">
+        <div class="input-group">
+            <span class="input-group-btn" style="vertical-align: bottom">
+                <label type="button" class="control-label" style="padding-bottom: 0px !important; margin-bottom: 0px !important"> <b>Celular:&nbsp; </b></label>
+            </span>
+            <div class=""><label class="form-control placeholder-no-fix" style="border: 0px; border-bottom: 1px solid black; padding-top:12px" type="text"> {{ obj.telCelular }} </label></div>
+        </div>
+    </div>
+    <div class="col-md-4 form-group">
+        <div class="input-group">
+            <span class="input-group-btn" style="vertical-align: bottom">
+                <label type="button" class="control-label" style="padding-bottom: 0px !important; margin-bottom: 0px !important"> <b>Nextel:&nbsp; </b></label>
+            </span>
+            <div class=""><label class="form-control placeholder-no-fix" style="border: 0px; border-bottom: 1px solid black; padding-top:12px" type="text"> {{ obj.telNextel }} </label></div>
+        </div>
+    </div>
+</div>
+<div class="row ">
+    <div class="col-md-6 form-group">
+        <div class="input-group">
+            <span class="input-group-btn" style="vertical-align: bottom">
+                <label type="button" class="control-label" style="padding-bottom: 0px !important; margin-bottom: 0px !important"> <b>Correo electr&oacute;nico:&nbsp; </b></label>
+            </span>
+            <div class=""><label class="form-control placeholder-no-fix" style="border: 0px; border-bottom: 1px solid black; padding-top:12px" type="text"> {{ obj.correo }} </label></div>
+        </div>
+    </div>
+    <div class="col-md-6 form-group">
+        <div class="input-group">
+            <span class="input-group-btn" style="vertical-align: bottom">
+                <label type="button" class="control-label" style="padding-bottom: 0px !important; margin-bottom: 0px !important"> <b>Facebook:&nbsp; </b></label>
+            </span>
+            <div class=""><label class="form-control placeholder-no-fix" style="border: 0px; border-bottom: 1px solid black; padding-top:12px" type="text"> {{ obj.facebook }} </label></div>
+        </div>
+    </div>
+</div>
+<div class="row ">
+    <div class="col-md-8 form-group">
+        <div class="input-group">
+            <span class="input-group-btn" style="vertical-align: bottom">
+                <label type="button" class="control-label" style="padding-bottom: 0px !important; margin-bottom: 0px !important"> <b>Lugar donde labora:&nbsp; </b></label>
+            </span>
+            <div class=""><label class="form-control placeholder-no-fix" style="border: 0px; border-bottom: 1px solid black; padding-top:12px" type="text"> {{ obj.lugarLabora }} </label></div>
+        </div>
+    </div>
+    <div class="col-md-4 form-group">
+        <div class="input-group">
+            <span class="input-group-btn" style="vertical-align: bottom">
+                <label type="button" class="control-label" style="padding-bottom: 0px !important; margin-bottom: 0px !important"> <b>Tel&eacute;fono donde labora:&nbsp; </b></label>
+            </span>
+            <div class=""><label class="form-control placeholder-no-fix" style="border: 0px; border-bottom: 1px solid black; padding-top:12px" type="text"> {{ obj.telLugarLabora }} </label></div>
+        </div>
+    </div>
+</div>
+<div class="row ">
+    <div class="col-md-12 form-group">
+        <div class="input-group">
+            <span class="input-group-btn" style="vertical-align: bottom">
+                <label type="button" class="control-label" style="padding-bottom: 0px !important; margin-bottom: 0px !important"> <b>Direcci&oacute;n donde labora:&nbsp; </b></label>
+            </span>
+            <div class=""><label class="form-control placeholder-no-fix" style="border: 0px; border-bottom: 1px solid black; padding-top:12px" type="text"> {{ obj.dirLabora }} </label></div>
+        </div>
+    </div>
+</div>
+<div class="row ">
+    <div class="col-md-4 form-group">
+        <div class="input-group">
+            <span class="input-group-btn" style="vertical-align: bottom">
+                <label type="button" class="control-label" style="padding-bottom: 0px !important; margin-bottom: 0px !important"> <b>Fecha de nacimiento:&nbsp; </b></label>
+            </span>
+            <div class=""><label class="form-control placeholder-no-fix" style="border: 0px; border-bottom: 1px solid black; padding-top:12px" type="text"> {{ obj.fechaNacimientoString }} </label></div>
+        </div>
+    </div>
+    <div class="col-md-4 form-group">
+        <div class="input-group">
+            <span class="input-group-btn" style="vertical-align: bottom">
+                <label type="button" class="control-label" style="padding-bottom: 0px !important; margin-bottom: 0px !important"> <b>Estado civil:&nbsp; </b></label>
+            </span>
+            <div class=""><label class="form-control placeholder-no-fix" style="border: 0px; border-bottom: 1px solid black; padding-top:12px" type="text"> {% if obj.estadoCivil is not null %}{{ obj.estadoCivil.nombre }} {% endif %} </label></div>
+        </div>
+    </div>
+    <div class="col-md-4 form-group">
+        <div class="input-group">
+            <span class="input-group-btn" style="vertical-align: bottom">
+                <label type="button" class="control-label" style="padding-bottom: 0px !important; margin-bottom: 0px !important"> <b>Nombre de c&oacute;nyuge:&nbsp;  </b></label>
+            </span>
+            <div class=""><label class="form-control placeholder-no-fix" style="border: 0px; border-bottom: 1px solid black; padding-top:12px" type="text"> {{ obj.nombreConyugue }} </label></div>
+        </div>
+    </div>
+
+</div>
+<div class="row" style="; margin-top: 15px">
+    <div class="col-md-5 form-group">
+        <div class="input-group">
+            <span class="input-group-btn text-right" style="vertical-align: bottom">
+                <label type="button" class="control-label" style="padding-bottom: 0px !important; margin-bottom: 0px !important"> <b>Disponibilidad para impartir clases en Campus:&nbsp; </b></label>
+            </span>
+        </div>
+    </div>
+    <div class="col-md-6 form-group">
+        <div class="input-group">
+            <input class="form-control placeholder-no-fix" style="border: 0px; border-bottom: 1px solid black; padding-top:12px" type="checkbox" {% if obj.linares  %} checked="true" {% endif %} /> Linares
+            <input class="form-control placeholder-no-fix" style="border: 0px; border-bottom: 1px solid black; padding-top:12px" type="checkbox"{% if obj.sabina  %} checked="true" {% endif %} /> Sabina
+        </div>
+    </div>
+</div>
+<div class="row " style=" padding-bottom: 10px; padding-top: 10px">
+    <div class="col-md-12 text-center">
+        <div class="input-group">
+            <span class="input-group-btn">
+                <label class="control-label" type="button"><b>Competencias y habilidades:&nbsp; </b></label>
+            </span>
+            {{form_widget(form.perfil)}}
+        </div>
+    </div>
+</div>

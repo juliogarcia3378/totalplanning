@@ -1,0 +1,30 @@
+
+{#{% extends '::base.html.twig' %}#}
+
+{% block stylesheets %}
+    <link rel="stylesheet" type="text/css" href="{{ asset('bundles/comun/base/plugins/data-tables/DT_bootstrap.css') }}"/>
+    {#<link rel="stylesheet" type="text/css" href="{{ asset('bundles/comun/assets/img/loading-spinner-grey.gif') }}"/>#}
+{% endblock %}
+{% block content %}
+    {% include "ComunBundle:architecture/components/CRUD:list.html.twig" %}
+{% endblock content %}
+{% block javascript %}
+
+    {#<script>#}
+        {#App.onceJS("{{ asset('bundles/comun/base/plugins/data-tables/jquery.dataTables.js') }}");#}
+        {#App.onceJS("{{ asset('bundles/comun/base/plugins/data-tables/DT_bootstrap.js') }}");#}
+        {#App.onceJS("{{ asset('bundles/comun/base/scripts/core/datatable.js') }}");#}
+        {#App.onceJS("{{ asset('bundles/comun/base/scripts/custom/table-ajax.js') }}");#}
+        {#App.loadJS("{{ asset('bundles/comun/js/ajaxify_form.js') }}");#}
+
+    {#</script>#}
+    <script src="{{ asset('bundles/comun/base/plugins/data-tables/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ asset('bundles/comun/base/plugins/data-tables/DT_bootstrap.js') }}"></script>
+    <script src="{{ asset('bundles/comun/base/scripts/core/datatable.js') }}"></script>
+    <script src="{{ asset('bundles/comun/base/scripts/custom/table-ajax.js') }}"></script>
+    <script src="{{ asset('bundles/comun/js/ajaxify_form.js') }}"></script>
+    {#<script src="{{ asset('bundles/comun/js/chained_remote.js') }}"></script>#}
+    {#{% include '@Comun/architecture/components/chained_remote.html.twig' %}#}
+    {#{% include '@Comun/architecture/components/CRUD/new_validation.html.twig' %}#}
+{% endblock %}
+

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<style>
+    table {
+        margin-bottom: 30px;
+        border-collapse: collapse;
+        margin-left: 250px;
+        font-family: "Courier New", Courier, monospace;
+    }
+
+    tr:nth-child(even) {
+        background-color: #F0F0F0;
+    }
+
+    td {
+        padding: 5px;
+        margin-left: 20px;
+        margin-right: 20px;
+        border-bottom: solid 1px gray;
+    }
+</style>
+<html>
+{% for grupo in data %}
+    {% if grupo.horario is defined %}
+    <table>
+        <tr>
+            <td colspan="5" align="center" style="font-size: 16px;"><b>Grupo {{ grupo.nombre }}</b><td>
+        </tr>
+        <tr>
+            <td><b>Materia</b></td>
+            <td><b>Profesor</b></td>
+            <td><b>Hora</b></td>
+            <td><b>Día</b></td>
+            <td><b>Aula</b></td>
+        </tr>
+        {% for entry in grupo.horario %}
+            <tr>
+                <td>{{ entry.materia }}</td>
+                <td>{{ entry.profe }}</td>
+                <td>{{ entry.hora }}</td>
+                <td>{{ entry.dia }}</td>
+                <td>{{ entry.aula }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+    {% endif %}
+{% endfor %}
+<table></table>
+</html>

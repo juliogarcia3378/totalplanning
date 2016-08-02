@@ -1,0 +1,226 @@
+{#{% extends '::base.html.twig' %}#}
+
+{% block stylesheets %}
+    <link rel="stylesheet" type="text/css" href="{{ asset('bundles/comun/base/plugins/jstree/dist/themes/default/style.min.css') }}"/>
+{% endblock %}
+
+{% block javascript %}
+    <script src="{{ asset('bundles/comun/base/plugins/jstree/dist/jstree.min.js') }}"></script>
+    <script src="{{ asset('bundles/comun/js/ajaxify_form.js') }}"></script>
+{% endblock %}
+
+{% block content %}
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="portlet box blue" id="portlet_menu">
+            <div class="portlet-title">
+                <div class="caption">
+                    <i class="fa fa-reorder"></i>Permisos
+                </div>
+            </div>
+            <div class="portlet-body" style="">
+                <div>
+                    <div id="tree_menu_cfg" >
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+    <script>
+        jQuery(document).ready(function() {
+//            $(document).ready(function() {
+//                $('#demo12').click(function() {
+//                    $.growlUI('Growl Notification', 'Have a nice day!');
+//                });
+//            });
+//            $(document).ajaxStart($.blockUI).ajaxStop($.unblockUI);
+//            $(document).ajaxStart(function () {
+//                $('#tree_menu_cfg').block({ message: "Cargando..." });
+//            }).ajaxStop(function () {
+//                $('#tree_menu_cfg').unblock();
+//            });
+            $("#tree_menu_cfg")
+                    .on('move_node.jstree', function (action, params) {
+                        $.ajax({
+                            url: '{{ url("adepsoft_menu_move_node") }}',
+                            data:{node:params.node.id,parent:params.parent},
+                            type:"POST",
+                            complete:function(){
+                                $('#portlet_menu').unblock();
+                                var tree = $('#tree_menu_cfg').jstree(true);
+
+                                if(tree.get_children_dom(params.old_parent).length == 0)
+                                    tree.set_icon(params.old_parent,"glyphicon glyphicon-leaf");
+
+                                if(tree.get_children_dom(params.parent).length == 0) {
+                                    tree.set_icon(params.parent, "fa fa-folder");
+                                }
+                            },
+                            beforeSend:function(){
+                                $('#portlet_menu').block({ message: "Cargando..." });
+                            }
+                        });
+                    }).
+                    jstree({
+                        'core' : {
+                            "check_callback" : function (operation, node, node_parent, node_position, more) {
+                                // operation can be 'create_node', 'rename_node', 'delete_node', 'move_node' or 'copy_node'
+                                // in case of 'rename_node' node_position is filled with the new node name
+                                return operation === 'rename_node' || operation === 'delete_node' || operation === 'move_node' || operation === 'create_node'? true : false;
+                            },
+                            'strings' : {
+                                'Loading ...' : 'Cargando ...'
+                            },
+                            multiple:false,
+                            'data' : {
+                                'url' : '{{ url("adepsoft_menu_config") }}'
+                            }
+                        },
+                        "plugins" : [ "dnd","contextmenu" ]
+                    }
+            );
+            $("#tree_menu_cfg")
+                    .on('delete_node.jstree', function (action, params) {
+                        $.ajax({
+                            url: '{{ url("adepsoft_menu_delete_node") }}',
+                            data:{node:params.node.id},
+                            type:"POST"
+                        });
+
+                    })
+            $("#tree_menu_cfg")
+                    .on('rename_node.jstree', function (action, params) {
+                        $.ajax({
+                            url: '{{ url("adepsoft_menu_get_node") }}',
+                            data:{node:params.node.id},
+                            type:"POST"
+                        });
+                    })
+            $("#menu_saveNode").on('click',function(){
+                var parent =$('#tree_menu_cfg').jstree('get_selected');
+
+                var newDeno = $("#newDenominacion").val();
+                var newRuta = $("#newRuta").val();
+                var idNode = $("#idNode").val();
+                $.ajax({
+                    url: '{{ url("adepsoft_menu_create_node") }}',
+                    data:{parent:parent[0],denominacion:newDeno,ruta:newRuta,id:idNode },
+                    type:"POST",
+                    dataType:"json",
+                    beforeSend:function(){$('#form_Menu').block({message:"Cargando..."})},
+                    success: function( json ) {
+                        $('#form_Menu').unblock();
+                        if(json.success) {
+                            if(idNode != "")
+                            {
+                                $('#tree_menu_cfg').jstree(true).set_text(idNode,newDeno+"("+newRuta+")");
+                            }
+                            else
+                            {
+//                                var parent = $('#tree_menu_cfg').jstree('get_selected');
+                                if(parent.length == 0)
+                                    parent = "root_node";
+                                var parent_obj = $('#tree_menu_cfg').jstree('get_node',parent);
+                                var tree = $('#tree_menu_cfg').jstree(true);
+                                tree.create_node(parent_obj,{text:newDeno,id:json.id,icon:"glyphicon glyphicon-leaf"},"last",function(){},0);
+                                tree.set_icon(parent,"fa fa-folder");
+                                tree.deselect_node(parent);
+                                tree.select_node(json.id);
+                            }
+                            $.growlUI('', 'Operaci&oacute;n satisfactoria');
+
+                        }
+                        else
+                            alert( "Error" );
+
+                    },
+                    complete:function()
+                    {
+                        $("#newDenominacion").val("");
+                        $("#newRuta").val("");
+                        $("#idNode").val("");
+                    },
+                    error: function( xhr, status, errorThrown ) {
+                        $('#form_Menu').unblock();
+                        alert( "Error" );
+                    }
+                });
+
+            });
+
+        });
+        $.jstree.defaults.contextmenu = {
+            select_node : true,
+            show_at_node : true,
+            items : function (o) { // Could be an object directly
+                return {
+                    "rename" : {
+                        "separator_before"	: false,
+                        "separator_after"	: false,
+                        "_disabled"			: false, //(this.check("rename_node", data.reference, this.get_parent(data.reference), "")),
+                        "label"				: "Editar",
+                        "action"			: function (data) {
+                            var inst = $.jstree.reference(data.reference);
+                            var obj = inst.get_node(data.reference);
+                            $.ajax({
+                                url: '{{ url("adepsoft_menu_get_node") }}',
+                                data:{node:obj.id},
+                                type:"POST",
+                                dataType:"json",
+                                beforeSend:function()
+                                {
+                                    $('#portlet_menu').block({ message: "Cargando..." });
+                                    $('#form_Menu').block({ message: "Cargando..." });
+                                },
+                                complete:function()
+                                {
+                                    $('#portlet_menu').unblock();
+                                    $('#form_Menu').unblock();
+                                },
+                                success:function(response)
+                                {
+                                    if(response.success) {
+                                        $("#newDenominacion").val(response.denominacion);
+                                        $("#newRuta").val(response.ruta);
+                                        $("#idNode").val(response.id);
+                                    }
+                                    else
+                                        alert("Error");
+                                },
+                                error:
+                                        function(){alert("Error");}
+                            });
+//                            inst.edit(obj);
+                        }
+                    },
+                    "remove" : {
+                        "separator_before"	: false,
+                        "icon"				: false,
+                        "separator_after"	: false,
+                        "_disabled"			: false, //(this.check("delete_node", data.reference, this.get_parent(data.reference), "")),
+                        "label"				: "Eliminar",
+                        "action"			: function (data) {
+                            var inst = $.jstree.reference(data.reference),
+                                    obj = inst.get_node(data.reference);
+                            if(inst.get_children_dom(obj.parent).length == 1)
+                            {
+                                inst.set_icon(obj.parent,"glyphicon glyphicon-leaf");
+                            }
+                            if(inst.is_selected(obj)) {
+                                inst.delete_node(inst.get_selected());
+                            }
+                            else {
+                                inst.delete_node(obj);
+                            }
+                        }
+                    }
+                };
+            }
+        };
+
+    </script>
+
+{% endblock content %}

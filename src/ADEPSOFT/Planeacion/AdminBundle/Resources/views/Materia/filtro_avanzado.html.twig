@@ -1,0 +1,41 @@
+
+<div class="tabbable tabbable-custom col-md-12">
+    <ul class="nav nav-tabs">
+        <li class="active" style="border-top: 1px solid #A2A09A">
+            <a href="#tab_1_1" data-toggle="tab">
+                Disponibilidad
+            </a>
+        </li>
+    </ul>
+    <div class="tab-content">
+        <div class="tab-pane active" id="tab_1_1">
+            <div class="row from-group">
+                <div class="col-md-2">
+                    <div class="form-group "><label for="filtro_periodo_id" class="control-label">Per&iacute;odo:</label>
+                        <select name="filtro_periodo" id="filtro_periodo_id" class="form-control form-filter input-sm select2me" data-placeholder="Seleccionar..." >
+                            <option value=""></option>
+                            {% for periodo in periodos %}
+                                <option value="{{periodo.id}}">{{ periodo.abreviado}}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+            <div class="form-group" >
+                <label class="control-label" style="display: block">&nbsp;</label>
+                <label class="radio-inline " style="padding-left: 0px">Asignada
+                    <input type="radio"   class="form-control  form-filter"  name="asignada" value="1">
+                </label>
+                <label class="radio-inline" style="margin-left: 5px;padding-left: 5px">Libre
+                    <input type="radio" class="form-control  form-filter"  checked="true"  name="asignada" value="2">
+                </label>
+                {#<input type="checkbox" name="dia_hora_ocupado" id="dia_hora_ocupado_id"  />#}
+                {#<label for="dia_hora_ocupado_id" class="control-label">Tiene clases</label>#}
+            </div>
+
+        </div>
+            </div>
+        </div>
+    </div>
+</div>

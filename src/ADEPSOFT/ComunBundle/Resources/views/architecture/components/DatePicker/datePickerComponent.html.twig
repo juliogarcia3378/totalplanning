@@ -1,0 +1,34 @@
+{% extends '::componentTemplate.html.twig' %}
+
+{% block stylesheet %}
+    <link rel="stylesheet" type="text/css" href="{{ asset('bundles/comun/base/plugins/bootstrap-datepicker/css/datepicker.css') }}"/>
+{% endblock %}
+
+{% block javascript %}
+    <link rel="stylesheet" type="text/css" href="{{ asset('bundles/comun/base/plugins/bootstrap-datepicker/css/datepicker.css') }}"/>
+    <script src="{{ asset('bundles/comun/base/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js') }}"></script>
+    <script>
+        jQuery(document).ready(function() {
+            if (jQuery().datepicker) {
+                $('.date-picker').datepicker({
+                    rtl: App.isRTL(),
+                    autoclose: true
+                });
+            }
+        });
+    </script>
+
+{% endblock %}
+
+{% block component%}
+
+    <div class="form-group">
+        <label class="control-label col-md-4">Default Datepicker</label>
+        <div class="col-md-8">
+            <input class="form-control input-medium date-picker" size="16" type="text" value=""/>
+        </div>
+    </div>
+{% endblock %}
+
+
+

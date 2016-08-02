@@ -1,0 +1,116 @@
+<!DOCTYPE html> <html> <head> <link rel="stylesheet" type="text/css" href="{{  app.request.getSchemeAndHttpHost() ~asset('bundles/comun/base/font-awesome/css/font-awesome.min.css') }}"/> <link rel="stylesheet" type="text/css" href="{{  app.request.getSchemeAndHttpHost() ~asset('bundles/comun/base/bootstrap/css/bootstrap.min.css') }}"/> <link rel="stylesheet" type="text/css" href="{{  app.request.getSchemeAndHttpHost() ~asset('bundles/comun/base/uniform/css/uniform.default.min.css') }}"/> <link rel="stylesheet" type="text/css" href="{{  app.request.getSchemeAndHttpHost() ~asset('bundles/comun/css/style-metronic.css') }}"/> <link rel="stylesheet" type="text/css" href="{{ app.request.getSchemeAndHttpHost() ~ asset('bundles/comun/css/style.css') }}"/> <style> tr, td, th { text-align: center; } label { font-size: 10px !important; } .table thead tr th { font-size: 10px; font-weight: 600; } .table { margin-bottom: 10px; font-size: 9px; } div.row { margin-top: 0px; margin-bottom: 0px; } div.form-group { margin-top: 0px; margin-bottom: 0px; } .table > thead > tr > th, .table > tbody > tr > th, .table > tfoot > tr > th, .table > thead > tr > td, .table > tbody > tr > td, .table > tfoot > tr > td { border-top: 1px solid #ddd; line-height: 1.42857; padding: 3px; vertical-align: top; } </style> </head> <body style="background-color: #ffffff !important;  "  >
+<div class="container">
+    {% for semestre in response %}
+
+          {% for materia in semestre %}
+        <div class="materiaContent" style="padding-top:20px,margin-top:20px">
+            <div class="col-md-12">
+                <div class="row">
+
+                    <div class="col-md-12">
+                        <div><span style="padding-right:20px ">CVE</span><span>NOMBRE DE LA MATERIA</span></div>
+                        <div><span style="padding-right:20px ">{{ materia.materia.clave }}</span><span>{{ materia.materia.nombre }}</span></div>
+                         <div><span style="padding-right:20px ">{{ materia.materia.frecuencia }}</span><span>{{ materia.materia.nombre }}</span></div>
+                        <br>
+                    </div>
+
+
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+
+                        <table class="table table-bordered">
+                            <thead>
+                            <tr>
+                                <th>
+                                    Grupo
+                                </th>
+                                <th>
+                                    Aula
+                                </th>
+                                <th>
+                                    CLAVE  EMPLEADO
+                                </th>
+
+                                  <th>
+                                    
+                                </th>
+                                <th>
+                                    LUN
+                                </th>
+                                <th>
+                                    MAR
+                                </th>
+                                <th>
+                                    MIER
+                                </th>
+                                <th>
+                                    JUE
+                                </th>
+                                <th>
+                                    VIE
+                                </th>
+                                <th>
+                                    SAB
+                            </tr>
+                            </thead>
+
+                            <tbody>
+                            {% if materia.grupos is defined %}
+                            {% for grupo in materia.grupos%}
+                                <tr>
+                                    <th>
+                                        {{ grupo.grupo }}
+                                    </th>
+                                    <th>
+                                        {% if grupo.clave is defined %}
+                                            {{ grupo.aula }}
+                                        {% endif %}
+                                    </th>
+                                    <th>
+                                        {% if grupo.clave is defined %}
+                                            {{ grupo.clave }}
+                                        {% endif %}
+                                    </th>
+									 <th> </th>
+                                    {% for i in 2..7 %}
+                                    <th> 
+										{% for horario in grupo.horario%}
+                                            {% if horario.dia==i%}
+                                            {{horario.hora}}
+                                            {%endif%}
+										{% endfor%}
+
+                                    </th>
+                                     {% endfor%}
+                                </tr>
+                            {% endfor%}
+                            </tbody>
+                        </table>
+
+                    </div>
+
+                   
+                </div>
+            </div>
+        </div>
+         {% endif %} {% endfor %}   {% endfor %}
+    <br>
+
+
+</div>
+{% block javascript %}
+    <script src="{{ app.request.getSchemeAndHttpHost() ~  asset('bundles/comun/base/plugins/jquery-1.10.2.min.js') }}"></script>
+
+{% endblock %}
+
+{#{% block script %}#}
+{#<script>#}
+{#App.init();#}
+{#</script>#}
+
+{#{% endblock %}#}
+
+</body>
+</html>
+

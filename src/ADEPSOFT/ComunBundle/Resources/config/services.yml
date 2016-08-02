@@ -1,0 +1,8 @@
+parameters:
+    comunes.motorgtr.class:  ADEPSOFT\ComunBundle\Gestores\MotorGtr
+
+services:
+    comunes.basegtr:
+        class: ADEPSOFT\ComunBundle\Gestores\BaseGestor
+    comunes.motorgtr:
+        class: %comunes.motorgtr.class%

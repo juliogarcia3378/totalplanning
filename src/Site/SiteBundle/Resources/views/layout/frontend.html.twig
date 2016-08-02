@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>TotalPlanify</title>
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta http-equiv="Content-type" content="text/html; charset=utf-8">
+<meta content="TotalPlanify" name="description"/>
+<meta content="TotalPlanify" name="author"/>
+
+
+<link href='http://fonts.googleapis.com/css?family=Roboto+Condensed:300italic,400italic,700italic,400,300,700&amp;subset=all' rel='stylesheet' type='text/css'>
+
+
+<link rel="stylesheet" type="text/css" href="{{ asset('bundles/site/plugins/socicon/socicon.css') }}"/>
+<link rel="stylesheet" type="text/css" href="{{ asset('bundles/site/plugins/bootstrap-social/bootstrap-social.css') }}"/>
+<link rel="stylesheet" type="text/css" href="{{ asset('bundles/site/plugins/font-awesome/css/font-awesome.min.css') }}"/>
+<link rel="stylesheet" type="text/css" href="{{ asset('bundles/site/plugins/simple-line-icons/simple-line-icons.min.css') }}"/>
+<link rel="stylesheet" type="text/css" href="{{ asset('bundles/site/plugins/animate/animate.min.css') }}"/>
+<link rel="stylesheet" type="text/css" href="{{ asset('bundles/site/plugins/bootstrap/css/bootstrap.min.css') }}"/>
+
+
+
+<link rel="stylesheet" type="text/css" href="{{ asset('bundles/site/plugins/revo-slider/css/settings.css') }}"/>
+<link rel="stylesheet" type="text/css" href="{{ asset('bundles/site/plugins/cubeportfolio/css/cubeportfolio.min.css') }}"/>
+<link rel="stylesheet" type="text/css" href="{{ asset('bundles/site/plugins/owl-carousel/owl.carousel.css') }}"/>
+<link rel="stylesheet" type="text/css" href="{{ asset('bundles/site/plugins/owl-carousel/owl.theme.css') }}"/>
+<link rel="stylesheet" type="text/css" href="{{ asset('bundles/site/plugins/owl-carousel/owl.transitions.css') }}"/>
+<link rel="stylesheet" type="text/css" href="{{ asset('bundles/site/plugins/fancybox/jquery.fancybox.css') }}"/>
+
+
+<link rel="stylesheet" type="text/css" href="{{ asset('bundles/site/base/css/plugins.css') }}"/>
+<link rel="stylesheet" type="text/css" href="{{ asset('bundles/site/base/css/components.css') }}"/>
+<link rel="stylesheet" type="text/css" href="{{ asset('bundles/site/base/css/themes/default.css') }}"/>
+<link rel="stylesheet" type="text/css" href="{{ asset('bundles/site/base/css/custom.css') }}"/>
+{% block stylesheets %}{% endblock %}
+
+
+
+
+<link rel="shortcut icon" href="favicon.ico"/>
+</head>
+<body class="c-layout-header-fixed c-layout-header-fullscreen c-layout-header-topbar">
+{%block header%}
+<header class="c-layout-header c-layout-header-2 c-layout-header-default-mobile">
+<div class="c-navbar">
+	<div class="container">
+		<div class="c-navbar-wrapper clearfix">
+			<div class="c-brand c-pull-left">
+				<a href="{{ path('site_homepage') }}" class="c-logo">
+				<img src="{{ asset('bundles/site/base/img/layout/logos/logo-1.png') }}" alt="JANGO" class="c-desktop-logo">
+				<img src="{{ asset('bundles/site/base/img/layout/logos/logo-1.png') }}" alt="JANGO" class="c-desktop-logo-inverse">
+				<img src="{{ asset('bundles/site/base/img/layout/logos/logo-1.png') }}" alt="JANGO" class="c-mobile-logo">
+			
+				</a>
+				<button class="c-hor-nav-toggler" type="button" data-target=".c-mega-menu">
+				<span class="c-line"></span>
+				<span class="c-line"></span>
+				<span class="c-line"></span>
+				</button>
+				<button class="c-search-toggler" type="button">
+				<i class="fa fa-search"></i>
+				</button>
+			</div>
+			<!-- END: BRAND -->
+			<!-- BEGIN: QUICK SEARCH -->
+			<form class="c-quick-search" action="#">
+				<input type="text" name="query" placeholder="Enter the ID of school..." value="" class="form-control" autocomplete="off">
+				<span class="c-theme-link">&times;</span>
+			</form>
+
+			<nav class="c-mega-menu c-pull-right c-mega-menu-dark c-mega-menu-dark-mobile c-theme c-fonts-uppercase c-fonts-bold">
+			<!-- BEGIN: MEGA MENU -->
+			<ul class="nav navbar-nav c-theme-nav">
+				<li class="c-search-toggler-wrapper">
+					<a href="#" class="c-btn-icon c-search-toggler"><i class="fa fa-search"></i></a>
+				</li>
+				<li>
+
+				<!-- <a href="javascript:;" data-toggle="modal" data-target="#login-form" class="c-btn-border-opacity-04 c-btn btn-no-focus c-btn-header btn btn-sm c-btn-border-1x c-btn-white c-btn-circle c-btn-uppercase c-btn-sbold"><i class="icon-user"></i> Sign In</a>-->
+					
+					<a href="{{ path('fos_user_security_login') }}" data-toggle="modal" class="c-btn-border-opacity-04 c-btn btn-no-focus c-btn-header btn btn-sm c-btn-border-1x c-btn-white c-btn-circle c-btn-uppercase c-btn-sbold"><i class="icon-user"></i> Sign In</a>
+				</li>
+				<li class="c-quick-sidebar-toggler-wrapper">
+					<a href="#" class="c-quick-sidebar-toggler">
+					<span class="c-line"></span>
+					<span class="c-line"></span>
+					<span class="c-line"></span>
+					</a>
+				</li>
+			</ul>
+			<!-- END MEGA MENU -->
+			</nav>
+			<!-- END: MEGA MENU -->
+			<!-- END: LAYOUT/HEADERS/MEGA-MENU -->
+			<!-- END: HOR NAV -->
+		</div>
+	</div>
+</div>
+</header>
+{% endblock%}
+
+{% block login%}
+  <div class="modal fade c-content-login-form" id="forget-password-form" role="dialog">
+	<div class="modal-dialog">
+		<div class="modal-content c-square">
+			<div class="modal-header c-no-border">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			</div>
+			<div class="modal-body">
+				<h3 class="c-font-24 c-font-sbold">Password Recovery</h3>
+				<p>
+					To recover your password please fill in your email address
+				</p>
+				<form>
+					<div class="form-group">
+						<label for="forget-email" class="hide">Email</label>
+						<input type="email" class="form-control input-lg c-square" id="forget-email" placeholder="Email">
+					</div>
+					<div class="form-group">
+						<button type="submit" class="btn c-theme-btn btn-md c-btn-uppercase c-btn-bold c-btn-square c-btn-login">Submit</button>
+						<a href="javascript:;" class="c-btn-forgot" data-toggle="modal" data-target="#login-form" data-dismiss="modal">Back To Login</a>
+					</div>
+				</form>
+			</div>
+			<div class="modal-footer c-no-border">
+				<span class="c-text-account">Don't Have An Account Yet ?</span>
+				<a href="javascript:;" data-toggle="modal" data-target="#signup-form" data-dismiss="modal" class="btn c-btn-dark-1 btn c-btn-uppercase c-btn-bold c-btn-slim c-btn-border-2x c-btn-square c-btn-signup">Signup!</a>
+			</div>
+		</div>
+	</div>
+  </div>
+  <div class="modal fade c-content-login-form" id="signup-form" role="dialog">
+	<div class="modal-dialog">
+		<div class="modal-content c-square">
+			<div class="modal-header c-no-border">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			</div>
+			<div class="modal-body">
+				<h3 class="c-font-24 c-font-sbold">Crear una nueva cuenta</h3>
+				<p>
+					Por favor llene los datos para crear la cuenta 
+				</p>
+				<form>
+					<div class="form-group">
+						<label for="signup-email" class="hide">Email</label>
+						<input type="email" class="form-control input-lg c-square" id="signup-email" placeholder="Email">
+					</div>
+					<div class="form-group">
+						<label for="signup-username" class="hide">Nombres</label>
+						<input type="email" class="form-control input-lg c-square" id="signup-username" placeholder="Nombres">
+					</div>
+					<div class="form-group">
+						<label for="signup-fullname" class="hide">Apellidos</label>
+						<input type="email" class="form-control input-lg c-square" id="signup-fullname" placeholder="Apellidos">
+					</div>
+					<div class="form-group">
+						<label for="signup-country" class="hide">Cargo en la Institución</label>
+						<select class="form-control input-lg c-square" id="signup-country">
+							<option value="1">Country</option>
+						</select>
+					</div>
+					<div class="form-group">
+						<label for="signup-country" class="hide">Country</label>
+						<select class="form-control input-lg c-square" id="signup-country">
+							<option value="1">Country</option>
+						</select>
+					</div>
+					<div class="form-group">
+						<button type="submit" class="btn c-theme-btn btn-md c-btn-uppercase c-btn-bold c-btn-square c-btn-login">Signup</button>
+						<a href="javascript:;" class="c-btn-forgot" data-toggle="modal" data-target="#login-form" data-dismiss="modal">Back To Login</a>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+  </div>
+  <div class="modal fade c-content-login-form" id="login-form" role="dialog">
+	<div class="modal-dialog">
+		<div class="modal-content c-square">
+			<div class="modal-header c-no-border">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			</div>
+			<div class="modal-body">
+				<h3 class="c-font-24 c-font-sbold">Good Afternoon!</h3>
+				<p>
+					Let's make today a great day!
+				</p>
+				<form>
+					<div class="form-group">
+						<label for="login-email" class="hide">Email</label>
+						<input type="email" class="form-control input-lg c-square" id="login-email" placeholder="Email">
+					</div>
+					<div class="form-group">
+						<label for="login-password" class="hide">Password</label>
+						<input type="password" class="form-control input-lg c-square" id="login-password" placeholder="Password">
+					</div>
+					<div class="form-group">
+						<div class="c-checkbox">
+							<input type="checkbox" id="login-rememberme" class="c-check">
+							<label for="login-rememberme" class="c-font-thin c-font-17">
+							<span></span>
+							<span class="check"></span>
+							<span class="box"></span>
+							Remember Me </label>
+						</div>
+					</div>
+					<div class="form-group">
+						<button type="submit" class="btn c-theme-btn btn-md c-btn-uppercase c-btn-bold c-btn-square c-btn-login">Login</button>
+						<a href="javascript:;" data-toggle="modal" data-target="#forget-password-form" data-dismiss="modal" class="c-btn-forgot">Forgot Your Password ?</a>
+					</div>
+					<div class="clearfix">
+						<div class="c-content-divider c-divider-sm c-icon-bg c-bg-grey c-margin-b-20">
+							<span style="width: 110px">or signup with</span>
+						</div>
+						<ul class="c-content-list-adjusted">
+							<li>
+								<a class="btn btn-block c-btn-square btn-social btn-twitter">
+								<i class="fa fa-twitter"></i>
+								Twitter </a>
+							</li>
+							<li>
+								<a class="btn btn-block c-btn-square btn-social btn-facebook">
+								<i class="fa fa-facebook"></i>
+								Facebook </a>
+							</li>
+							<li>
+								<a class="btn btn-block c-btn-square btn-social btn-google">
+								<i class="fa fa-google"></i>
+								Google </a>
+							</li>
+						</ul>
+					</div>
+				</form>
+			</div>
+			<div class="modal-footer c-no-border">
+				<span class="c-text-account">Don't Have An Account Yet ?</span>
+				<a href="javascript:;" data-toggle="modal" data-target="#signup-form" data-dismiss="modal" class="btn c-btn-dark-1 btn c-btn-uppercase c-btn-bold c-btn-slim c-btn-border-2x c-btn-square c-btn-signup">Signup!</a>
+			</div>
+		</div>
+	</div>
+  </div>
+{%endblock%}
+
+<div class="c-layout-page" >
+
+{%block paddingcontent%}
+<div style="padding-top:100px;"></div>
+{%endblock%}
+
+  {%block content%}
+	<div class="c-content-box c-size-md c-bg-white">
+		<div class="container" style="min-height:800px">
+			<div class="row">
+				<div class="col-md-12">
+				{%block container_default %}
+					<div class="c-content-title-1 c-margin-b-60">
+						<h3 class="c-center c-font-uppercase c-font-bold">
+						How We Optimize Your Business </h3>
+						<div class="c-line-center">
+						</div>
+						<p class="c-center c-font-uppercase c-font-17">
+							 Lorem ipsum dolor sit amet consectetuer dolore
+						</p>
+					</div>
+					{% endblock %}
+				</div>
+			</div>
+		{%endblock%}	
+</div>
+<!-- END: PAGE CONTAINER -->
+<!-- BEGIN: LAYOUT/FOOTERS/FOOTER-2 -->
+<a name="footer"></a>
+<footer class="c-layout-footer c-layout-footer-1">
+<div class="c-postfooter">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-6 col-sm-6">
+				<p class="c-copyright c-font-oswald c-font-14">
+					 Copyright &copy; JANGO Inc.
+				</p>
+			</div>
+			<div class="col-md-6 col-sm-6">
+				<ul class="c-socials">
+					<li>
+						<a href="#"><i class="icon-social-twitter"></i></a>
+					</li>
+					<li>
+						<a href="#"><i class="icon-social-facebook"></i></a>
+					</li>
+					<li>
+						<a href="#"><i class="icon-social-youtube"></i></a>
+					</li>
+					<li>
+						<a href="#"><i class="icon-social-dribbble"></i></a>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+</div>
+</footer>
+<!-- END: LAYOUT/FOOTERS/FOOTER-2 -->
+<!-- BEGIN: LAYOUT/FOOTERS/GO2TOP -->
+<div class="c-layout-go2top">
+	<i class="icon-arrow-up"></i>
+</div>
+<!-- END: LAYOUT/FOOTERS/GO2TOP -->
+<!-- BEGIN: LAYOUT/BASE/BOTTOM -->
+<!-- BEGIN: CORE PLUGINS -->
+<!--[if lt IE 9]>
+	<script src="../assets/global/plugins/excanvas.min.js"></script> 
+	<![endif]-->
+	<script src="{{ asset('bundles/site/plugins/jquery.min.js') }}"></script>
+    <script src="{{ asset('bundles/site/plugins/jquery-migrate.min.js') }}"></script>
+    <script src="{{ asset('bundles/site/plugins/bootstrap/js/bootstrap.min.js') }}"></script>
+    <script src="{{ asset('bundles/site/plugins/revo-slider/js/jquery.themepunch.tools.min.js') }}"></script>
+    <script src="{{ asset('bundles/site/plugins/revo-slider/js/jquery.themepunch.revolution.min.js') }}"></script>
+    <script src="{{ asset('bundles/site/plugins/cubeportfolio/js/jquery.cubeportfolio.min.js') }}"></script>
+    <script src="{{ asset('bundles/site/plugins/owl-carousel/owl.carousel.min.js') }}"></script>
+ 
+    <script src="{{ asset('bundles/site/plugins/counterup/jquery.waypoints.min.js') }}"></script>
+    <script src="{{ asset('bundles/site/plugins/counterup/jquery.counterup.min.js') }}"></script>
+    <script src="{{ asset('bundles/site/plugins/fancybox/jquery.fancybox.pack.js') }}"></script>
+    <script src="{{ asset('bundles/site/base/js/components.js') }}"></script>
+     <script src="{{ asset('bundles/site/base/js/app.js') }}"></script>
+
+{%block javascript%}
+{%endblock%}
+
+<script>
+	$(document).ready(function() {    
+
+		App.init(); // init core    
+
+		// init main slider
+		var slider = $('.c-layout-revo-slider .tp-banner');
+	    var cont = $('.c-layout-revo-slider .tp-banner-container');
+	    var api = slider.show().revolution({
+	        delay: 15000,    
+	        startwidth:1170,
+	        startheight: 620,
+	        navigationType: "hide",
+	        navigationArrows: "solo",
+	        touchenabled: "on",
+	        onHoverStop: "on",
+	        keyboardNavigation: "off",
+	        navigationStyle: "circle",
+	        navigationHAlign: "center",
+	        navigationVAlign: "bottom",
+	        spinner: "spinner2",
+	        fullScreen: "on",   
+	        fullScreenAlignForce:"on",
+	        fullScreenOffsetContainer: (App.getViewPort().width < App.getBreakpoint('md') ? '.c-layout-header' : ''),
+	        shadow: 0,
+	        fullWidth: "off",
+	        forceFullWidth: "off",
+	        hideTimerBar:"on",
+	        hideThumbsOnMobile: "on",
+	        hideNavDelayOnMobile: 1500,
+	        hideBulletsOnMobile: "on",
+	        hideArrowsOnMobile: "on",
+	        hideThumbsUnderResolution: 0
+	    });
+	    api.bind("revolution.slide.onchange",function (e,data) {
+	        $('.c-layout-header').removeClass('hide');   
+	        setTimeout(function(){
+	            $('.c-singup-form').fadeIn(); 
+	        }, 1500);
+	    });
+	});
+	</script>
+<!-- END: THEME SCRIPTS -->
+<!-- END: LAYOUT/BASE/BOTTOM -->
+</body>
+</html>

@@ -1,0 +1,48 @@
+<div class="row horas_div">
+    <div class="col-md-2"></div>
+    <div class="col-md-4 text-center ">
+        <h6>LUNES-VIERNES</h6>
+        <div class="row"  style="border: solid 1px; padding-bottom: 10px; padding-top: 10px">
+            <div class="col-md-1"></div>
+            <div class="col-md-5">
+                {% include "@PlaneacionAdmin/Profesor/header.html.twig" %}
+                {% for hora in horasLV %}
+                    {% if loop.index <= 9%}
+                        {% include "@PlaneacionAdmin/Profesor/Exportar/radio_list.html.twig" with {'dia':"lunes_viernes"} %}
+                    {% endif %}
+                {% endfor %}
+            </div>
+            <div class="col-md-5">
+                {% include "@PlaneacionAdmin/Profesor/header.html.twig" %}
+                {% for hora in horasLV %}
+                    {% if loop.index > 9  %}
+                        {% include "@PlaneacionAdmin/Profesor/Exportar/radio_list.html.twig" with {'dia':"lunes_viernes"} %}
+                    {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4 text-center">
+        <h6>SÁBADO</h6>
+        <div class="row " style="border: solid 1px; padding-bottom: 10px; padding-top: 10px">
+            <div class="col-md-1"></div>
+            <div class="col-md-5">
+                {% include "@PlaneacionAdmin/Profesor/header.html.twig" %}
+                {% for hora in horasS %}
+                    {% if loop.index <= 9%}
+                        {% include "@PlaneacionAdmin/Profesor/Exportar/radio_list.html.twig" with {'dia':"sabado"} %}
+                    {% endif %}
+                {% endfor %}
+                {#<span>&nbsp;</span>#}
+            </div>
+            <div class="col-md-5 sabado_div_horas" >
+                {% include "@PlaneacionAdmin/Profesor/header.html.twig" %}
+                {% for hora in horasS %}
+                    {% if  loop.index > 9 %}
+                       {% include "@PlaneacionAdmin/Profesor/Exportar/radio_list.html.twig" with {'dia':"sabado"} %}
+                    {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>

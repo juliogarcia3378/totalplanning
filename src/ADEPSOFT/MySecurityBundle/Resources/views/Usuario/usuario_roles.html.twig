@@ -1,0 +1,19 @@
+    {{ form_widget(form) }}
+
+<script id="{{ form.vars['id'] }}_script">
+    var obj = $("#" + "{{ form.vars['id'] }}_script");
+    var formObj = obj.closest('form');
+    var modalObj = formObj.closest('.modal');
+    $('h4 b', modalObj).text("{{ title }}");
+</script>
+{#{% extends '@Comun/architecture/components/CRUD/list.html.twig' %}#}
+
+{#{% block redefine %}#}
+    {#<script>#}
+        {#$("#"+"{{ model.tableId }}").each(function(i,e){#}
+            {#var id = $(e).attr('id');#}
+            {#TableAjax.init(id,"",[{name:'id',value:"{{ idUser}}" }]);#}
+        {#});#}
+    {#</script>#}
+
+{#{%  endblock %}#}

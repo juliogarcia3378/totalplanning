@@ -1,0 +1,355 @@
+<div class="portlet">
+    <div class="portlet-title">
+        <div class="caption">
+            <i class="fa fa-list-ul"></i>Asignación de las materias
+        </div>
+        <div class="actions">
+            <button class="btn blue" id="assign_room" href="#asignar_aula_modal" data-toggle="modal">
+                <i class="fa fa-bolt"></i>
+                                    <span class="hidden-480">
+                                        Asignaci&oacute;n directa
+                                    </span>
+            </button>
+
+            <button class="btn blue" id="include_room" href="#adicionar_aula_modal" data-toggle="modal">
+                <i class="fa fa-cog"></i>
+                                    <span class="hidden-480">
+                                        Utilizar nueva aula
+                                    </span>
+            </button>
+
+            <button class="btn blue " id="generar_propuesta" href="#generar_propuesta_modal">
+                <i class="fa fa-plus"></i>
+                                    <span class="hidden-480">
+                                        Recargar horarios
+                                    </span>
+            </button>
+        </div>
+        <div class="btn-group">
+        </div>
+    </div>
+</div>
+
+<div class="portlet-body">
+    <div class="row" style="padding-left: 20px">
+
+
+        <div class="modal fade" id="asignar_aula_modal" tabindex="-1" role="basic" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content ajax_form_block">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                        <h4 class="modal-title">Asignaci&oacute;n autom&aacute;tica de aulas</h4>
+                    </div>
+                    <form action="" method="POST" class="fos_user_group_new ajax_form">
+                        <div class="modal-body">
+                            La asignaci&oacute;n autom&aacute;tica de aulas reubica las materias 005, 003, N75, N73,
+                            930, 451 y 434 en el aula En l&iacute;nea. De igual modo, la materia 043 se ubica en el aula
+                            CAM.
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn red" id="btn_assign_room" data-dismiss="modal">Proceder
+                            </button>
+                            <button type="button" class="btn default" id="btn_close_assign" data-dismiss="modal">
+                                Cancelar
+                            </button>
+                        </div>
+                    </form>
+                </div>
+                <!-- /.modal-content -->
+            </div>
+        </div>
+
+
+        <div class="modal fade" id="adicionar_aula_modal" tabindex="-1" role="basic" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content ajax_form_block">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                        <h4 class="modal-title">Seleccione el aula</h4>
+                    </div>
+                    <form action="" method="POST" class="fos_user_group_new ajax_form">
+                        <div class="modal-body">
+                            <div id="adicionar_aula_modal_container">
+                                <div class="row ">
+                                    <div class="col-md-6 ">
+                                        <label class="control-label" for="aulas_combo"> Aula</label>
+                                        <select name="aulas" id="aulas_combo"
+                                                class="form-control input-sm select2me"
+                                                data-placeholder="Seleccionar...">
+                                            <option value=""></option>
+                                            {% for aula in aulas %}
+                                                <option value="{{ aula.id }}">{{ aula.nombre }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn red" id="btn_crear" disabled="disabled">Adicionar</button>
+                            <button type="button" class="btn default" id="btn_close" data-dismiss="modal">Cerrar
+                            </button>
+                        </div>
+                    </form>
+                </div>
+                <!-- /.modal-content -->
+            </div>
+        </div>
+
+        <div class="row form-group">
+            <div class="col-md-4">
+                <label class="control-label" for="licenciatura"> Licenciatura:*</label>
+                <select name="licenciatura" parent="#adepsoft_planeacion_adminbundle"
+                        id="licenciatura_" class="form-control input-sm select2me" data-placeholder="Seleccionar...">
+                    <option value=""></option>
+                    {% for licenciatura in licenciaturas %}
+                        <option value="{{ licenciatura.id }}">{{ licenciatura.nombre }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-md-3">
+                <label class="control-label" for="grupo"> Grupo:*</label>
+                <select name="grupo" parent="#adepsoft_planeacion_adminbundle"
+                        id="grupo_" class="form-control input-sm select2me" data-placeholder="Seleccionar...">
+                    <option value=""></option>
+                    {% for grupo in grupos %}
+                        <option value="{{ grupo["id"] }}">{{ grupo["nombreCompleto"] }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-md-4 ">
+                <label class="control-label" for="clave_aula"> Materia:*</label>
+                <select name="materia" sameas="#adepsoft_planeacion_adminbundle_profeperiodotype_aula" trigger="true"
+                        id="materia_" class="form-control input-sm select2me" data-placeholder="Seleccionar...">
+                    <option value=""></option>
+                    {% for materia in materias %}
+                        <option value="{{ materia.id }}">{{ materia.clave }} / {{ materia.nombre }}
+                            / {{ materia.frecuenciaSemanal }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <table class=" table ">
+                    <tbody>
+                    <tr>
+                        <td class="text-left" id="resumenAsignaciones">
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="col-md-12" id="aulas">
+            <div class="temporal_table_container"></div>
+            <div class="table_container"></div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(window).load(function () {
+        App.loadAjax("{{ path("planeacion_horario_crud_asignacion_materias_horas_horario") }}", $('.table_container'), {
+            'periodo': {{ periodo.id }},
+            'id': "{{ app.request.get('id')}}"
+        });
+    });
+
+    function actualizarMaterias() {
+        var el = $('#grupo_').select2("data");
+        $.ajax({
+            url: "{{ path("planeacion_horario_actualizar_materias_grupo") }}",
+            data: {id: el.id, 'periodo': {{ periodo.id }}},
+            success: function (resp) {
+                $("#resumenAsignaciones")[0].innerHTML = "";
+                console.log(resp.materias.length);
+                for (var i = 0; i < resp.materias.length; i++) {
+                    var porasignar = resp.materias[i].frecuenciaSemanal - resp.materias[i].asignaciones;
+                    if (porasignar != 0) {
+                        $('#resumenAsignaciones')[0].innerHTML +=
+                                '<div style="margin-bottom:2px"><p>' + resp.materias[i].clave +
+                                ': <b>' + porasignar + '</b> frecuencias por asignar </p></div> ';
+                    }
+
+                }
+            }
+        });
+
+    }
+
+    $("#btn_assign_room").on("click", function (e) {
+        $.ajax({
+            url: "{{ path("planeacion_horario_asignacion_directa") }}",
+            success: function (resp) {
+                if (resp.success == false)
+                    App.toast(null, resp.sMessage, TOAST.ERROR);
+                else {
+                    App.toast(null, "La operación ha sido realizada satisfactoriamente", TOAST.SUCCESS);
+                }
+            }
+        });
+    });
+
+
+    $("#btn_crear").on("click", function (e) {
+        var aula = $('#aulas_combo').select2("val");
+        var grupo = $('#grupo_').select2("val");
+        $.ajax({
+            url: "{{ path("planeacion_horario_materias_adicionar_aula") }}",
+            data: {aula: aula, grupo: grupo, 'periodo': {{ periodo.id }}},
+            success: function (resp) {
+                var el = $('#grupo_').select2("data");
+                $("#materia_").select2("val", "");
+                $.ajax({
+                    url: "{{ path("planeacion_horario_materias_group") }}",
+                    data: {id: el.id, 'periodo': {{ periodo.id }}},
+                    success: function (resp) {
+                        //  console.log(resp);
+                        $('#materia_')[0].innerHTML = "";
+                        add = '<option value=""></option>';
+                        $('#materia_')[0].innerHTML += add;
+                        for (var i = 0; i < resp.materias.length; i++) {
+                            var add = "";
+                            add = '<option value="' + resp.materias[i].id + '" data-frecuencia="' + resp.materias[i].frecuenciaSemanal + '">' + resp.materias[i].clave + '/' + resp.materias[i].nombre + ' /' + resp.materias[i].frecuenciaSemanal + '</option>';
+                            $('#materia_')[0].innerHTML += add;
+                        }
+                    }
+                });
+
+                if (typeof (e.reloadTable) == 'undefined' || e.reloadTable != false) {
+                    App.loadAjax("{{ path("planeacion_horario_crud_asignacion_materias_horas_horario") }}", $('.table_container'), {
+                        'periodo': {{ periodo.id }},
+                        'id': el.id
+                    });
+                }
+            },
+            complete: function () {
+                $('#btn_close')[0].click();
+            }
+        });
+    });
+
+    $("#aulas_combo").on('change', function (e) {
+        var flag = true;
+        var el = $('#aulas_combo').select2("val");
+        var aulas = $('.aula_form');
+        for (var i = 0; i < aulas.length; i++) {
+            if (aulas[i].id == el) {
+                flag = false;
+                $("#btn_crear")[0].disabled = true;
+                App.toast(null, "Esta aula ya se encuentra en uso", TOAST.ERROR);
+            }
+        }
+        if (flag) {
+            $("#btn_crear")[0].disabled = false;
+        }
+    });
+    $("#licenciatura_").on('change', function (e) {
+        var el = $('#licenciatura_').select2("data");
+        $("#materia_").select2("val", "");
+        $("#grupo_").select2("val", "");
+        $.ajax({
+            url: "{{ path("planeacion_horario_grupos_licenciatura") }}",
+            data: {id: el.id, 'periodo': {{ periodo.id }}},
+            success: function (resp) {
+
+                $('#grupo_')[0].innerHTML = "";
+                add = '<option value=""></option>';
+                $('#grupo_')[0].innerHTML += add;
+                for (var i = 0; i < resp.grupos.length; i++) {
+                    var add = "";
+                    add = '<option value="' + resp.grupos[i].id + '">' + resp.grupos[i].nombreCompleto + '</option>';
+                    $('#grupo_')[0].innerHTML += add;
+                }
+            }
+        });
+
+    });
+    $("#generar_propuesta").on('click', function (e) {
+
+        bootbox.dialog({
+            size: 'small',
+            message: "¿Está seguro que desea restablecer la propuesta de distribución de materias del semestre anterior?. Si existe información generada o modificada con anterioridad será borrada y no podrá recuperarse.",
+            buttons: {
+                ok: {
+                    label: "Restablecer",
+                    className: "btn-warning red",
+                    callback: function () {
+                        App.blockUI();
+                        $.ajax({
+                            url: "{{ path("planeacion_horario_crud_asignacion_materias_generar_propuesta") }}",
+                            success: function (resp) {
+                                if (resp.success == false)
+                                    App.toast(null, resp.sMessage, TOAST.ERROR);
+                                else {
+                                    App.toast(null, "Su operación ha sido satisfactoriamente realizada", TOAST.SUCCESS);
+                                    $("li .active a")[0].click();
+                                }
+                            },
+                            complete: function (resp) {
+                                App.unblockUI();
+                            }
+                        });
+                    }
+                },
+                cancel: {
+                    label: "Cancelar",
+                    className: "btn-success",
+                    callback: function () {
+                        $.ajax({
+                            success: function (resp) {
+                            }
+                        });
+                    }
+                }
+            }
+        });
+    });
+    $("#grupo_").on('change', function (e) {
+        var el = $('#grupo_').select2("data");
+        $("#materia_").select2("val", "");
+        $.ajax({
+            url: "{{ path("planeacion_horario_materias_group") }}",
+            data: {id: el.id, 'periodo': {{ periodo.id }}},
+            success: function (resp) {
+                $('#resumenAsignaciones')[0].innerHTML = "";
+                $('#materia_')[0].innerHTML = "";
+                add = '<option value=""></option>';
+                $('#materia_')[0].innerHTML += add;
+                for (var i = 0; i < resp.materias.length; i++) {
+                    var add = "";
+                    var turnos_faltan = resp.materias[i].frecuenciaSemanal - resp.materias[i].asignaciones;
+                    add = '<option value="' + resp.materias[i].id + '" data-frecuencia="' + turnos_faltan + '">' + resp.materias[i].clave + '/' + resp.materias[i].nombre + ' /' + resp.materias[i].frecuenciaSemanal + '</option>';
+                    $('#materia_')[0].innerHTML += add;
+                    var porasignar = resp.materias[i].frecuenciaSemanal - resp.materias[i].asignaciones;
+                    if (porasignar != 0) {
+                        $('#resumenAsignaciones')[0].innerHTML +=
+                                '<div style="margin-bottom:2px"><p>' + resp.materias[i].clave +
+                                ': <b>' + porasignar + '</b> frecuencias por asignar </p></div> ';
+                    }
+
+                }
+            },
+            complete: function (resp) {
+                if (typeof (e.reloadTable) == 'undefined' || e.reloadTable != false) {
+                    //$("#resumenAsignaciones")[0].innerHTML="";
+
+
+                    App.loadAjax("{{ path("planeacion_horario_crud_asignacion_materias_horas_horario") }}", $('.table_container'), {
+                        'periodo': {{ periodo.id }},
+                        'id': el.id
+                    });
+
+                    // $("#periodo_label").val($('#adepsoft_planeacion_adminbundle_profeperiodotype_periodo').select2("data").text);
+                }
+            }
+        });
+
+
+    });
+
+
+</script>

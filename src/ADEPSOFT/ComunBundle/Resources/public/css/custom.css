@@ -1,0 +1,69 @@
+/* here you can put your own css to customize and override the theme */
+
+.select2-container-multi .select2-choices .select2-search-choice {
+    background-image: linear-gradient(to top, #f4f4f4 20%, #f0f0f0 50%, #e8e8e8 52%, #eee 100%); !important;
+}
+
+.datatable_detail_element
+{
+    background-color: #FFFFFF !important;
+}
+.datatable_detail_table
+{
+    border: 1px solid #ddd !important;
+}
+.dataTable .datatable_detail_table td, .dataTable .datatable_detail_table th {
+    border: 1px solid #ddd !important;
+    padding: 4px;
+}
+.dataTable .datatable_detail_element td, .dataTable .datatable_detail_element th {
+    border: 0px none;
+    padding: 4px;
+}
+.blue{
+    background-color: #2d3344 !important;
+}
+.-login{
+    width: 100%;
+}
+.actions-table{
+    padding: 7px 66px 10px 30px!important;
+    text-align: center;
+}
+
+/*tamaños de letras*/
+.table>caption+thead>tr:first-child>th, .table>colgroup+thead>tr:first-child>th, .table>thead:first-child>tr:first-child>th, .table>caption+thead>tr:first-child>td, .table>colgroup+thead>tr:first-child>td, .table>thead:first-child>tr:first-child>td {
+    font-size: 12px;
+}
+.span,.select2-results{
+    font-size: 12px;
+}
+
+.page-content-wrapper {
+    width: 99%!important;
+}
+
+.floating-menu{
+    float: left;
+    width: 300px;
+    height: 100%;
+    position: absolute;
+    background-color: red;
+    right: 0px;
+}
+
+.dropdown-menu li{
+    width:200px ;
+}
+.profile_img_100{
+   margin-left: 50px;
+    margin-top: 10px;
+    width:100px;
+    height:100px;
+}
+.profile_user{
+    margin-left: 50px;
+}
+.general_configuration{
+    margin-left: 50px;
+}

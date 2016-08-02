@@ -1,0 +1,66 @@
+{% set suma = 0 %}
+<div class="row">
+    <div class="col-md-3"></div>
+    <div class="table-responsive col-md-6">
+        <table class="table table-bordered">
+            {% for sub_materia in  materias %}
+                {% if loop.first %}
+                    <thead >
+                        <tr style="vertical-align: middle">
+                            <th width="10%" class="text-center">P</th>  <th class="text-center">CLAVE</th> <th class="text-center">NOMBRE MATERIA</th>  <th class="text-center">F</th>
+                        </tr>
+                    </thead>
+                 <tbody>
+                {% endif %}
+                <tr style="vertical-align: middle" name="row">
+                    <td width="15%" class="text-center" style="padding: 0px; vertical-align: middle">
+                        {% if materiasPref is defined and sub_materia.id in materiasPref and sub_materia.tipoMateria.id != 3%}
+                            {% set next = 1 %}
+                            {% set pos = -1 %}
+                            {% for materiaPref in materiasPref if next == 1%}
+                                {% if materiaPref == sub_materia.id %}
+                                    {% set pos = loop.index0 %}
+                                {% endif %}
+                            {% endfor %}
+                            {% if noInputs is defined %}
+                                <span class="materia_pref">{{ materiasPrefValor[pos] }}</span>
+                             {% else %}
+                                <div class="form-group" style="margin: 0px; padding: 0px">
+                                    <input autocomplete="off" value="{{ materiasPrefValor[pos] }}" step="1" maxlength="2" class=" text-center form-control placeholder-no-fix input-sm materia_seleccion" name="{{sub_materia.id}}" init="true"/>
+                                </div>
+                            {% endif %}
+                        {% elseif sub_materia.tipoMateria.id != 3 %}
+                            {% if noInputs is defined %}
+                                <p> </p>
+                            {% else %}
+                                <div class="form-group"  style="margin: 0px; padding: 0px">
+                                    <input autocomplete="off"   step="1" maxlength="2" class=" form-control placeholder-no-fix input-sm text-center materia_seleccion" name="{{sub_materia.id}}" />
+                                </div>
+                            {% endif %}
+                        {% endif %}
+
+                    </td>
+                    <td style="vertical-align: middle">
+                        <span>{{sub_materia.clave}} </span>
+                    </td>
+                    <td class="text-left">
+                        <span>{{sub_materia.nombre}} </span>
+                    </td>
+                    <td>
+                        <span>{{sub_materia.frecuenciaSemanal}} </span>
+                        {% set suma = suma+sub_materia.frecuenciaSemanal %}
+                    </td>
+                </tr>
+            {% endfor %}
+            <tr style="vertical-align: middle">
+                <td style="border-left: hidden;border-bottom: hidden"> </td>
+                <td style="border-left: hidden;border-bottom: hidden"> </td>
+                <td style="border-left: hidden;border-bottom: hidden"></td>
+                <td class="bold">
+                    {{ suma }}
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

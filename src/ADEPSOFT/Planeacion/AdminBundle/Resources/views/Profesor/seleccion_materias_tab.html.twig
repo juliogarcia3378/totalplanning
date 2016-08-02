@@ -1,0 +1,34 @@
+    <div class="row text-center " style="margin-top: 10pt">
+        <div class="col-md-12">
+        <div class="tabbable tabbable-custom boxless tabbable-reversed">
+            <ul class="nav nav-tabs">
+                {% for planEstudio in EPlicenciatura.planEstudio %}
+                    <li class="{% if loop.first %}active{% endif %}">
+                        <a href="#seleccion_materias_planEstudio_tab_{{ planEstudio.plan.id }}"  data-toggle="tab">
+                            Plan de Estudio {{ planEstudio.plan.nombre }}
+                        </a>
+                    </li>
+                {% endfor %}
+            </ul>
+            <div class="tab-content">
+                {% for planEstudio in EPlicenciatura.planEstudio %}
+                    <div class="tab-pane {% if loop.first %}active{% endif %}" id="seleccion_materias_planEstudio_tab_{{ planEstudio.plan.id }}" >
+                        {% include "@PlaneacionAdmin/Profesor/seleccion_materias_planEstudio.html.twig" with {'materias':planEstudio.materias}%}
+                        {% if planEstudio.materiasOpt|length > 0 or planEstudio.optativasSinSemestre|length > 0 %}
+                            <div class="row">
+                                <div class="col-md-12 text-center">
+                                    <h3>Optativas</h3>
+                                </div>
+                            </div>
+                                {% include "@PlaneacionAdmin/Profesor/seleccion_materias_planEstudio.html.twig" with {'materias':planEstudio.materiasOpt}%}
+                            {% if planEstudio.optativasSinSemestre|length > 0 %}
+                                {% include "@PlaneacionAdmin/Profesor/seleccion_materias_planEstudio_optativasNoSemestre.html.twig" with {'materias':planEstudio.optativasSinSemestre}%}
+                            {% endif %}
+                        {% endif %}
+                    </div>
+                {% endfor %}
+            </div>
+
+        </div>
+        </div>
+    </div>

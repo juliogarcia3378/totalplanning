@@ -1,0 +1,289 @@
+{% set main_room = room %}
+{% set main_group = grupo.id %}
+{% for aula in aulas %}
+    <div class="row form-group aula_form" id="{{ aula.id }}">
+
+        <div class="table-responsive col-md-12">
+            <h1>{{ aula.nombre }}</h1>
+            <table class="table table-striped table-bordered {% if disableScripts == true %} datatable_detail_table{% endif %}">
+                <thead>
+                <tr style="vertical-align: middle;border: solid 2px">
+                    <th style="width: 5%" class="text-center">HORA</th>
+                    {% for hora in horas %}
+                        <th class="text-center"><b>{{ hora.horaTime|date("H:i") }}</b></th>
+                    {% endfor %}
+                </tr>
+                </thead>
+                <tbody>
+                {% for dia in dias %}
+                    <tr width="15%" style="height: 50px ; {% if loop.last %}border-bottom: solid 2px;{% endif %} "
+                        class="text-center">
+                        <td style="border-right: solid 2px; border-left: solid 2px;">
+                            <b> {{ dia.nombre|upper|truncate(3,false,"") }} </b></td>
+                        {% for hora in horas %}
+
+                            <td class="text-center turno_td"
+                                style="vertical-align: middle;{% if disableScripts != true %} cursor: pointer; cursor: hand; {% endif %}
+                            {% set flag = 0 %}
+                            {% for horario in horarios %}
+                                {% if horario[0] == aula.id and horario[2] == hora.id and horario[3] == dia.id %}
+                                    {% if horario[0] == main_room %}
+                                        {% if horario[7] == main_group %}
+                                            {% set flag = 1 %}
+                                            {% if loop.parent.loop.last %}
+                                                    border-right: solid 2px;
+                                            {% endif %}
+                                        background-color:#35aa47;"
+                                value="{{ aula.id }}_{{ hora.id }}_{{ dia.id }}_{{ hora.turno.id }}_{{ horario[4] }}_{{ horario[7] }}"
+                                init="true">
+                                <span style="color: #fff; background-color: #35aa47;"> {{ horario[6] }} </span>
+                                {% else %}
+                                    {% set flag = 1 %}
+                                    background-color:#ff9696;"
+                                    value="{{ aula.id }}_{{ hora.id }}_{{ dia.id }}_{{ hora.turno.id }}_{{ horario[4] }}_{{ horario[7] }}_0" init="true">
+                                    <span style="color: #fff;"> {{ horario[6] }}/{{ horario[8] }} </span>
+                                {% endif %}
+                                    {% else %}
+                                        {% if horario[7] == main_group and flag == 0 %}
+                                            {% set flag = 1 %}
+                                            {% if loop.parent.loop.last %}
+                                                border-right: solid 2px;
+                                            {% endif %}
+                                            background-color:#35aa47;"
+                                            value="{{ aula.id }}_{{ hora.id }}_{{ dia.id }}_{{ hora.turno.id }}_{{ horario[4] }}_{{ horario[7] }}"
+                                            init="true">
+                                            <span style="color: #fff; background-color: #35aa47;"> {{ horario[6] }} </span>
+                                        {% endif %}
+                                    {% endif %}
+                                {% endif %}
+                                {% endfor %}
+                                {% if flag == 0 %}
+                                    {% set flag = 1 %}
+                                    {% if loop.last %}
+                                        border-right: solid 2px;
+                                    {% endif %}"
+                                    value="{{ aula.id }}_{{ hora.id }}_{{ dia.id }}_{{ hora.turno.id }}_0" init="false">
+                                    <span style="color: #fff; background-color: #35aa47;"></span>
+                                {% endif %}
+                            </td>
+                        {% endfor %}
+                    </tr>
+                {% endfor %}
+                <tr style="border-right: solid 2px; border-left: solid 2px;border-bottom: solid 2px; border-top: solid 2px"></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endfor %}
+<script>
+
+{% if disableScripts != true %}
+//# sourceURL=tabla_hora_horario.js
+$("td.turno_td").on("click", function (e) {
+    var grupo = $("#grupo_");
+    var materia = $("#materia_");
+    if (grupo.select2("val") == "" || materia.select2("val") == "") {
+        bootbox.alert({
+            size: 'small',
+            message: "Debe seleccionar la materia y el grupo.",
+            buttons: {
+                ok: {
+                    label: "Aceptar",
+                    className: "btn-success",
+                    callback: function () {
+                    }
+                }
+            }
+        });
+        return;
+    }
+
+    var ids = e.currentTarget.attributes['value'].value.split("_", 2);
+    var turno = e.currentTarget.attributes['value'].value.split("_")[3];
+    var clave_materia_asignada = e.currentTarget.textContent.trim();
+    var materia_asignada = $("#materia_ option:contains('" + clave_materia_asignada + "')")[0];
+    var materia_frec = $("#materia_ option[value=" + $("#materia_").select2("data").id + "]")[0];
+    var clave_materia = materia_frec.textContent.trim().substring(0, 3);
+    var x = 0;
+    if (e.currentTarget.attributes['value'].value.split("_").length == 7) {
+        App.toast(null, "Esta frecuencia ya está asignada en otra sesión o aula", TOAST.ERROR);
+        return;
+    }
+
+    if (e.currentTarget.attributes['init'].value == "true") {
+        e.currentTarget.attributes['init'].value = "false";
+        $(".aula_form").find('input[type="hidden"][value="' + e.currentTarget.attributes['value'].value + '"]').remove();
+        $(e.currentTarget).find("span").text("");
+        $(e.currentTarget).css('background-color', '#979797');
+        if (materia_asignada !== null) {
+            if (clave_materia_asignada !== clave_materia) {
+                materia_asignada.dataset.frecuencia = parseInt(materia_asignada.dataset.frecuencia) + 1;
+            } else {
+                materia_frec.dataset.frecuencia = parseInt(materia_frec.dataset.frecuencia) + 1;
+            }
+        }
+
+        var el = $('#grupo_').select2("data");
+        //  console.log(e.currentTarget.attributes['value'].value);
+        $.ajax({
+            url: "{{ path("planeacion_horario_eliminar_materia") }}",
+            data: {id: el.id, 'periodo': {{ periodo }}, data: e.currentTarget.attributes['value'].value},
+            success: function (resp) {
+                $(e.currentTarget).css('background-color', '');
+                $("#resumenAsignaciones")[0].innerHTML = "";
+                for (var i = 0; i < resp.materias.length; i++) {
+                    var porasignar = resp.materias[i].frecuenciaSemanal - resp.materias[i].asignaciones;
+                    if (porasignar != 0) {
+                        $('#resumenAsignaciones')[0].innerHTML +=
+                                '<div style="margin-bottom:2px"><p>' + resp.materias[i].clave +
+                                ': <b>' + porasignar + '</b> frecuencias por asignar </p></div> ';
+                    }
+                }
+                if (resp.success == false)
+                    App.toast(null, resp.sMessage, TOAST.ERROR);
+            }
+        });
+    }
+    else {
+
+        var materia_frec = $("#materia_ option[value=" + materia.select2("data").id + "]")[0];
+        if (materia_frec.dataset.frecuencia <= 0) {
+            App.toast(null, "Este grupo ya tiene asignadas las frecuencias semanales de esta materia.", TOAST.ERROR);
+            return;
+        }
+        var flag = false;
+        if (turno !={{ grupo.turno.id }}) {
+            bootbox.dialog({
+                size: 'small',
+                message: " Este turno no corresponde al grupo. ¿Desea asignarlo de todos modos ?.",
+                buttons: {
+                    ok: {
+                        label: "Aceptar",
+                        className: "btn-red",
+                        callback: function () {
+                            materia_frec.dataset.frecuencia = parseInt(materia_frec.dataset.frecuencia) - 1;
+                            //  materia_frec.css('background-color', '#ff0000');
+                            $(e.currentTarget).css('background-color', '#616161');
+                            e.currentTarget.attributes['value'].value = e.currentTarget.attributes['value'].value.split("_")[0] + "_"
+                            + e.currentTarget.attributes['value'].value.split("_")[1]
+                            + "_" + e.currentTarget.attributes['value'].value.split("_")[2] +
+                            "_" + e.currentTarget.attributes['value'].value.split("_")[3] +
+                            "_" + materia.select2("val") +
+                            "_" + grupo.select2("val");
+                            $(e.currentTarget).find("span").text(materia.select2("data").text.split("/")[0]);
+
+                            e.currentTarget.attributes['init'].value = "true";
+                            var input = $("<input type='hidden' name='horario[]'/>").val(e.currentTarget.attributes['value'].value);
+                            $(".register_profesor_horario_form").append(input);
+                            // App.blockUI($(e.currentTarget));
+                            // console.log($(e.currentTarget));
+//console.log(e.currentTarget.attributes['value'].value);
+                            var el = $('#grupo_').select2("data");
+                            $.ajax({
+                                url: "{{ path("planeacion_horario_asignar_materia") }}",
+                                data: {
+                                    id: el.id,
+                                    'periodo': {{ periodo }},
+                                    data: e.currentTarget.attributes['value'].value
+                                },
+
+                                success: function (resp) {
+                                    actualizarMaterias();
+                                    if (resp.success == false)
+                                        App.toast(null, resp.sMessage, TOAST.ERROR);
+                                    else {
+
+                                        $(e.currentTarget).css('background-color', '#38aa47');
+                                        e.currentTarget.attributes['value'].value = e.currentTarget.attributes['value'].value.split("_")[0] + "_"
+                                        + e.currentTarget.attributes['value'].value.split("_")[1]
+                                        + "_" + e.currentTarget.attributes['value'].value.split("_")[2] +
+                                        "_" + e.currentTarget.attributes['value'].value.split("_")[3] +
+                                        "_" + materia.select2("val") +
+                                        "_" + grupo.select2("val");
+                                        $(e.currentTarget).find("span").text(materia.select2("data").text.split("/")[0]);
+
+                                        e.currentTarget.attributes['init'].value = "true";
+                                        var input = $("<input type='hidden' name='horario[]'/>").val(e.currentTarget.attributes['value'].value);
+                                        $(".register_profesor_horario_form").append(input);
+
+
+                                    }
+                                }
+                            });
+                        }
+                    },
+                    cancel: {
+                        label: "Cancelar",
+                        className: "btn-success",
+                        callback: function () {
+                            return;
+                        }
+                    }
+                }
+            });
+
+
+        }
+        if (turno =={{ grupo.turno.id }}) {
+            materia_frec.dataset.frecuencia = parseInt(materia_frec.dataset.frecuencia) - 1;
+            //  materia_frec.css('background-color', '#ff0000');
+            $(e.currentTarget).css('background-color', '#616161');
+            e.currentTarget.attributes['value'].value = e.currentTarget.attributes['value'].value.split("_")[0] + "_"
+            + e.currentTarget.attributes['value'].value.split("_")[1]
+            + "_" + e.currentTarget.attributes['value'].value.split("_")[2] +
+            "_" + e.currentTarget.attributes['value'].value.split("_")[3] +
+            "_" + materia.select2("val") +
+            "_" + grupo.select2("val");
+            $(e.currentTarget).find("span").text(materia.select2("data").text.split("/")[0]);
+
+            e.currentTarget.attributes['init'].value = "true";
+            var input = $("<input type='hidden' name='horario[]'/>").val(e.currentTarget.attributes['value'].value);
+            $(".register_profesor_horario_form").append(input);
+            // App.blockUI($(e.currentTarget));
+            // console.log($(e.currentTarget));
+            var el = $('#grupo_').select2("data");
+            console.log("--" + e.currentTarget.attributes['value'].value);
+            $.ajax({
+                url: "{{ path("planeacion_horario_asignar_materia") }}",
+                data: {id: el.id, 'periodo': {{ periodo }}, data: e.currentTarget.attributes['value'].value},
+
+                success: function (resp) {
+
+                    $("#resumenAsignaciones")[0].innerHTML = "";
+                    for (var i = 0; i < resp.materias.length; i++) {
+                        var porasignar = resp.materias[i].frecuenciaSemanal - resp.materias[i].asignaciones;
+                        if (porasignar != 0) {
+                            $('#resumenAsignaciones')[0].innerHTML +=
+                                    '<div style="margin-bottom:2px"><p>' + resp.materias[i].clave +
+                                    ': <b>' + porasignar + '</b> frecuencias por asignar </p></div> ';
+                        }
+                    }
+                    if (resp.success == false)
+                        App.toast(null, resp.sMessage, TOAST.ERROR);
+                    else {
+
+                        $(e.currentTarget).css('background-color', '#38aa47');
+                        e.currentTarget.attributes['value'].value = e.currentTarget.attributes['value'].value.split("_")[0] + "_"
+                        + e.currentTarget.attributes['value'].value.split("_")[1]
+                        + "_" + e.currentTarget.attributes['value'].value.split("_")[2] +
+                        "_" + e.currentTarget.attributes['value'].value.split("_")[3] +
+                        "_" + materia.select2("val") +
+                        "_" + grupo.select2("val");
+                        $(e.currentTarget).find("span").text(materia.select2("data").text.split("/")[0]);
+
+                        e.currentTarget.attributes['init'].value = "true";
+                        var input = $("<input type='hidden' name='horario[]'/>").val(e.currentTarget.attributes['value'].value);
+                        $(".register_profesor_horario_form").append(input);
+
+
+                    }
+                }
+            });
+        }
+    }
+
+
+});
+{% endif %}
+
+</script>

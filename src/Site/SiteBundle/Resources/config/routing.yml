@@ -1,0 +1,14 @@
+site_homepage:
+    pattern:  /
+    defaults: { _controller: SiteBundle:Site:index }
+
+site_mail_sent:
+    pattern:  /mail/sent
+    defaults: { _controller: SiteBundle:Site:mailSent }
+
+contact_new:
+    pattern:  /contact/new
+    defaults: { _controller: SiteBundle:Site:newContact }
+institution_new:
+    pattern:  /institution/new
+    defaults: { _controller: SiteBundle:Site:newInstitution }

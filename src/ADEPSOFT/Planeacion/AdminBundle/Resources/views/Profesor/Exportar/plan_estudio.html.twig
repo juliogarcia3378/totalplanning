@@ -1,0 +1,28 @@
+{% for EPlicenciatura in array %}
+
+    {% for planEstudio in EPlicenciatura.planEstudio%}
+        <div class="row" >
+            <div class="col-md-12 text-center">
+                <h4 >
+                    Plan de Estudio {{ planEstudio.plan.nombre }} de {{ EPlicenciatura.licenciatura.nombre }}
+                </h4>
+            </div>
+        </div>
+        <div class="tab-pane {% if loop.first %}active{% endif %}" id="seleccion_materias_planEstudio_tab_{{ planEstudio.plan.id }}" >
+            {% include "@PlaneacionAdmin/Profesor/seleccion_materias_planEstudio.html.twig" with {'materias':planEstudio.materias,'noInputs':true}%}
+            {% if planEstudio.materiasOpt|length > 0 or planEstudio.optativasSinSemestre|length > 0 %}
+                <div style="page-break-after: always"></div>
+                <div class="row">
+                    <div class="col-md-12 text-center">
+                        <h3>Optativas</h3>
+                    </div>
+                </div>
+                {% include "@PlaneacionAdmin/Profesor/seleccion_materias_planEstudio.html.twig" with {'materias':planEstudio.materiasOpt,'noInputs':true}%}
+                {% if planEstudio.optativasSinSemestre|length > 0 %}
+                    {% include "@PlaneacionAdmin/Profesor/seleccion_materias_planEstudio_optativasNoSemestre.html.twig" with {'materias':planEstudio.optativasSinSemestre, 'noInputs':true}%}
+                {% endif %}
+            {% endif %}
+        </div>
+        <div style="page-break-after: always"></div>
+    {% endfor %}
+{% endfor %}

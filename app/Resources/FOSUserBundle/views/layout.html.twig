@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+<head>
+    <meta charset="utf-8"/>
+    <title>{% block title %}{% endblock %}</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta content="width=device-width, initial-scale=1" name="viewport"/>
+    <meta content="" name="description"/>
+    <meta content="" name="author"/>
+    <link rel="stylesheet" type="text/css"
+          href="{{ asset('bundles/comun/base/font-awesome/css/font-awesome.min.css') }}"/>
+    <link rel="stylesheet" type="text/css" href="{{ asset('bundles/comun/base/bootstrap/css/bootstrap.min.css') }}"/>
+    <link rel="stylesheet" type="text/css" href="{{ asset('bundles/comun/base/uniform/css/uniform.default.css') }}"/>
+    <link rel="stylesheet" type="text/css" href="{{ asset('bundles/comun/css/style-metronic.css') }}"/>
+    <link rel="stylesheet" type="text/css" href="{{ asset('bundles/comun/css/style.css') }}"/>
+    <link rel="stylesheet" type="text/css" href="{{ asset('bundles/comun/css/style-responsive.css') }}"/>
+    <link rel="stylesheet" type="text/css" href="{{ asset('bundles/comun/css/themes/light.css') }}"/>
+    {#<link rel="stylesheet" type="text/css" href="{{ asset('bundles/comun/base/plugins/select2/select2.css') }}"/>#}
+    {#<link rel="stylesheet" type="text/css" href="{{ asset('bundles/comun/base/plugins/select2/select2-metronic.css') }}"/>#}
+
+    <link rel="stylesheet" type="text/css" href="{{ asset('bundles/comun/css/plugins.css') }}"/>
+    <link rel="stylesheet" type="text/css" href="{{ asset('bundles/comun/css/themes/light.css') }}"/>
+    <link rel="stylesheet" type="text/css" href="{{ asset('bundles/comun/css/pages/login.css') }}"/>
+    <link rel="stylesheet" type="text/css" href="{{ asset('bundles/comun/css/custom.css') }}"/>
+
+    {% block stylesheets %}{% endblock %}
+</head>
+<body class="login">
+
+<div class="content" style="margin-top: 5%">
+
+    {% for type, messages in app.session.flashBag.all %}
+        {% for message in messages %}
+            <div class="alert alert-success display-show">
+                <button class="close" data-dismiss="alert"></button>
+                <span>
+                    {{ message|trans({}, 'FOSUserBundle') }}
+                </span>
+            </div>
+        {% endfor %}
+    {% endfor %}
+
+    {% block fos_user_content %}
+    {% endblock fos_user_content %}
+    <!-- END LOGIN FORM -->
+
+</div>
+<!-- END LOGIN -->
+<!-- BEGIN COPYRIGHT -->
+<div class="copyright">
+       {{ "now"|date("Y") }} &copy;  Total Planning
+</div>
+<script src="{{ asset('bundles/comun/base/plugins/jquery-1.10.2.min.js') }}"></script>
+<script src="{{ asset('bundles/comun/base/plugins/jquery-migrate-1.2.1.min.js') }}"></script>
+<script src="{{ asset('bundles/comun/base/bootstrap/js/bootstrap.min.js') }}"></script>
+{#<script src="{{ asset('bundles/comun/base/plugins/bootstrap-hover-dropdown/bootstrap-hover-dropdown.min.js') }}"></script>#}
+{#<script src="{{ asset('bundles/comun/base/plugins/jquery-slimscroll/jquery.slimscroll.min.js') }}"></script>#}
+<script src="{{ asset('bundles/comun/base/plugins/jquery.blockui.min.js') }}"></script>
+<script src="{{ asset('bundles/comun/base/scripts/core/app.js') }}"></script>
+<script src="{{ asset('bundles/comun/base/plugins/jquery.cokie.min.js') }}"></script>
+<script src="{{ asset('bundles/comun/base/plugins/respond.min.js') }}"></script>
+{#<script src="{{ asset('bundles/comun/base/plugins/excanvas.min.js') }}"></script>#}
+{#<script src="{{ asset('bundles/comun/base/plugins/jquery.backstretch.js') }}"></script>#}
+<script src="{{ asset('bundles/comun/base/uniform/jquery.uniform.min.js') }}"></script>
+{#<script src="{{ asset('bundles/comun/base/plugins/select2/select2.min.js') }}"></script>#}
+<script src="{{ asset('bundles/comun/base/jquery.validate.min.js') }}"></script>
+<script src="{{ asset('bundles/comun/base/validation_msgs.js') }}"></script>
+{% include '@MySecurity/Usuario/login-soft.html.twig' %}
+{#"{{ asset('bundles/mysecurity/images/1.jpg') }}","{{ url('check_valid_user') }}");#}
+<script>
+    jQuery(document).ready(function() {
+        Login.init();
+        jQuery.extend(jQuery.validator.messages, {
+            equalTo: "Las contraseñas ingresadas no coinciden."
+        });
+    });
+</script>
+{%  if registrationError is defined and registrationError %}
+    <script>
+        jQuery(document).ready(function() {
+            $('#register-btn').click();
+        });
+    </script>
+{% endif %}
+<!-- END JAVASCRIPTS -->
+{% block javascript %}{% endblock %}
+</body>
+<!-- END BODY -->
+</html>

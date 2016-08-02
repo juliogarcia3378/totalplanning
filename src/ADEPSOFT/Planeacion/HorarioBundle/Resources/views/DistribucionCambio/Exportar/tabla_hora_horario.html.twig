@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+    <link rel="stylesheet" type="text/css" href="{{  app.request.getSchemeAndHttpHost() ~asset('bundles/comun/base/font-awesome/css/font-awesome.min.css') }}"/>
+    <link rel="stylesheet" type="text/css" href="{{  app.request.getSchemeAndHttpHost() ~asset('bundles/comun/base/bootstrap/css/bootstrap.min.css') }}"/>
+    <link rel="stylesheet" type="text/css" href="{{  app.request.getSchemeAndHttpHost() ~asset('bundles/comun/base/uniform/css/uniform.default.min.css') }}"/>
+    <link rel="stylesheet" type="text/css" href="{{  app.request.getSchemeAndHttpHost() ~asset('bundles/comun/css/style-metronic.css') }}"/>
+    <link rel="stylesheet" type="text/css" href="{{ app.request.getSchemeAndHttpHost() ~ asset('bundles/comun/css/style.css') }}"/>
+    <link rel="stylesheet" type="text/css" href="{{  app.request.getSchemeAndHttpHost() ~asset('bundles/comun/css/style-responsive.css') }}"/>
+    <link rel="stylesheet" type="text/css" href="{{ app.request.getSchemeAndHttpHost() ~asset('bundles/comun/css/plugins.css') }}"/>
+    <link rel="stylesheet" type="text/css" href="{{ app.request.getSchemeAndHttpHost() ~asset('bundles/comun/css/themes/light.css') }}"/>
+    <style>
+        label {
+            font-size: 10px !important;
+        }
+        .table thead tr th {
+            font-size: 10px;
+            font-weight: 600;
+        }
+        .table {
+            margin-bottom: 10px;
+            font-size: 9px;
+        }
+        div.row {
+            margin-top: 0px;
+            margin-bottom: 0px;
+        }
+        div.form-group {
+            margin-top: 0px;
+            margin-bottom: 0px;
+        }
+    </style>
+
+
+</head>
+<body style="background-color: #ffffff !important;  "  >
+<div class="container">
+    <div class="row">
+        <h1>MOVIMIENTOS DE GRUPOS</h1>
+    </div>
+</div>
+<div class="row form-group ">
+
+    {% for key, licenciatura in licenciaturas %}
+    {% for semestre in licenciatura %}
+    {% for turno,turnos in semestre %}
+    <div class="table-responsive col-md-8">
+        <table class="table table-bordered table-hover">
+            <thead>
+            <tr>
+                <th>
+                </th>
+                <th>
+                    Semestre
+                </th>
+                <th>
+                    Licenciatura
+                </th>
+                <th>
+                    {{ anterior }}
+                </th>
+                <th>
+                </th>
+                <th>
+
+                </th>
+                <th>
+
+                </th>
+                <th>
+                    {{ actual }}
+                </th>
+                <th>
+                    Capacidad
+                </th>
+            </tr>
+            <tr>
+                <th>
+                    {{ anterior }}
+                </th>
+                <th>
+                    {{ actual }}
+                </th>
+                <th>
+                    TURNO
+                </th>
+                <th>
+                    AULA
+                </th>
+                <th>
+                    NIVEL
+                </th>
+                <th>
+                    BAJA
+                </th>
+                <th>
+                    TOTAL
+                </th>
+                <th>
+
+                </th>
+                <th>
+
+                </th>
+            </tr>
+            </thead>
+
+            <tbody>
+
+            {% for grupo in turnos %}
+                <tr>
+                    <td>{{ grupo.anterior.semestre}}</td>
+                    <td>{{ grupo.actual.semestre}}</td>
+                    <td>{{ grupo.anterior.turno|upper}}{% if grupo.anterior.bilingue %}BILL {% endif %}</td>
+                    <td>{{ grupo.anterior.aula.nombre}}</td>
+                    <td>{{ grupo.anterior.nivel}}</td>
+                    <td>{{ grupo.anterior.nivel - grupo.actual.nivel}}</td>
+                    <td>{{ grupo.actual.nivel}}</td>
+                    <td> {{ grupo.actual.aula.nombre}}</td>
+                    <td>{{ grupo.actual.aula.capacidad}}</td>
+                </tr>
+
+            {% endfor %}
+
+            <div class="row">
+                <h1>{{ turno }}</h1>
+            </div>
+            {% endfor %}
+            {% endfor %}
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+
+</div>
+
+
+{% block javascript %}
+        <script src="{{ app.request.getSchemeAndHttpHost() ~  asset('bundles/comun/base/plugins/jquery-1.10.2.min.js') }}"></script>
+
+    {% endblock %}
+
+    {#{% block script %}#}
+        {#<script>#}
+            {#App.init();#}
+        {#</script>#}
+
+    {#{% endblock %}#}
+
+</body>
+</html>

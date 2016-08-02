@@ -1,0 +1,267 @@
+{% extends '::base_nosidebar.html.twig' %}
+
+{% block stylesheets %}  
+    <link rel="stylesheet" type="text/css" href="{{ asset('bundles/planeacionadmin/css/img-ace.css') }}"/>
+    <link rel="stylesheet" type="text/css" href="{{ asset('bundles/planeacionadmin/css/bootstrap-editable.css') }}"/>
+    <link rel="stylesheet" type="text/css" href="{{ asset('bundles/comun/base/plugins/gritter/css/jquery.gritter.css') }}"/>
+    <link rel="stylesheet" type="text/css" href="{{ asset('bundles/comun/base/plugins/bootstrap-datepicker/css/datepicker.css') }}"/>
+{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-md-12">
+            <div  class="portlet">
+                <div class="portlet-title">
+                    <div class="caption">
+                        <i class="fa fa-reorder"></i>
+                        <span class="step-title">{%block titulo %}Editar datos propios{% endblock %}</span>
+                    </div>
+                </div>
+                <div class="portlet-body form" >
+                    <form  action="{% block urlForm %}{{ path('planeacion_admin_crud_profesor_edit_hoja_propia') }}{% endblock %}"  id="register_profesor_form" method="POST" class="ajax_form horizontal-form" redirect="{{ path('planeacion_admin_crud_profesor') }}">
+                            <div class="form-body">
+                                {% include "@PlaneacionAdmin/Profesor/planilla_profesor.html.twig" %}
+                                {% include "@PlaneacionAdmin/Profesor/horas_div.html.twig" %}
+                                {% include "@PlaneacionAdmin/Profesor/seleccion_materias.html.twig" %}
+                                {#<input type="hidden" name="planEstudio" value="{{ planEstudio.id }}"/>#}
+                                {#<input type="hidden" name="licenciatura" value="{{ licenciatura.id }}"/>#}
+                                {{ form_rest(form) }}
+                                {% block form_fields %}{% endblock %}
+                            </div>
+
+                            <div class="form-actions right">
+                                    {#<a class="btn default ajaxify" href="{{ path("planeacion_admin_crud_profesor") }}">#}
+                                        {#Cancelar#}
+                                    {#</a>#}
+                                    <button class="btn blue button-submit" type="submit" >
+                                        Aceptar
+                                    </button>
+                            </div>
+                        {#{{ form_rest(form) }}#}
+                    </form>
+                </div>
+
+            </div>
+
+        </div></div>
+{% endblock %}
+
+{% block javascript %}  
+    <script src="{{ asset('bundles/comun/base/plugins/gritter/js/jquery.gritter.min.js') }}"></script>
+    <script src="{{ asset('bundles/comun/base/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js') }}"></script>
+    <script src="{{ asset('bundles/comun/base/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js') }}"></script>
+    <script src="{{ asset('bundles/comun/base/plugins/bootstrap-datetimepicker/js/components-pickers.js') }}"></script>
+    <script src="{{ asset('bundles/planeacionadmin/js/bootstrap-editable.min.js') }}"></script>
+    <script src="{{ asset('bundles/planeacionadmin/js/ace-editable.min.js') }}"></script>
+    <script src="{{ asset('bundles/planeacionadmin/js/ace-elements.min.js') }}"></script>
+    <script src="{{ asset('bundles/comun/js/ajaxify_form.js') }}"></script>
+
+{% endblock %}
+{% block script %}
+
+
+    <script>
+        {
+            var inputs = $('input.materia_seleccion[init="true"]');
+            var tr = inputs.closest('tr');
+            tr.css('background','#35aa47');
+            tr.find('span').css('color', '#fff');
+//            tr.find('span').closest('td').css('background','#35aa47');
+        }
+        $("p.chekador").click(function(){
+            $( this ).closest('.col-md-6').find('input[type="radio"][value='+$( this).attr('val')+']').prop('checked', true);
+            $.uniform.update();
+
+        });
+        $('input.materia_seleccion').on('change', function(e) {
+            var este = $(this);
+            if (este.val() == "") {
+                var tr = este.closest('tr');
+                este.attr('init',false);
+                tr.css('background', '');
+                tr.find('span').css('color', '');
+                tr.find('span').closest('td').css('background', '');
+            }
+        })
+        $('input.materia_seleccion').on('keypress', function(e) {
+            var este = $(this);
+            if (este.val() == "" && (e.which == 96 ||e.which == 48 ) )
+                return false;
+            if (este.val() == "" )
+            {
+                if( $('input[init=true].materia_seleccion').size() == 15) {
+                    App.toast(null, "No se permite seleccionar más de 15 materias", 'error');
+                    return false;
+                }
+            }
+        });
+        $('input.materia_seleccion').on('keyup', function(e) {
+            var este = $(this);
+            if ( e.which == 8 || e.which == 127 || e.which == 46 ||(e.which > 48 && e.which <= 57) || (e.which == 48 && este.val() != "0")
+                || (e.which > 96 && e.which <= 105) || (e.which == 96 && este.val() != "0") ) {
+                if (este.val() != "") {
+                    var tr = este.closest('tr');
+                    tr.find('span').css('color', '#fff');
+                    este.attr('init',true);
+    //                tr.find('span').closest('td').css('background','#35aa47');
+                    tr.css('background', '#35aa47');
+                }
+                else {
+                    var tr = este.closest('tr');
+                    este.attr('init',false);
+                    tr.css('background', '');
+                    tr.find('span').css('color', '');
+                    tr.find('span').closest('td').css('background', '');
+                }
+                var error = false;
+                $('input.materia_seleccion[init="true"]').each(function (index) {
+                    var este = $(this);
+                    if (este.val() != "") {
+                        var error2 = false;
+                        $('input.materia_seleccion[init="true"]').each(function (index) {
+                            var actual = $(this);
+                            if (este.attr('name') != actual.attr('name') && este.val() == actual.val()) {
+                                error = true;
+                                error2=true;
+                                este.closest('tr').css('background', 'red');
+                                actual.closest('tr').css('background', 'red');
+                            }
+                        })
+                        if(!error2)
+                            este.closest('tr').css('background', '#35aa47');
+                    }
+                })
+                if (error)
+                    App.toast(null, "No pueden existir 2 materias con igual preferencia.", TOAST.ERROR);
+            }
+        })
+    </script>
+    <script>
+        $('a.radio_cleaner').click(function () {
+            $( this ).closest('div').find('input[type="radio"]').prop('checked', false);
+            $.uniform.update();
+        })
+        $('a.div_horas_limpiador_btn').click(function () {
+            $( ".horas_div").find('input[type="radio"]').prop('checked', false);
+            $.uniform.update();
+        })
+        $('a.div_horas_limpiador_btn').css('position','absolute');
+        $('a.div_horas_limpiador_btn').css('bottom',20);
+        $('a.div_horas_limpiador_btn').css('margin-left',10);
+        $('a.div_horas_limpiador_btn').css('left',0);
+        $('.div_horas_limpiador').css('height',$('.sabado_div_horas').css('height'))
+
+        $('a.materias_seleccion_limpiador_btn').click(function () {
+            $( ".seleccion_materias").find('input').each(function(){
+                $(this).val('');
+                $(this).trigger('change');
+            });
+        })
+
+jQuery(function($) {
+    //editables on first profile page
+    $.fn.editable.defaults.mode = 'inline';
+    $.fn.editableform.loading = "<div class='editableform-loading-ace'><i class='light-blue-ace icon-2x-ace icon-spinner icon-spin-ace'></i></div>";
+    $.fn.editableform.buttons = '<button type="submit" class="btn blue editable-submit"><i class="fa fa-check icon-white"></i></button>'+
+                                '<button type="button" class="btn red editable-cancel-ace"><i class="fa fa-minus"></i></button>';    
+    //editables 
+
+    // *** editable avatar *** //
+    try {//ie8 throws some harmless exception, so let's catch it
+
+            //it seems that editable plugin calls appendChild, and as Image doesn't have it, it causes errors on IE at unpredicted points
+            //so let's have a fake appendChild for it!
+            if( /msie\s*(8|7|6)/.test(navigator.userAgent.toLowerCase()) ) Image.prototype.appendChild = function(el){}
+
+            var last_gritter
+            $('#avatar_planilla_profesor').editable({
+                    type: 'image',
+                    name: 'avatar',
+                    value: null,
+                    image: {
+                            //specify ace file input plugin's options here
+                            btn_choose: 'Foto Reciente',
+                            droppable: true,
+                            /**
+                            //this will override the default before_change that only accepts image files
+                            before_change: function(files, dropped) {
+                                    return true;
+                            },
+                            */
+
+                            //and a few extra ones here
+                            name: 'avatar',//put the field name here as well, will be used inside the custom plugin
+                            max_size: 550000,//~500Kb
+                            on_error : function(code) {//on_error function will be called when the selected file has a problem
+                                    if(last_gritter) $.gritter.remove(last_gritter);
+                                    if(code == 1) {//file format error
+                                            last_gritter = $.gritter.add({
+                                                    title: 'El archivo no es una imagen!',
+                                                    text: 'Seleccione una imagen jpg|gif|png!',
+                                                    class_name: 'gritter-error gritter-center'
+                                            });
+                                    } else if(code == 2) {//file size rror
+                                            last_gritter = $.gritter.add({
+                                                    title: 'Archivo demasiado grande!',
+                                                    text: 'La imagen no debe exceder los 500Kb!',
+                                                    class_name: 'gritter-error gritter-center'
+                                            });
+                                    }
+                                    else {//other error
+                                    }
+                            },
+                            on_success : function() {
+                                    $.gritter.removeAll();
+                            }
+                    },
+                url: function(params) {
+                            // ***UPDATE AVATAR HERE*** //
+                            //You can replace the contents of this function with examples/profile-avatar-update.js for actual upload
+
+
+                            var deferred = new $.Deferred
+
+                            //if value is empty, means no valid files were selected
+                            //but it may still be submitted by the plugin, because "" (empty string) is different from previous non-empty value whatever it was
+                            //so we return just here to prevent problems
+                            var value = $('#avatar_planilla_profesor').next().find('input[type=hidden]:eq(0)').val();
+                            if(!value || value.length == 0) {
+                                    deferred.resolve();
+                                    return deferred.promise();
+                            }
+
+
+                            //dummy upload
+                            setTimeout(function(){
+                                    if("FileReader" in window) {
+                                            //for browsers that have a thumbnail of selected image
+                                            var thumb = $('#avatar_planilla_profesor').next().find('img').data('thumb');
+                                            if(thumb) $('#avatar_planilla_profesor').get(0).src = thumb;
+                                    }
+
+                                    deferred.resolve({'status':'OK'});
+
+
+                             } , parseInt(Math.random() * 800 + 800))
+
+                            return deferred.promise();
+                    },
+
+                    success: function(response, newValue) {
+                    }
+            })
+    }catch(e) {}
+    });
+    
+jQuery(document).ready(function() {
+    ComponentsPickers.init();
+//    $('#adepsoft_planeacion_adminbundle_profesortype_genero').css('position','absolute');
+//    $('#adepsoft_planeacion_adminbundle_profesortype_genero').css('padding-top',"5px");
+//    $('#adepsoft_planeacion_adminbundle_profesortype_genero').css('margin-left',10);
+//    $('#adepsoft_planeacion_adminbundle_profesortype_genero').css('left',0);
+//    $("#adepsoft_planeacion_adminbundle_profesortype_genero").css('padding-top',"5px");
+//    $("#adepsoft_planeacion_adminbundle_profesortype_genero").css('height',$("#adepsoft_planeacion_adminbundle_profesortype_genero").closest('.input-group').css('height'));
+ });  
+    </script>
+{% endblock %}
+

@@ -1,0 +1,34 @@
+<?php
+namespace ADEPSOFT\Planeacion\AdminBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints as DocAssert;
+use ADEPSOFT\ComunBundle\Constraints as MyAssert;
+
+/**
+ * Estado
+ *
+ * @ORM\Table(name="tipo_materia")
+ * @ORM\Entity(repositoryClass="ADEPSOFT\ComunBundle\Util\NomencladoresRepository")
+ */
+class TipoMateria
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     * @ORM\SequenceGenerator(sequenceName="tipo_materia_id_seq", allocationSize=1, initialValue=1)
+     */
+    private $id;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="nombre", type="string",length=100, nullable=false)
+     * @Assert\NotBlank(message="Campo obligatorio.")
+     */
+    private $nombre;
+}

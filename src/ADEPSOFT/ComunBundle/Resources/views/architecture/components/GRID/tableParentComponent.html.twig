@@ -1,0 +1,278 @@
+<div class="col-md-12">
+    <div class="row">
+        <div class="col-md-6 col-sm-12">
+            <div class="btn-group">
+                <button class="btn blue" id="{{ GRIDIDS.randomId~'addAction' }}" >Adicionar
+                    <i class="fa fa-plus"></i>
+                </button>
+                <button class="btn blue disabled" id="{{ GRIDIDS.randomId~'editAction' }}" >Editar
+                    <i class="fa fa-edit"></i>
+                </button>
+                <button class="btn blue disabled" id="{{ GRIDIDS.randomId~'removeAction' }}" >Eliminar
+                    <i class="fa fa-trash-o"></i>
+                </button>
+                <button class="btn blue" id="{{ GRIDIDS.randomId~'searchAction' }}" >Buscar
+                    <i class="fa fa-search"></i>
+                </button>
+            </div>
+        </div>
+        <div class="col-md-6 col-sm-12">
+            <div class="pull-right">
+                <label>Mostrando:
+                    <select type="text" class="form-control input-xsmall" id="{{ GRIDIDS.randomId~'paginator_list' }}" onChange="listAction(this);">
+                        <option>5</option>
+                        <option>10</option>
+                        <option>15</option>
+                        <option>20</option>
+                    </select>
+                </label>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="table-responsive">
+            <table class="table table-bordered table-striped table-condensed flip-content table-hover" id="{{ GRIDIDS.randomId~'datalist' }}">
+                <thead id={{ GRIDIDS.randomId~'header' }}></thead>
+                <tbody id={{ GRIDIDS.randomId~'body' }}>
+                </tbody>
+            </table>
+            <div class="row">
+                <div class="col-md-6 col-sm-12">
+                    <div class="dataTables_info" id="{{ GRIDIDS.randomId~'paginator_info' }}"></div>
+                </div>
+                <div class="col-md-6 col-sm-12">
+                    <div class="dataTables_paginate paging_bootstrap pull-right">
+                        <ul class="pagination" style="visibility: visible; cursor: pointer;" id="{{ GRIDIDS.randomId~'paginator' }}"></ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<form id="{{ GRIDIDS.randomId~'remitform'}} " method="post" action="">
+    <input type="hidden" id="ticket" name="ticket" value="">
+</form>
+    
+<form type="post" id="{{ GRIDIDS.randomId~'deleteForm' }}" action="{{ rutas.delete }}"></form>
+
+<div id="formDialog" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="false">&times;</button>
+                <h3 class="modal-title"> {{ name }}</h3>
+            </div>
+            <div class="modal-body">
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal" onClick = "clearForm();" >Cancelar</button>
+                    <button type="submit" class="btn btn-success"  >Continuar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="{{ GRIDIDS.randomId~'confirmDialog' }}" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-body">
+                <div class="row">
+                    <table align="center">
+                        <tr>
+                            <td id="{{ GRIDIDS.randomId~'alert-content' }}" style="font-size: 1.5em;"></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal" >Cancelar</button>
+                <button type="button" class="btn btn-success" data-dismiss="modal" onClick = "submitDeleteForm();" >Continuar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.getElementById("{{ GRIDIDS.randomId~'addAction' }}").setAttribute('onClick', 'activateDialog();');
+    document.getElementById("{{ GRIDIDS.randomId~'removeAction' }}").setAttribute('onClick', 'confirmationDialog();');
+    document.getElementById("{{ GRIDIDS.randomId~'editAction' }}").setAttribute('onClick', 'fillDialog();');
+    {{ GRIDIDS.randomId }}activateDialog = function() {
+        $('#formDialog').modal('show');
+    };
+    clearForm = function()
+    {
+        var f = document.getElementById("{{ GRIDIDS.randomId~'itemForm' }}");
+        for (var i = 0; i < f.elements.length; i++)
+        {
+            f.elements[i].value = " ";
+        }
+    }
+    ;
+    submitForm = function()
+    {
+        // To do validation...
+        document.getElementById("{{ GRIDIDS.randomId~'itemForm'}} ").submit();
+    };
+    confirmationDialog = function()
+    {
+        // Mover esto para el manejador de checks
+        var count = 0;
+        f = document.getElementById("{{ GRIDIDS.randomId~'deleteForm' }}");
+        f.innerHTML = "";
+        var list = document.getElementsByName("{{ GRIDIDS.randomId~'selector' }}");
+        for (var i = 0; i < list.length; i++) {
+            if (list[i].checked) {
+                f.innerHTML += "<input type='hidden' id='param" + count + "' value='" + list[i].id + "' >";
+                count++;
+            }
+        }
+        var msg = "<spam style='font-size: 1.5em;' class='fa fa-exclamation-triangle text-danger'></spam> Está a punto de eliminar " + selectcount + " registro(s). ¿Desea continuar?";
+        document.getElementById("{{ GRIDIDS.randomId~'alert-content' }}").innerHTML = msg;
+        $("#{{ GRIDIDS.randomId~'confirmDialog' }}").modal('show');
+    };
+    submitDeleteForm = function()
+    {
+        $("#{{ GRIDIDS.randomId~'deleteForm' }}").submit();
+    };
+    fillDialog = function()
+    {
+        $("#{{ GRIDIDS.randomId~'itemForm' }}").innerHTML = "";
+        getItem(selected);
+        activateDialog();
+    };
+    getItem = function(value) {
+        $.ajax({
+            async: true,
+            type: "POST",
+            dataType: "json",
+            contentType: "application/x-www-form-urlencoded",
+            url: '{{ rutas.list_ajax }}',
+            data: {
+                ticket: value
+            },
+            success: function(response) {
+                $("#{{ GRIDIDS.randomId~'itemForm' }}").innerHTML = response;
+            }})
+    }
+    ;
+    var selectcount = 0;
+    var selected = "none";
+    function {{GRIDIDS.randomId}}updateGrid(page, size) {
+        $.ajax({
+            async: true,
+            type: "POST",
+            dataType: "json",
+            contentType: "application/x-www-form-urlencoded",
+            url: '{{ rutas.list_ajax }}',
+            data: {
+                page: page,
+                size: size,
+                filter: 'nombre'
+            },
+            success: function(response) {
+                {{ GRIDIDS.randomId }}BorrarDatos();
+                var total = response.total;
+                var columnas = response.data.columnas;
+                var data = response.data.datos;
+                var start = page * size;
+                var final = start + response.data.datos.length;
+                var headerROW = "<tr class='label-success' role='row'>";
+                $.each(columnas, function(i, item) {
+                    if (item.hidden === true) {
+                        headerROW += "<th hidden=" + item.hidden + " role='columnheader'>" + item.rowName + "</th>";
+                        headerROW += "<th class='table-checkbox sorting_disabled' role='columnheader'>"
+                                + "<div class='checker'><span><input class='group-checkable' type='checkbox' data-set='#datalist .checkboxes'></input></span></div>"
+                                + "</th>";
+                    }
+                    else
+                        headerROW += "<th>" + item.rowName + "</th>";
+                });
+                headerROW += "</tr>";
+
+                var dataRow = "";
+                var lengthRow = columnas.length;
+                $.each(data, function(i, item) {
+                    // Repetir id en el check y la columna oculta por ahora...
+                    dataRow += "<tr><td hidden='true'" + item[0] + "</td>";
+                    dataRow += "<td><div class='checker'><span><input class='checkboxes' type='checkbox' value='1' name='{{ GRIDIDS.randomId~'selector'}}' id='" + item[0] + "' onClick='checkSelection();' ></input></span></div></td>";
+                    for (var n = 1; n < lengthRow; n++)
+                        dataRow += "<td style='cursor: pointer' ondblclick=\"document.getElementById('ticket').value='" + item[0] + "'; document.getElementById('remitform').submit();\">" + item[n] + "</td>";
+                    dataRow += "</tr>";
+                });
+                var paginator = "";
+                if (start === 0)
+                {
+                    paginator += '<li class="prev disabled"><a ';
+                }
+                else
+                {
+                    paginator += '<li class="prev"><a onClick="{{ GRIDIDS.randomId }}updateGrid(' + (page - 1) + ',' + size + ')"';
+                }
+
+                paginator += ' title="Anterior"><i class="fa fa-angle-left"></i></a></li>';
+                for (var i = 0; i < total / size; i++)
+                {
+                    paginator += '<li><a onClick="{{ GRIDIDS.randomId }}updateGrid(' + i + ',' + size + ')">' + (i + 1) + '</a></li>';
+                }
+
+                if (final === total)
+                {
+                    paginator += '<li class="prev disabled">';
+                }
+                else
+                {
+                    paginator += '<li class="prev">';
+                }
+                paginator += '<a onClick="{{ GRIDIDS.randomId }}updateGrid(' + (page + 1) + ',' + size + ')" title="Siguiente"><i class="fa fa-angle-right"></i></a></li>';
+
+                document.getElementById("{{ GRIDIDS.randomId~'body' }}").innerHTML = dataRow;
+                document.getElementById("{{ GRIDIDS.randomId~'header' }}").innerHTML = headerROW;
+                document.getElementById("{{ GRIDIDS.randomId~'paginator_info' }}").innerHTML = 'Mostrando ' + (start + 1) + ' a ' + final + ' de ' + total + ' entradas';
+                document.getElementById("{{ GRIDIDS.randomId~'paginator' }}").innerHTML = paginator;
+
+                document.getElementById("{{ GRIDIDS.randomId~'editAction' }}").setAttribute('class', 'btn blue disabled');
+                document.getElementById("{{ GRIDIDS.randomId~'removeAction' }}").setAttribute('class', 'btn blue disabled');
+            }})
+    }
+    ;
+
+    function {{ GRIDIDS.randomId }}BorrarDatos() {
+        document.getElementById("{{ GRIDIDS.randomId~'body' }}").innerHTML = "";
+    }
+    $(document).ready({{ GRIDIDS.randomId }}updateGrid(0, document.getElementById("{{ GRIDIDS.randomId~'paginator_list' }}").value));
+
+    checkSelection = function()
+    {
+        var counter = 0;
+        var list = document.getElementsByName("{{ GRIDIDS.randomId~'selector' }}");
+        for (var i = 0; i < list.length; i++) {
+            if (list[i].checked) {
+                counter++;
+                selected = list[i].id;
+            }
+        }
+        if (counter === 0)
+        {
+            selected = "none";
+            document.getElementById("{{ GRIDIDS.randomId~'editAction' }}").setAttribute('class', 'btn blue disabled');
+            document.getElementById("{{ GRIDIDS.randomId~'removeAction' }}").setAttribute('class', 'btn blue disabled');
+        } else if (counter === 1)
+        {
+            document.getElementById("{{ GRIDIDS.randomId~'editAction' }}").setAttribute('class', 'btn blue');
+            document.getElementById("{{ GRIDIDS.randomId~'removeAction' }}").setAttribute('class', 'btn blue');
+        } else
+        {
+            selected = "many";
+            document.getElementById("{{ GRIDIDS.randomId~'editAction' }}").setAttribute('class', 'btn blue disabled');
+            document.getElementById("{{ GRIDIDS.randomId~'removeAction' }}").setAttribute('class', 'btn blue');
+        }
+        selectcount = counter;
+    };
+    listAction = function(comp)
+    {
+        updateGrid(0, comp.value);
+    };
+</script>

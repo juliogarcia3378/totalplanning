@@ -1,0 +1,157 @@
+
+<div class="container">
+    <div class="portlet">
+        <div class="portlet-title">
+            <div class="caption">
+                <i class="fa fa-list-ul"></i>Movimientos de Grupos
+            </div>
+            <div class="actions">
+
+                <div class="btn-group">
+                    <a class="btn blue" href="#" data-toggle="dropdown">
+                        <i class="fa fa-share"></i>
+                                                <span class="hidden-480">
+                                                     Exportar
+                                                </span>
+                        <i class="fa fa-angle-down"></i>
+                    </a>
+                    <ul class="dropdown-menu pull-right">
+                        <li>
+                            <a id="exportPdf" >
+                                <i class="fa fa-file-text"></i>
+                                Exportar a PDF
+                            </a>
+                        </li>
+                        <li>
+                            <a id="exportXls">
+                                <i class="fa fa-table"></i>
+                                Exportar a Excel
+                            </a>
+                        </li>
+
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+        <div class="portlet-body">
+            <div class="row form-group ">
+
+                {% for key, licenciatura in licenciaturas %}
+                {% for semestre in licenciatura %}
+                {% for turno,turnos in semestre %}
+                {#<div class="table-responsive col-md-8">#}
+                    <table class="table table-bordered" style="margin-top: 60px;">
+                        <thead>
+                        <tr>
+                            <th>
+                            </th>
+                            <th>
+                                Semestre
+                            </th>
+                            <th>
+                                Licenciatura
+                            </th>
+                            <th>
+                                {{ anterior }}
+                            </th>
+                            <th>
+                            </th>
+                            <th>
+
+                            </th>
+                            <th>
+
+                            </th>
+                            <th>
+                                {{ actual }}
+                            </th>
+                            <th>
+                                Capacidad
+                            </th>
+                        </tr>
+                        <tr>
+                            <th>
+                                {{ anterior }}
+                            </th>
+                            <th>
+                                {{ actual }}
+                            </th>
+                            <th>
+                                TURNO
+                            </th>
+                            <th>
+                                AULA
+                            </th>
+                            <th>
+                                NIVEL
+                            </th>
+                            <th>
+                                BAJA
+                            </th>
+                            <th>
+                                TOTAL
+                            </th>
+                            <th>
+
+                            </th>
+                            <th>
+
+                            </th>
+                        </tr>
+                        </thead>
+
+                        <tbody>
+
+                        {% for grupo in turnos %}
+                            <tr>
+                                <td>{{ grupo.anterior.semestre}}</td>
+                                <td>{{ grupo.actual.semestre}}</td>
+                                <td>{{ grupo.anterior.turno|upper}}{% if grupo.anterior.bilingue %}BILL {% endif %}</td>
+                                <td>{{ grupo.anterior.aula.nombre}}</td>
+                                <td>{{ grupo.anterior.nivel}}</td>
+                                <td>{{ grupo.anterior.nivel - grupo.actual.nivel}}</td>
+                                <td>{{ grupo.actual.nivel}}</td>
+                                <td>{{ grupo.actual.aula.nombre}}</td>
+                                <td>{{ grupo.actual.aula.capacidad}}</td>
+                            </tr>
+
+                        {% endfor %}
+
+                        <div class="row">
+                            <h4>{{ turno }}</h4>
+                        </div>
+                        {% endfor %}
+                        {% endfor %}
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                {#</div>#}
+
+
+            </div>
+
+    </div>
+
+</div>
+
+</div>
+<form class="exportarPdf" id="exportarPdf_form" target="_blank" method="get" action="{{ path("planeacion_horario_crud_cambio_export_pdf") }}">
+    <a name="submit" id="_exportar_hoja_submit"></a>
+</form>
+<form class="exportarXls" id="exportarXls_form" target="_blank" method="get" action="{{ path("planeacion_horario_crud_cambio_export_xls") }}">
+    <a name="submit" id="_exportar_hoja_submit"></a>
+</form>
+
+
+<script>
+
+    $("#exportPdf").on('click', function(e){
+    var el = $(this);
+    $('#exportarPdf_form')[0].submit();
+});
+    $("#exportXls").on('click', function(e){
+        var el = $(this);
+        $('#exportarXls_form')[0].submit();
+    });
+</script>

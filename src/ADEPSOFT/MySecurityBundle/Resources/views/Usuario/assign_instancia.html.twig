@@ -1,0 +1,14 @@
+{% extends '@Comun/architecture/components/CRUD/list.html.twig' %}
+
+{% block aftertable %}
+    <a class="btn default ajaxify pull-right " href="{{ path('security_crud_user') }}"> <i class="m-icon-swapleft"></i> Listado de usuarios</a>
+{% endblock %}
+{% block redefine %}
+    <script>
+        {#$("#"+"{{ model.tableId }}").each(function(i,e){#}
+            {#var id = $(e).attr('id');#}
+            {#TableAjax.init(id,"",[{name:'idUser',value:"{{ idUser}}" }]);#}
+        {#});#}
+    </script>
+<script src="{{ asset('bundles/comun/js/ajaxify_form.js') }}"></script>
+{%  endblock %}

@@ -1,0 +1,137 @@
+
+{% block stylesheets %}
+    <link rel="stylesheet" type="text/css" href="{{ asset('bundles/generalconfig/plugins/ckeditor/contents.css') }}"/>
+<style type="text/css">
+    .cke_button_label.cke_button__inlinesave_label {
+        display: inline;
+        }
+
+    .cke_dialog_ui_input_file {
+        width: 100%;
+        height: 197px;
+    }
+    </style>
+{% endblock %}
+{% block javascript %}
+    <script src="//cdn.ckeditor.com/4.5.9/full/ckeditor.js"></script>
+        <script>
+    var uploadUrl = '{{ path("general_config_ckeditor_upload_image") }}';
+
+
+
+    var conf = CKEDITOR.editorConfig = function( config ) {
+        config.toolbarGroups = [
+            { name: 'clipboard', groups: [ 'clipboard', 'undo' ] },
+            { name: 'editing', groups: [ 'find', 'selection', 'spellchecker', 'editing' ] },
+            { name: 'links', groups: [ 'links' ] },
+            { name: 'insert', groups: [ 'insert' ] },
+            { name: 'forms', groups: [ 'forms' ] },
+            { name: 'tools', groups: [ 'tools' ] },
+            { name: 'document', groups: [ 'mode', 'document', 'doctools' ] },
+            { name: 'others', groups: [ 'others' ] },
+            '/',
+            { name: 'basicstyles', groups: [ 'basicstyles', 'cleanup' ] },
+            { name: 'paragraph', groups: [ 'list', 'indent', 'blocks', 'align', 'bidi', 'paragraph' ] },
+            { name: 'styles', groups: [ 'styles' ] },
+            { name: 'colors', groups: [ 'colors' ] },
+            { name: 'about', groups: [ 'about' ] }
+        ];
+
+        config.removeButtons = 'Underline,Subscript,Superscript';
+    };
+
+        </script>
+{% endblock %}
+<div class="text-center">
+
+    <div id="editor1" contenteditable="true">
+
+
+        {% autoescape %}
+        {%if content_portada.html is defined%}
+            {{ content_portada.html |raw}}
+        {%endif%}
+        
+        {% endautoescape %}
+
+    </div>
+    <script>
+
+        {% block onreadyjs %}
+         var changed = false;
+        CKEDITOR.on('instanceReady', function(e) {
+
+            var editor = e.editor;
+
+            editor.on('simpleuploads.startUpload', function (e) {
+                log("Uploading " + e.data.name + ", please wait...");
+
+            })
+            editor.on('simpleuploads.endUpload', function (e) {
+                if (e.data.ok)
+                    log("File " + e.data.name + " uploaded correctly.");
+                else
+                    log("Upload of " + e.data.name + " has failed.");
+            })
+
+            // the real listener
+            editor.on( 'simpleuploads.finishedUpload' , function(ev) {
+
+                var element = ev.data.element;
+                // Add sample CSS class
+                element.addClass("picture");
+
+                // remove dimension attributes added in v 3.3.2
+                element.removeAttribute("width");
+                element.removeAttribute("height");
+            });
+
+        });
+
+
+
+        CKEDITOR.on( 'instanceCreated', function( event ) {
+            var editor = event.editor,
+                    element = editor.element;
+
+            editor.config.filebrowserUploadUrl = uploadUrl + '?Type=File';
+            editor.config.filebrowserImageUploadUrl = uploadUrl + '?Type=Image';
+            editor.config.customConfig = '';
+        });
+        CKEDITOR.plugins.registered['save'] =
+        {
+            init : function( editor1 )
+            {
+                var command = editor1.addCommand( 'save', {
+                    modes : { wysiwyg:1, source:1 },
+                    exec : function( editor1 ) {
+                        $.ajax({
+                            url:"{{ path("general_config_ckeditor_save_html") }}",
+                            data: {denominacion: "portada_html", 'html': $("#editor1").html()},
+                            success:function(resp) {
+
+                            }
+                        });
+
+                    }
+                });
+                editor1.ui.addButton( 'Save',{label : '',command : 'save'});
+            }
+        }
+
+        CKEDITOR.inline( "editor1", conf);
+
+        function log(msg)
+        {
+            var p=document.createElement('p');
+            p.appendChild( document.createTextNode( msg ) );
+            document.getElementById('log').appendChild(p);
+        }
+
+
+
+        {% endblock %}
+    </script>
+
+
+</div>

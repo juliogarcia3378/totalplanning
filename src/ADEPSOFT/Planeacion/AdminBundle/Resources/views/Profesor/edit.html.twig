@@ -1,0 +1,6 @@
+{% extends 'PlaneacionAdminBundle:Profesor:new.html.twig' %}
+{% block titulo %}
+        Editar profesor: <b>{{ obj.nombre }}-{{ obj.numeroEmpleado }}</b>
+{% endblock %}
+{% block urlForm %}{{ path(model.rutas.edit) }}{% endblock %}
+{% block form_fields %}<input type="hidden" name="id" value="{{ app.request.get('id') }}"/>{% endblock %}

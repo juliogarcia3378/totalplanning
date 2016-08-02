@@ -1,0 +1,10 @@
+{% for menu in menus %}
+
+    {% if menu.ruta == null or menu.id in parentsMenu %}
+        {{ include('ComunBundle:architecture/templates:parent_node.html.twig',{'menu':menu}) }}
+    {% else %}
+         {{ include('ComunBundle:architecture/templates:child_node.html.twig',{'menu':menu,"parent":true}) }}
+    {% endif %}
+
+{% endfor %}
+

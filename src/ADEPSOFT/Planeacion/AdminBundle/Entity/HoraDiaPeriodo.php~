@@ -1,0 +1,67 @@
+<?php
+namespace ADEPSOFT\Planeacion\AdminBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * HoraDiaPeriodo
+ *
+ * @ORM\Table(name="hora_dia_periodo")
+ * @ORM\Entity(repositoryClass="ADEPSOFT\ComunBundle\Util\NomencladoresRepository")
+ */
+class HoraDiaPeriodo
+{
+    /**
+     * @var float
+     *
+     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     * @ORM\SequenceGenerator(sequenceName="hora_dia_periodo_id_seq", allocationSize=1, initialValue=1)
+     */
+    private $id;
+
+
+    /**
+     * @var \Hora
+     *
+     * @ORM\ManyToOne(targetEntity="ADEPSOFT\Planeacion\AdminBundle\Entity\Hora")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="hora", referencedColumnName="id",nullable=true)
+     * })
+     */
+    private $hora;
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     *
+     * @ORM\ManyToMany(targetEntity="Dia")
+     * @ORM\JoinTable(name="hora_dia",
+     *   joinColumns={
+     *     @ORM\JoinColumn(name="hora", referencedColumnName="id", onDelete="CASCADE")
+     *   },
+     *   inverseJoinColumns={
+     *     @ORM\JoinColumn(name="dia", referencedColumnName="id", onDelete="CASCADE")
+     *   }
+     * )
+     */
+    protected $dia;
+    /**
+     * @var \Periodo
+     *
+     * @ORM\ManyToOne(targetEntity="Periodo")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="periodo", referencedColumnName="id",nullable=true)
+     * })
+     */
+    private $periodo;
+    /**
+     * @var \Periodo
+     *
+     * @ORM\ManyToOne(targetEntity="Turno")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="turno", referencedColumnName="id",nullable=true)
+     * })
+     */
+    private $turno;
+
+}

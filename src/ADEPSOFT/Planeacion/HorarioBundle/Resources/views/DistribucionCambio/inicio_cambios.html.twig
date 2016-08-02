@@ -1,0 +1,310 @@
+<div class="row" style="width: 1000px; margin-left: 20px;">
+    <h5>Disponibilidad de matrícula para el periodo</h5><div class="resumen"></div>
+    <table width="100%">
+    {% for i,carrera in cambios %}
+        <tr><td align="center" colspan="20"><h5>{% if i == 1 %}Derecho{% else %}Criminolog&iacute;a{% endif %}</h5></td></tr>
+        <tr>
+        {% for j,semestre in carrera %}
+            <td align="center" colspan="2" style="border-bottom-style: solid; border-bottom-width: 1px;">Semestre {{ j }}</td>
+        {% endfor %}
+            <td align="center" style="border-bottom-style: solid; border-bottom-width: 1px;">Turno</td>
+        </tr>
+        <tr>
+            {% for j,semestre in carrera %}
+                <td align="right" width="50px" style="border-style: solid; border-width: 1px; border-color: #DDDDDD;">
+                    {% if semestre[1] is defined %}
+                        <div class="monitor_cambio" id="t1{{ i }}s{{ j }}">{{ semestre[1] }}</div>
+                    {% endif %}
+                </td>
+                <td style="border-style: solid; border-width: 1px; border-color: #DDDDDD;">
+                    <div id="_t1{{ i }}s{{ j }}"></div>
+                </td>
+            {% endfor %}
+                <td align="center" style="border-style: solid; border-width: 1px; border-color: #DDDDDD;">
+                    <div class="difturno" id="t_t1{{ i }}"></div>
+                </td>
+        </tr>
+        <tr>
+            {% for j,semestre in carrera %}
+                <td align="right" style="border-style: solid; border-width: 1px; border-color: #DDDDDD;">
+                    {% if semestre[2] is defined %}
+                        <div class="monitor_cambio" id="t2{{ i }}s{{ j }}">{{ semestre[2] }}</div>
+                    {% endif %}
+                </td>
+                <td style="border-style: solid; border-width: 1px; border-color: #DDDDDD;">
+                    <div id="_t2{{ i }}s{{ j }}"></div>
+                </td>
+            {% endfor %}
+            <td align="center" style="border-style: solid; border-width: 1px; border-color: #DDDDDD;">
+                <div class="difturno" id="t_t2{{ i }}"></div>
+            </td>
+        </tr>
+        <tr>
+            {% for j,semestre in carrera %}
+                <td align="right" style="border-style: solid; border-width: 1px; border-color: #DDDDDD;">
+                    {% if semestre[3] is defined %}
+                        <div class="monitor_cambio" id="t3{{ i }}s{{ j }}">{{ semestre[3] }}</div>
+                    {% endif %}
+                </td>
+                <td style="border-style: solid; border-width: 1px; border-color: #DDDDDD;">
+                    <div id="_t3{{ i }}s{{ j }}"></div>
+                </td>
+            {% endfor %}
+            <td align="center" style="border-style: solid; border-width: 1px; border-color: #DDDDDD;">
+                <div class="difturno" id="t_t3{{ i }}"></div>
+            </td>
+        </tr>
+        <tr>
+            {% for j,semestre in carrera %}
+                <td align="right" style="border-style: solid; border-width: 1px; border-color: #DDDDDD;">
+                    {% if semestre[4] is defined %}
+                        <div class="monitor_cambio" id="t4{{ i }}s{{ j }}">{{ semestre[4] }}</div>
+                    {% endif %}
+                </td>
+                <td style="border-style: solid; border-width: 1px; border-color: #DDDDDD;">
+                    <div id="_t4{{ i }}s{{ j }}"></div>
+                </td>
+            {% endfor %}
+            <td align="center" style="border-style: solid; border-width: 1px; border-color: #DDDDDD;">
+                <div class="difturno" id="t_t4{{ i }}"></div>
+            </td>
+        </tr>
+    {% endfor %}
+    </table>
+</div>
+
+    <div style="width: 1260px; margin-left: 20px;">
+        {% set length = 12 %}
+        {% set head_div = 0 %}
+        {% set foot_div = 0 %}
+        <div class="row" style="margin-top: 30px;">
+        {% for aula in aulasygrupos %}
+            {% set head_div = head_div + 1 %}
+            {% set foot_div = foot_div + 1 %}
+            {% if head_div == length %}
+                <div class="row" style="margin-top: 32px;">
+                {% set head_div = 1 %}
+            {% endif %}
+                <div class="room" id="{{ aula.id }}" nombre="{{ aula.nombre }}" capacidad="{{ aula.capacidad }}" online="{{ aula.online }}" htotal="90" hactual="0">
+                    <div class="header-room" style="margin-bottom: 2px">
+                    <span class="label label-default"> Aula {{ aula.nombre }}</span><span class="label label-default">{{ aula.capacidad }}</span>
+                        </div>
+                    <div class="slot" accepts="t1" ondrop="target_drop(event)" ondragover="target_dragover(event)" ondblclick="createGroup(event);">
+                        {% if aula.t1 is defined %}
+                            <div class="group label label-default {% if aula.t1.enlinea %}t1 t2 t3 t4{% else %}t1{% endif %}" id="{{aula.t1.id }}" nivel="{{ aula.t1.nivel }}" semestre="{{ aula.t1.semestre }}" plan="{{ aula.t1.plan }}" carrera="{{ aula.t1.carrera }}" online="{% if aula.t1.enlinea %}true{% else %}false{% endif %}" fusion="false" lock="false" bilingue="{{ aula.t1.bilingue }}" terceros="{{ aula.t1.tercero }}" horas="{{ aula.t1.horas }}" draggable="true" ondragstart="dragstart(event)" ondrag="drag(event)" ondragend="dragend(event)">
+                                <div class="group-label">
+                                    <span class="group-menu fa fa-chevron-circle-right fa-lg" style="cursor:pointer;" onclick="group_context_menu(event);"></span>
+                                    <span class="group-name" ondrop="swap_drop(event)" ondragover="target_dragover(event)"> {{ aula.t1.nombre }}
+                                        <sup>{% if aula.t1.bilingue == "true" %}
+                                            <b>B</b>
+                                        {% endif %}</sup>
+                                    </span>
+                                    <span class="group-close fa fa-times fa-lg" style="cursor:pointer;" onclick="group_close({{ aula.t1.id }});"></span>
+                                </div>
+                            </div>
+                        {% endif %}
+                    </div>
+                    <div class="slot" accepts="t2" ondrop="target_drop(event)" ondragover="target_dragover(event)" ondblclick="createGroup(event);">
+                        {% if aula.t2 is defined %}
+                            <div class="group label label-default {% if aula.t2.enlinea %}t1 t2 t3 t4{% else %}t2{% endif %}" id="{{ aula.t2.id }}" nivel="{{ aula.t2.nivel }}" semestre="{{ aula.t2.semestre }}" plan="{{ aula.t2.plan }}" carrera="{{ aula.t2.carrera }}" online="{% if aula.t2.enlinea %}true{% else %}false{% endif %}" fusion="false" lock="false" bilingue="{{ aula.t2.bilingue }}" terceros="{{ aula.t2.tercero }}" horas="{{ aula.t2.horas }}" draggable="true" ondragstart="dragstart(event)" ondrag="drag(event)" ondragend="dragend(event)">
+                                <div class="group-label">
+                                    <span class="group-menu fa fa-chevron-circle-right fa-lg" style="cursor:pointer;" onclick="group_context_menu(event);"></span>
+                                    <span class="group-name" ondrop="swap_drop(event)" ondragover="target_dragover(event)"> {{ aula.t2.nombre }}
+                                        <sup>{% if aula.t2.bilingue == "true" %}
+                                            <b>B</b>
+                                        {% endif %}</sup>
+                                    </span>
+                                    <span class="group-close fa fa-times fa-lg" style="cursor:pointer;" onclick="group_close({{ aula.t2.id }});"></span>
+                                </div>
+                            </div>
+                        {% endif %}
+                    </div>
+                    <div class="slot" accepts="t3" ondrop="target_drop(event)" ondragover="target_dragover(event)" ondblclick="createGroup(event);">
+                        {% if aula.t3 is defined %}
+                            <div class="group label label-default {% if aula.t3.enlinea %}t1 t2 t3 t4{% else %}t3{% endif %}" id="{{ aula.t3.id }}" nivel="{{ aula.t3.nivel }}" semestre="{{ aula.t3.semestre }}" plan="{{ aula.t3.plan }}" carrera="{{ aula.t3.carrera }}" online="{% if aula.t3.enlinea %}true{% else %}false{% endif %}" fusion="false" lock="false" bilingue="{{ aula.t3.bilingue }}" terceros="{{ aula.t3.tercero }}" horas="{{ aula.t3.horas }}" draggable="true" ondragstart="dragstart(event)" ondrag="drag(event)" ondragend="dragend(event)">
+                                <div class="group-label">
+                                    <span class="group-menu fa fa-chevron-circle-right fa-lg" style="cursor:pointer;" onclick="group_context_menu(event);"></span>
+                                    <span class="group-name" ondrop="swap_drop(event)" ondragover="target_dragover(event)"> {{ aula.t3.nombre }}
+                                        <sup>{% if aula.t3.bilingue == "true" %}
+                                            <b>B</b>
+                                        {% endif %}</sup>
+                                    </span>
+                                    <span class="group-close fa fa-times fa-lg" style="cursor:pointer;" onclick="group_close({{ aula.t3.id }});"></span>
+                                </div>
+                            </div>
+                        {% endif %}
+                    </div>
+                    <div class="slot" accepts="t4" ondrop="target_drop(event)" ondragover="target_dragover(event)" ondblclick="createGroup(event);">
+                        {% if aula.t4 is defined %}
+                            <div class="group label label-default {% if aula.t4.enlinea %}t1 t2 t3 t4{% else %}t4{% endif %}" id="{{ aula.t4.id }}" nivel="{{ aula.t4.nivel }}" semestre="{{ aula.t4.semestre }}" plan="{{ aula.t4.plan }}" carrera="{{ aula.t4.carrera }}" online="{% if aula.t4.enlinea %}true{% else %}false{% endif %}" fusion="false" lock="false" bilingue="{{ aula.t4.bilingue }}" terceros="{{ aula.t4.tercero }}" horas="{{ aula.t4.horas }}" draggable="true" ondragstart="dragstart(event)" ondrag="drag(event)" ondragend="dragend(event)">
+                                <div class="group-label">
+                                    <span class="group-menu fa fa-chevron-circle-right fa-lg" style="cursor:pointer;" onclick="group_context_menu(event);"></span>
+                                    <span class="group-name" ondrop="swap_drop(event)" ondragover="target_dragover(event)"> {{ aula.t4.nombre }}
+                                        <sup>{% if aula.t4.bilingue == "true" %}
+                                            <b>B</b>
+                                        {% endif %}</sup>
+                                    </span>
+                                    <span class="group-close fa fa-times fa-lg" style="cursor:pointer;" onclick="group_close({{ aula.t4.id }});"></span>
+                                </div>
+                            </div>
+                        {% endif %}
+                    </div>
+                    <span class="label label-default pull-right">Horas: 0/90</span>
+                </div>
+            {% if foot_div == (length - 1) %}
+                </div>
+                {% set foot_div = 0 %}
+            {% endif %}
+        {% endfor %}
+    </div>
+</div>
+
+<div class="panel panel-default group-context-menu" style="display:none;">
+    <div class="panel-body">
+        <h6>Operaciones</h6>
+        <hr/>
+        <div class="row">
+            <div class="col-sm-11 col-sm-offset-1">
+                <input type="checkbox" class="styled" id="group-context-menu-fusion">
+                <label> Marcar para fusión</label><br/>
+                <input type="checkbox" class="styled" id="group-context-menu-lock">
+                <label> Bloquear</label>
+            </div>
+        </div>
+        <h6>Datos del grupo</h6>
+        <hr/>
+        <div class="row">
+            <div class="col-sm-3 col-sm-offset-1">
+                <label class="control-label">Nivel:</label>
+            </div>
+            <div class="col-sm-4">
+                <input type="text" maxlength="2" class="form-control" id="group-context-menu-level" value="35">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-11 col-sm-offset-1">
+                <input type="checkbox" class="styled" id="group-context-menu-bil">
+                <label> Biling&uuml;e</label><br/>
+                <input type="checkbox" class="styled" id="group-context-menu-online">
+                <label> En línea</label>
+            </div>
+        </div>
+        <p>
+            <span>
+			    <span class="label label-default">
+				    Semestre <span id="group-context-menu-sem"></span> del plan <span id="group-context-menu-plan"></span>
+                </span>
+                <span class="label label-primary" id="group-context-menu-h"></span>
+            </span>
+        </p>
+
+    </div>
+</div>
+
+<div class="modal fade" id="error_msg" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Error...</h4>
+            </div>
+            <div class="modal-body row">
+                <div class="col-sm-1">
+                    <span class="fa fa-ban fa-2x text-danger"></span>
+                </div>
+                <div class="col-sm-11">
+                    <span class="description"></span>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="create-group-form" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Crear un nuevo grupo</h4>
+            </div>
+            <div class="modal-body row">
+                <div class="form-group row">
+                    <div class="col-sm-3 col-sm-offset-2">
+                        <label class="control-label">Nombre:</label>
+                    </div>
+                    <div class="col-sm-4">
+                        <input type="text" maxlength="6" class="form-control" id="create-group-nombre">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-sm-3 col-sm-offset-2">
+                        <label class="control-label">Nivel:</label>
+                    </div>
+                    <div class="col-sm-4">
+                        <input type="text" maxlength="2" class="form-control" id="create-group-nivel" value="34">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-sm-3 col-sm-offset-2">
+                        <label class="control-label">Semestre:</label>
+                    </div>
+                    <div class="col-sm-4">
+                        <select id="create-group-semestre">
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                            <option value="6">6</option>
+                            <option value="7">7</option>
+                            <option value="8">8</option>
+                            <option value="9">9</option>
+                            <option value="10">10</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-sm-3 col-sm-offset-2">
+                        <label class="control-label">Licenciatura:</label>
+                    </div>
+                    <div class="col-sm-4">
+                        <select id="create-group-carrera">
+                            {% for i,carrera in carreras %}
+                                <option value="{{ carrera.id }}">{{ carrera.nombre }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-sm-3 col-sm-offset-2">
+                        <label class="control-label">Plan de Estudio:</label>
+                    </div>
+                    <div class="col-sm-4">
+                        <select id="create-group-plan">
+                            {% for i,plan in planes %}
+                                <option value="{{ plan.id }}">{{ plan.nombre }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-sm-11 col-sm-offset-2">
+                        <input type="checkbox" class="styled" id="create-group-bil">
+                        <label> Biling&uuml;e</label><br/>
+                    </div>
+                    <input type="hidden" id="create-group-periodo" value="{{ periodo.id }}">
+                    <input type="hidden" id="create-group-turno" value="">
+                    <input type="hidden" id="create-group-aula" value="">
+                    <input type="hidden" id="create-group-campus" value="1">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-success" data-dismiss="modal" onclick="tryCreateGroup();">Aceptar</button>
+            </div>
+        </div>
+    </div>
+</div>

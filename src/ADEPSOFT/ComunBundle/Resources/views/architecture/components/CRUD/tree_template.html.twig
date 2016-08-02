@@ -1,0 +1,80 @@
+{% if rutas.edit is defined and rutas.edit is not null %}
+<div class="tree_contaner">
+    <div class="modal fade modal_editar_tree"  data-backdrop="static" data-keyboard="false" id="{{ model.idTree}}_modal_edit" tabindex="-1" role="basic" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content ajax_form_block">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                    <h4 class="modal-title">Modificar {{ model.name }}</h4>
+                </div>
+                <form  action="{{ path(rutas.edit) }}" method="POST" id="{{ model.idTree }}_edit_form" class="ajax_form">
+                    <div class="modal-body">
+                        <div id="{{ model.idTree }}_edit_form_container">
+                            {#{{ render(path(rutas.edit))}}#}
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn default" data-dismiss="modal">Cerrar</button>
+                        <button class="btn blue " type="submit" value="Aceptar">Aceptar</button>
+                    </div>
+                </form>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+    </div>
+{% endif %}
+{% if rutas.new is defined and rutas.new is not null %}
+    <div class="modal fade "  data-backdrop="static" data-keyboard="false" tabindex="-1" id="{{ model.idTree }}_modal_create" role="basic" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content ajax_form_block">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                    <h4 class="modal-title">Crear {{ model.name }}</h4>
+                </div>
+                <form  action="{{path(rutas.new) }}"  id="{{ model.idTree }}_new_form" method="POST" class="ajax_form">
+                    <div class="modal-body">
+                        <div id="{{ model.idTree }}_new_form_container">
+                            {{ render(path(rutas.new)) }}
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn default" data-dismiss="modal">Cerrar</button>
+                        <button class="btn blue " type="submit"  value="Aceptar">Aceptar</button>
+                    </div>
+                    <input type="hidden" name="modified" value="false"/>
+                </form>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+    </div>
+{% endif %}
+    <div class="row">
+        <div class="col-md-12">
+            {% if model.hasPortlet %}
+            <div class="portlet box blue" id="{{ model.idTree }}_tree_portlet">
+                <div class="portlet-title">
+                    <div class="caption">
+                        <i class="fa fa-reorder"></i>{{ model.name }}
+                    </div>
+                </div>
+                <div class="portlet-body" style="">
+                    <div >
+                        <div id="{{ model.idTree }}" class="tree">
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            {% else %}
+                <div >
+                    <div id="{{ model.idTree }}" class="tree">
+                    </div>
+
+                </div>
+            {% endif %}
+
+        </div>
+    </div>
+</div>
+{% block tree_block %}
+{% endblock %}

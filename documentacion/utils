@@ -1,0 +1,6 @@
+
+
+//Updating database from Linux terminal
+mysql -u root -p prueba < prueba.sql
+
+mysql -u root -pPassword123 wp_users < wp_users.sql

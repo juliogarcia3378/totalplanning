@@ -1,0 +1,33 @@
+{
+  "name": "totalplanning",
+  "authors": [
+    "Julio Garcia <jjspider277@gmail.com>"
+  ],
+  "description": "bwer configuration file",
+  "main": "",
+  "license": "MIT",
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "web/assets/vendor",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery-migrate": "^3.0.0",
+    "jquery-ui": "^1.11.4",
+    "jquery": "^3.0.0",
+    "bootstrap": "*",
+    "blockui": "*",
+    "cookie": "*",
+    "slimscroll": "*",
+    "uniform": "*",
+    "bootstrap-hover-dropdown": "*",
+    "toastr": "*",
+    "validate": "*",
+    "bootbox": "*",
+    "requirejs": "^2.2.0"
+  }
+}

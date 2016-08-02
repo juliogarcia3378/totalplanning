@@ -1,0 +1,87 @@
+<div id="ajax_form_container_registro_materias">
+<div class="form-group">
+    <label class=" col-md-1 inline-block" ><b>Profesor:</b></label><label class="inline-block" style="padding-left:15px">{{ profe.nombre }}</label>
+</div>
+    <div class="row form-group" style="margin-left: 0px">
+
+            <div  class="col-md-2">
+                    <select    class="form-control input-sm select2me" data-placeholder="Per&iacute;odo..." name="periodo">
+                        <option value=""></option>
+                        {% for periodo in periodos %}
+                            <option value="{{ periodo.id }}" {% if periodo.id == periodo_selected %} selected="true" {% endif %}>{{ periodo.abreviado }} </option>
+                        {% endfor %}
+                    </select>
+            </div>
+            <div  class="col-md-8">
+                    <select autoopen="true" multiple="true" class="form-control input-sm select2me" data-placeholder="Materia..." name="materia">
+                        <option value=""></option>
+                        {% for materia in  allMaterias %}
+                            <option value="{{ materia.id }}">{{ materia.texto }} </option>
+                        {% endfor %}
+                    </select>
+            </div>
+           <div  class="col-md-2">
+               <button class="btn btn-sm blue "  type="submit" name="add_materia_button" onclick="$('#materia_new_indicator').val('false')"><span class="glyphicon glyphicon-plus-sign"></span></button>
+           </div>
+        <span>&nbsp;</span>
+    </div>
+    <div class="row form-group" style="margin-left: 0px">
+
+        <div  class="col-md-2">
+            <select   class="form-control input-sm select2me" data-placeholder="Per&iacute;odo..." name="periodo_new">
+                <option value=""></option>
+                {% for periodo in periodos %}
+                    <option value="{{ periodo.id }}" {% if periodo.id == periodo_new_selected %} selected="true" {% endif %}>{{ periodo.abreviado }} </option>
+                {% endfor %}
+            </select>
+        </div>
+        <div  class="col-md-2">
+            <input class="form-control" placeholder="Clave:" name="clave" id="clave_materia_new">
+        </div>
+        <div  class="col-md-6">
+            <input class="form-control " name="materia_new" placeholder="Nombre materia:"  id="materia_new">
+            <input type="hidden" id="materia_new_indicator" name="materia_new_indicator" value="false">
+        </div>
+        <div  class="col-md-2">
+            <button class="btn btn-sm blue "  type="submit" onclick="$('#materia_new_indicator').val('true')"><span class="glyphicon glyphicon-plus-sign"></span></button>
+        </div>
+        <span>&nbsp;</span>
+    </div>
+    <div class="form-group">
+        <div class="col-md-2"></div>
+        <div class="table-responsive col-md-8">
+            <table class="table  table-bordered ">
+                <thead >
+                <tr style="vertical-align: middle">
+                    <th width="5%" class="text-center"> <span> Per&iacute;odo </span></th>  <th width="40%" class="text-center"><span> Materia </span></th>
+                    {% if hayBorrable == true%}
+                        <th width="1%"></th>
+                    {% endif %}
+                </tr>
+                </thead>
+                <tbody>
+                {% for EPPeriodo in historial  %}
+                    {% for materia in EPPeriodo.materia %}
+                        <tr style="vertical-align: middle" >
+
+                            <td class="text-center" style="vertical-align: middle">
+                                <span> {{ EPPeriodo.periodo.abreviado }}</span>
+                            </td>
+                            <td class="text-left"  style="vertical-align: middle">
+                                <span> {{ materia.materia.textoSinLicenciatura }}</span>
+                            </td>
+                            {% if hayBorrable == true%}
+                                <td>
+                                    {% if materia.borrable == true %}
+                                        <a  class=" red ajaxify" type="json" block="form_block" target="#ajax_form_container_registro_materias" href="{{ path("planeacion_admin_crud_profesor_eliminar_registro_materias") }}?idProfe={{ profe.id }}&idMateria={{ materia.materia.id }}&periodo={{ EPPeriodo.periodo.id }}"  style="background-color: #d84a38;margin: 0px; padding-left: 5px; padding-right: 5px; cursor: pointer; vertical-align: middle"><i class="fa fa-times " style=" color: #ffffff"></i></a>
+                                    {% endif %}
+                                </td>
+                            {% endif %}
+                        </tr>
+                    {% endfor %}
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

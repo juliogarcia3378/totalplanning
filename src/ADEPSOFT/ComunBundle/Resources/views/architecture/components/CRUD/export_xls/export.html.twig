@@ -1,0 +1,43 @@
+
+
+<!DOCTYPE html>
+<html>
+<head><meta http-equiv='Content-type' content='text/html; charset=UTF-8' /></head>
+<body>
+{% block content %}
+    <table border="1">
+        <thead>
+            <tr>
+                <th style="background-color: lightblue;">
+                    <b>  #  </b>
+                </th>
+                {% for  header in headers %}
+                    {% if header.show != "Foto" %}
+                    <th style="background-color: lightblue;">
+                        <b> {{ header.show}} </b>
+                    </th>
+                    {% endif %}
+                {% endfor %}
+            </tr>
+        </thead>
+        <tbody>
+            {% for  row in data %}
+                <tr>
+                    <td>
+                        ="{{ loop.index0+1 }}"
+                    </td>
+                    {% for  header in headers %}
+                        {% if header.show != "Foto" %}
+                        <td  class="text-left">
+                            ="{{attribute(row,header.value ) }}"
+                        </td>
+                        {% endif %}
+                    {% endfor %}
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock content %}
+</body>
+</html>

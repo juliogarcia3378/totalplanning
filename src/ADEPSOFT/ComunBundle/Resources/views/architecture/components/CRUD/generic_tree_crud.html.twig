@@ -1,0 +1,17 @@
+{#{% extends '::base.html.twig' %}#}
+
+{% block stylesheets %}
+    <link rel="stylesheet" type="text/css" href="{{ asset('bundles/comun/base/plugins/jstree/dist/themes/default/style.min.css') }}"/>
+{% endblock %}
+
+{% block javascript %}
+
+    {#<script src="{{ asset('bundles/comun/base/plugins/jstree/dist/jstree.min.js') }}"></script>#}
+    <script src="{{ asset('bundles/comun/base/plugins/jstree/dist/jstree.js') }}"></script>
+    <script src="{{ asset('bundles/comun/js/ajaxify_form.js') }}"></script>
+    {{ include ("@Comun/architecture/components/CRUD/tree.html.twig",{'model':model,'rutas':rutas}) }}
+{% endblock %}
+
+{% block content %}
+    {% include "@Comun/architecture/components/CRUD/tree_template.html.twig" %}
+{% endblock content %}

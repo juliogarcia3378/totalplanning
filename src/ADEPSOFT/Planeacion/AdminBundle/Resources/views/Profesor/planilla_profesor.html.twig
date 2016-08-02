@@ -1,0 +1,330 @@
+<div class="row form-group">
+    <div class="col-md-2">
+        <img src="{{ asset('bundles/planeacionadmin/img/logo-facdyc.jpg')}}" class="img-responsive" style="max-width: 70%" alt=""/>
+    </div>
+    <div class="col-md-8">
+        <h3 class="text-center">UNIVERSIDAD NACIONAL DE COLOMBIA
+        </h3>
+    </div>
+    <div class="col-md-2 img_field">
+        <span class="profile-picture">
+            <img src=" {% if foto is defined and foto != "" and foto is not null%} {{foto}} {%else%} {{ asset('bundles/planeacionadmin/img/profile-pic.jpg')}} {%endif%}" class="img-responsive input-img-ace" id="avatar_planilla_profesor" name="avatar_planilla_profesor" class="editable img-responsive" alt="Foto Profesor"/>
+        </span>
+        <div class="space-4"></div>
+    </div>
+</div>
+<div class="row text-center form-group">
+    <div class="col-md-12">
+        <label>Fecha de actualizaci&oacute;n: <b>{{ obj.fechaActualizacion|date("d-m-Y") }}</b></label>
+    </div>
+</div>
+<div class="row form-group" style="padding-bottom: 10px; padding-top: 10px;">
+    <div class="col-md-4">
+        <label class="checkbox-inline">
+            {{ form_widget(form.inactivo) }} Establecer como No Activo
+        </label>
+    </div>
+    <div class="col-md-3">
+        <div class="input-group">
+            <span class="input-group-btn">
+                <label class="control-label" type="button">Carrera:* &nbsp;</label>
+            </span>
+            {{ form_widget(form.carrera) }}
+        </div>
+    </div>
+</div>
+<div class="row form-group">
+    <div class="col-md-4 form-group">
+        <div class="input-group">
+            <span class="input-group-btn">
+                <label class="control-label" type="button">Nombres:*&nbsp; </label>
+            </span>
+            {{form_widget(form.nombres )}}
+        </div>
+    </div>
+    <div class="col-md-4 form-group">
+        <div class="input-group">
+            <span class="input-group-btn">
+                <label class="control-label" type="button">Apellidos:*&nbsp; </label>
+            </span>
+            {{form_widget(form.apellidos )}}
+        </div>
+    </div>    
+    <div class="col-md-4 form-group">
+        <div class="input-group">
+            <span class="input-group-btn">
+                <label class="control-label" type="button">No. de Empleado:&nbsp; </label>
+            </span>
+            {{form_widget(form.numeroEmpleado)}}
+        </div>
+    </div>
+</div>
+<div class="row form-group">
+    <div class="col-md-4 form-group">
+        <div class="input-group">
+            <span class="input-group-btn">
+                <label class="control-label" type="button">Fecha ingreso a FACDYC: &nbsp;</label>
+            </span>
+            {{form_widget(form.fechaIngresoFac)}} 
+        </div>
+    </div>
+    <div class="col-md-4 form-group">
+        <div class="input-group">
+            <span class="input-group-btn">
+                <label class="control-label" type="button">Fecha ingreso a UANL: &nbsp;</label>
+            </span>
+            {{form_widget(form.fechaIngresoUanl)}}
+        </div>
+    </div>
+    <div class="col-md-4 form-group">
+        <div class="input-group">
+            <span class="input-group-btn">
+                <label class="control-label" type="button">Categoría:* &nbsp;</label>
+            </span>
+            {{form_widget(form.categoria)}}
+        </div>
+    </div>  
+</div>
+<div class="row form-group">
+    <div class="col-md-8">
+        <div class="input-group">
+            <span class="input-group-btn">
+                <label class="control-label" type="button">Licenciatura en: &nbsp;</label>
+            </span>
+            {{form_widget(form.licenciaturaEn)}}
+        </div>
+    </div>
+    <div class="col-md-4 form-group">
+        <div class="input-group">
+            <span class="input-group-btn">
+                <label class="control-label" type="button">G&eacute;nero:*&nbsp; </label>
+            </span>
+            {{form_widget(form.genero)}}
+        </div>
+    </div>
+</div>
+<div class="row form-group">
+    <div class="col-md-6">
+        <div class="input-group">
+            <span class="input-group-btn">
+                <label class="control-label" type="button">Maestr&iacute;a en:&nbsp; </label>
+            </span>
+            {{form_widget(form.maestriaEn.nombre)}}
+        </div>
+    </div> 
+    <div class="col-md-3">
+        <div id="selection_level_m" class="input-group">
+            {{form_widget(form.maestriaEn.tipo)}}
+        </div>
+    </div>
+    <div class="col-md-3">
+		<span class="fa fa-times text-danger" style="cursor: ponter;" onclick="$('#selection_level_m span').removeClass('checked');"></span>
+    </div>
+</div>
+<div class="row form-group">
+    <div class="col-md-6">
+        <div class="input-group">
+            <span class="input-group-btn">
+                <label class="control-label" type="button">Doctorado en: &nbsp;</label>
+            </span>
+            {{form_widget(form.doctoradoEn.nombre)}}
+        </div>
+    </div> 
+    <div class="col-md-3">
+        <div id="selection_level_d" class="input-group">
+            {{form_widget(form.doctoradoEn.tipo)}}
+        </div>
+    </div>
+    <div class="col-md-3">
+		<span class="fa fa-times text-danger" style="cursor: ponter;" onclick="$('#selection_level_d span').removeClass('checked');"></span>
+    </div>
+</div>
+<div class="row form-group">
+    <div class="col-md-4">
+        <div class="input-group">
+            <span class="input-group-btn">
+                <label class="control-label" type="button">Otros idiomas que domine:&nbsp;&nbsp;&nbsp;&nbsp;(1)</label>
+            </span>
+            {{form_widget(form.idioma1.idioma)}}
+        </div>
+    </div> 
+    <div class="col-md-2 form-group">
+        <div class="input-group">
+            <span class="input-group-btn">
+                <label class="control-label" type="button">%</label>
+            </span>
+            {{form_widget(form.idioma1.porciento)}}
+        </div>
+    </div> 
+    <div class="col-md-2">        
+        <div class="input-group">
+            <span class="input-group-btn">
+                <label class="control-label" type="button">(2)</label>
+            </span>
+            {{form_widget(form.idioma2.idioma)}}
+        </div>
+    </div> 
+    <div class="col-md-2 form-group">
+        <div class="input-group">
+            <span class="input-group-btn">
+                <label class="control-label" type="button">%</label>
+            </span>
+            {{form_widget(form.idioma2.porciento)}}
+        </div>
+    </div> 
+</div> 
+<div class="row form-group">
+    <div class="col-md-12">
+        <div class="input-group">
+            <span class="input-group-btn">
+                <label class="control-label" type="button">Domicilio:&nbsp; </label>
+            </span>
+            {{form_widget(form.domicilio)}}
+        </div>
+    </div> 
+</div> 
+<div class="row form-group">
+    <div class="col-md-4">
+        <div class="input-group">
+            <span class="input-group-btn">
+                <label class="control-label" type="button">Tel. Particular:&nbsp; </label>
+            </span>
+            {{form_widget(form.telParticular)}}
+        </div>
+    </div> 
+    <div class="col-md-4">
+        <div class="input-group">
+            <span class="input-group-btn">
+                <label class="control-label" type="button">Celular:&nbsp; </label>
+            </span>
+            {{form_widget(form.telCelular)}}
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="input-group">
+            <span class="input-group-btn">
+                <label class="control-label" type="button">Nextel:&nbsp; </label>
+            </span>
+            {{form_widget(form.telNextel)}}
+        </div>
+    </div>
+</div>        
+<div class="row form-group">
+    <div class="col-md-6">
+        <div class="input-group">
+            <span class="input-group-btn">
+                <label class="control-label" type="button">Correo electrónico:&nbsp; </label>
+            </span>
+            {{form_widget(form.correo)}}
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="input-group">
+            <span class="input-group-btn">
+                <label class="control-label" type="button">Facebook:&nbsp; </label>
+            </span>
+            {{form_widget(form.facebook)}}
+        </div>
+    </div>
+</div>
+<div class="row form-group">
+    <div class="col-md-8">
+        <div class="input-group">
+            <span class="input-group-btn">
+                <label class="control-label" type="button">Lugar donde labora:&nbsp; </label>
+            </span>
+            {{form_widget(form.lugarLabora)}}
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="input-group">
+            <span class="input-group-btn">
+                <label class="control-label" type="button">Teléfono donde labora:&nbsp; </label>
+            </span>
+            {{form_widget(form.telLugarLabora)}}
+        </div>
+    </div>
+</div>
+<div class="row form-group">
+    <div class="col-md-12">
+        <div class="input-group">
+            <span class="input-group-btn">
+                <label class="control-label" type="button">Dirección donde labora: &nbsp;</label>
+            </span>
+            {{form_widget(form.dirLabora)}}
+        </div>
+    </div> 
+</div>
+<div class="row form-group">
+    <div class="col-md-4">
+        <div class="input-group">
+            <span class="input-group-btn">
+                <label class="control-label" type="button">Fecha de nacimiento:&nbsp; </label>
+            </span>
+            {{form_widget(form.fechaNacimiento)}}
+        </div>
+    </div> 
+    <div class="col-md-3">
+        <div class="input-group">
+            <span class="input-group-btn">
+                <label class="control-label" type="button">Estado civil: &nbsp;</label>
+            </span>
+            {{form_widget(form.estadoCivil)}}
+        </div>
+    </div>
+    <div class="col-md-5">
+        <div class="input-group">
+            <span class="input-group-btn">
+                <label class="control-label" type="button">Nombre de c&oacute;nyuge:&nbsp; </label>
+            </span>
+            {{form_widget(form.nombreConyugue)}}
+        </div>
+    </div>
+</div>
+<div class="row form-group" style=" padding-bottom: 10px; padding-top: 10px">
+    {#<div class="col-md-3"></div>#}
+    <div class="col-md-4">
+        <label style="margin-left: 12px;margin-right: 0px; padding-right: 0px" class=" control-label">Disponibilidad para impartir clases en Campus:&nbsp; </label>
+    </div>
+    <div class="col-md-3 checkbox-list" style="margin-left: 0px;padding-left: 0px">
+        <label class="checkbox-inline">
+            {{form_widget(form.linares)}} Linares</label>
+        <label class="checkbox-inline">
+            {{form_widget(form.sabina)}} Sabinas</label>
+    </div>
+</div>
+<div class="row form-group" style=" padding-bottom: 10px; padding-top: 10px">
+    <div class="col-md-12 text-center">
+        <div class="input-group">
+            <span class="input-group-btn">
+                <label class="control-label" type="button">Competencias y habilidades:&nbsp; </label>
+            </span>
+            {{form_widget(form.perfil)}}
+        </div>
+    </div>
+</div>
+{#<div class="row form-group">#}
+    {#<div class="col-md-4">#}
+        {#<div class="input-group">#}
+            {#<span class="input-group-btn">#}
+                {#<label class="control-label" type="button">Disponibilidad para impartir clases en Campus:</label>#}
+            {#</span>#}
+        {#</div>#}
+    {#</div> #}
+    {#<div class="col-md-2">#}
+        {#<div class="input-group">#}
+            {#<span class="input-group-btn">#}
+                {#<label class="control-label" type="button"></label>#}
+            {#</span>#}
+            {#{{form_row(form.linares)}}#}
+        {#</div>#}
+    {#</div>#}
+    {#<div class="col-md-2">#}
+        {#<div class="input-group">#}
+            {#<span class="input-group-btn">#}
+                {#<label class="control-label" type="button"></label>#}
+            {#</span>#}
+            {#{{form_row(form.sabina)}}#}
+        {#</div>#}
+    {#</div>#}
+{#</div>#}
