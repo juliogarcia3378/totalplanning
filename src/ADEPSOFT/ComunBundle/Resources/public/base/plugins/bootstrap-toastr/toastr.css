@@ -140,10 +140,10 @@ button.toast-close-button {
   margin: auto;
 }
 .toast {
-  background-color: #030303;
+      background: #f0f6fa;
 }
 .toast-success {
-  background-color: #51a351;
+      background: #f0f6fa;
 }
 .toast-error {
   background-color: #bd362f;

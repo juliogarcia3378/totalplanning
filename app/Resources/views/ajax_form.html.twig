@@ -114,18 +114,24 @@
                                     $("#" + $form.attr('id') + "_container").html(res.html);
                                     App.initAjax($form);
                                 }
-                                if (typeof(res.sMessage) != 'undefined' && res.sMessage != '') {
+                                if (typeof(res.sMessage) != 'pundefined' && res.sMessage != '') {
+                                alert(1);
                                     App.toast(null, res.sMessage, TOAST.SUCCESS);
                                 }
-                                else
+                                else{
+                                    alert(2);
                                     App.toast(null, Mensajes.OpOK, TOAST.SUCCESS);
+                                }
                             }
                             else if (res.success == true && typeof($form.attr('redirect')) != 'undefined') {
                                 if (typeof(res.sMessage) != 'undefined') {
+                                 alert(3);
                                     App.toast(null, res.sMessage, TOAST.SUCCESS);
                                 }
-                                else
+                                else{
+                                ALERT(4);
                                     App.toast(null, Mensajes.OpOK, TOAST.SUCCESS);
+                                }
 
                                 var pageContentBody = $('.page-content .page-content-body');
                                 pageContentBody.html(res.html);
@@ -135,6 +141,7 @@
                                     var pageContentBody = $('.page-content .page-content-body');
                                     pageContentBody.html(res);
                                     if (typeof(res.sMessage) != 'undefined') {
+                                    ALERT(5);
                                         App.toast(null, res.sMessage, TOAST.ERROR);
                                     }
                                     //else
