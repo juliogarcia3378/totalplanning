@@ -5,6 +5,8 @@ Login page
 /* logo page */
 .login {
   background-color: #2d3344 !important;
+   background-image: url("../../imgs/bg3.jpg");
+   background-size: 100%;
 }
 
 .login .logo {
@@ -15,13 +17,16 @@ Login page
 }  
 
 .login .content {
+  opacity: 0.9;
   background-color:#fff; 
   width: 360px;
   margin: 0 auto; 
   margin-bottom: 0px;
+  margin-right: 50px;
   padding: 30px;  
   padding-top: 20px;  
-  padding-bottom: 15px;  
+  padding-bottom: 15px; 
+  
 }
 
 .login .content h3 {
