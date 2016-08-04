@@ -54,12 +54,11 @@ class PlanEstudio
     /**
      * @var \Carrera
      *
-     * @ORM\ManyToOne(targetEntity="Carrera",inversedBy="planEstudio")
+     * @ORM\ManyToOne(targetEntity="ADEPSOFT\Planeacion\AdminBundle\Entity\Carrera",inversedBy="planEstudio")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="Carrera", referencedColumnName="id", nullable=true)
      * })
      */
-    private $Carrera;
+    private $carrera;
 
     /**
      * Get id
@@ -106,12 +105,12 @@ class PlanEstudio
     /**
      * Set Carrera
      *
-     * @param \ADEPSOFT\Planeacion\AdminBundle\Entity\Carrera $Carrera
-     * @return PlanEstudio
+     * @param \ADEPSOFT\Planeacion\AdminBundle\Entity\Carrera $carrera
+     * @return Carrera
      */
     public function setCarrera(\ADEPSOFT\Planeacion\AdminBundle\Entity\Carrera $Carrera = null)
     {
-        $this->Carrera = $Carrera;
+        $this->carrera = $Carrera;
     
         return $this;
     }
@@ -123,7 +122,7 @@ class PlanEstudio
      */
     public function getCarrera()
     {
-        return $this->Carrera;
+        return $this->carrera;
     }
 
     /**
