@@ -22,7 +22,7 @@ class PlanEstudioTable extends TableModel
     }
     public function defineColumns() {
         $nameColumn = new GridColumn("Nombre", '18%','nombre');
-        $licColumn = new GridColumn("Licenciatura", '18%','licenciatura');
+        $licColumn = new GridColumn("Carrera", '18%','carrera');
         $activoColumn = new GridColumn("Activo", '5%','activo');
 
         $filter = new SelectFilterColumn();
@@ -36,7 +36,7 @@ class PlanEstudioTable extends TableModel
 
         $licColumn->setFilterType('select');
         $filter = new SelectFilterColumn();
-        $filter->setData($this->getEm()->getRepository("PlaneacionAdminBundle:Licenciatura")->findAll());
+        $filter->setData($this->getEm()->getRepository("PlaneacionAdminBundle:Carrera")->findAll());
         $licColumn->setFilterData($filter);
 
         $this->columns[] =$nameColumn;
@@ -65,7 +65,7 @@ class PlanEstudioTable extends TableModel
         foreach ($this->datos as $row) {
             $tmpArray=array();
             $tmpArray[] = $row->getNombre();
-            $tmpArray[] = $row->getLicenciatura()->getNombre();
+            $tmpArray[] = $row->getCarrera()->getNombre();
             $tmpArray[] = Util::boolean($row->getActivo());
             $result[]=$tmpArray;
         }
@@ -74,6 +74,6 @@ class PlanEstudioTable extends TableModel
     }
     public function mapSorts()
     {
-        return array('nombre','licenciatura','activo');
+        return array('nombre','carrera','activo');
     }
 }

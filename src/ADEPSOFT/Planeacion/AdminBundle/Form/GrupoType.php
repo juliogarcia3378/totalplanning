@@ -24,12 +24,12 @@ class GrupoType extends AbstractType
                     return $er->filter(array(),array('id'=>'asc'));
                 }
             ))
-            ->add('licenciatura','entity',array(
+            ->add('carrera','entity',array(
                 'required'=>true,
-                'label'=>'Licenciatura:*',
+                'label'=>'Carrera:*',
                 'property'=>'nombre',
                 'required'=>true,
-                'class' => 'PlaneacionAdminBundle:Licenciatura'
+                'class' => 'PlaneacionAdminBundle:Carrera'
             ))
             ->add('turno','entity',array(
                 'required'=>true,

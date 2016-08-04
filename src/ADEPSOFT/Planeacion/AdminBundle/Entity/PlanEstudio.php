@@ -55,7 +55,8 @@ class PlanEstudio
      * @var \Carrera
      *
      * @ORM\ManyToOne(targetEntity="ADEPSOFT\Planeacion\AdminBundle\Entity\Carrera",inversedBy="planEstudio")
-     * @ORM\JoinColumns({
+   *   @ORM\JoinColumn(name="carrera", referencedColumnName="id")
+     
      * })
      */
     private $carrera;

@@ -49,7 +49,7 @@ class GrupoTable extends TableModel
 
         $licColumn = new GridColumn("Licenciatura", '1%','licenciatura','select');
         $filterData = new SelectFilterColumn();
-        $filterData->setData($this->getEm()->getRepository("PlaneacionAdminBundle:Licenciatura")->findAll());
+        $filterData->setData($this->getEm()->getRepository("PlaneacionAdminBundle:Carrera")->findAll());
         $licColumn->setFilterData($filterData);
 
         $turnoColumn = new GridColumn("Turno", '1%','turno','select');
@@ -163,8 +163,8 @@ class GrupoTable extends TableModel
         if(array_key_exists('semestre',$filters)  &&  $filters['semestre'] != null &&  $filters['semestre'] != ""){
             $contextoBase['Semestre'] = $filters['semestre'];
         }
-        if(array_key_exists('licenciatura',$filters) &&  $filters['licenciatura'] != null &&  $filters['licenciatura'] != "" ){
-            $contextoBase['Licenciatura'] = $this->getEm()->getRepository('PlaneacionAdminBundle:Licenciatura')->find($filters['licenciatura'])->getNombre();
+        if(array_key_exists('carrera',$filters) &&  $filters['carrera'] != null &&  $filters['carrera'] != "" ){
+            $contextoBase['carrera'] = $this->getEm()->getRepository('PlaneacionAdminBundle:Carrera')->find($filters['carrera'])->getNombre();
         }
         if(array_key_exists('aula',$filters) &&  $filters['aula'] != null &&  $filters['aula'] != "" ){
             $contextoBase['Aula'] =  $this->getEm()->getRepository('PlaneacionAdminBundle:Aula')->find($filters['aula'])->getNombre();

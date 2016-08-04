@@ -12,12 +12,12 @@ class PlanEstudioType extends AbstractType
     {
         $builder
             ->add('nombre',null,array('required'=>true,'label'=>'Nombre:*','max_length'=> 50))
-            ->add('licenciatura','entity',array(
+            ->add('carrera','entity',array(
                 'required'=>true,
-                'label'=>'Licenciatura*:',
+                'label'=>'Carrera*:',
                 'property'=>'nombre',
                 'required'=>true,
-                'class' => 'PlaneacionAdminBundle:Licenciatura'
+                'class' => 'PlaneacionAdminBundle:Carrera'
             ));
             if($options['data']->getActivo() === null)
                 $builder->add('activo','checkbox',array('label'=>'Activo:','data'=>true,'required'=>false));
