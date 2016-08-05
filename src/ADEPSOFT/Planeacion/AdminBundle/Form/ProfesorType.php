@@ -47,7 +47,7 @@ class ProfesorType extends AbstractType
                 'label' => 'Carrera:',
                 'property' => 'nombre',
                 'required' => true,
-                'class' => 'PlaneacionAdminBundle:Licenciatura'
+                'class' => 'PlaneacionAdminBundle:Carrera'
             ))
             ->add('nombres',null,array('label'=>'Nombre:* ','max_length'=> 50))
             ->add('apellidos',null,array('label'=>'Apellidos:* ','max_length'=> 50))
@@ -68,7 +68,7 @@ class ProfesorType extends AbstractType
 //                'expanded'=>true,
                 'choices' => array('2' => 'Masculino', '1' => 'Femenino'),
             ))
-            ->add('licenciaturaEn',null,array('required'=>false,'label'=>'Licenciatura en:*','max_length'=> 100))
+          //  ->add('licenciaturaEn',null,array('required'=>false,'label'=>'Licenciatura en:*','max_length'=> 100))
             ->add('maestriaEn',new MaestriaDoctoradoType($this->maestria),array('required'=>false,'label'=>'Maestria en:','mapped'=>false))
             ->add('doctoradoEn',new MaestriaDoctoradoType($this->doctorado),array('required'=>false,'label'=>'Doctorado en:','mapped'=>false))
 

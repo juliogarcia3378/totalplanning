@@ -175,7 +175,7 @@ class MateriaRepository extends \ADEPSOFT\ComunBundle\Util\NomencladoresReposito
     public function getActivasByLicenciatura($idLicenciatura,$filters=array(),$resultType=ResultType::ObjectType)
     {
         $filters['activo']=true;
-        $filters['planEstudio.licenciatura']=$idLicenciatura;
+        $filters['planEstudio.carrera']=$idLicenciatura;
         $qb = $this->getQB(array('planEstudio'));
              $qb->innerJoin('materia.semestre', 'semestre')
         ->addOrderBy('semestre.id','desc')

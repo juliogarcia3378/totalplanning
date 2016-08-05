@@ -477,7 +477,7 @@ class Persona
     /**
      * Get carrera
      *
-     * @return \ADEPSOFT\Planeacion\AdminBundle\Entity\Licenciatura
+     * @return \ADEPSOFT\Planeacion\AdminBundle\Entity\Carrera
      */
     public function getCarrera()
     {
@@ -487,10 +487,10 @@ class Persona
     /**
      * Set carrera
      *
-     * @param \ADEPSOFT\Planeacion\AdminBundle\Entity\Licenciatura $carrera
+     * @param \ADEPSOFT\Planeacion\AdminBundle\Entity\Carrera $carrera
      * @return Persona
      */
-    public function setCarrera(\ADEPSOFT\Planeacion\AdminBundle\Entity\Licenciatura $carrera = null)
+    public function setCarrera(\ADEPSOFT\Planeacion\AdminBundle\Entity\Carrera $carrera = null)
     {
         $this->carrera = $carrera;
 

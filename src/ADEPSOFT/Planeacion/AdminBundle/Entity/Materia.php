@@ -126,7 +126,7 @@ class Materia
     public function getTexto()
     {
         if($this->getPlanEstudio() != null) {
-            return $this->getClave() . '-' . $this->getNombre() . '-' . $this->getInicialLicenciatura();
+            return $this->getClave() . '-' . $this->getNombre() . '-' . $this->getCarrera();
         }
         else
             return $this->getClave() . '-' . $this->getNombre() ;
@@ -135,9 +135,9 @@ class Materia
     {
         if($this->getPlanEstudio() != null) {
             if ($this->getSemestre())
-                return $this->getClave() . '-' . $this->getNombre() . '-' . $this->getInicialLicenciatura() . '/Sem:' . $this->getSemestre()->getNombre();
+                return $this->getClave() . '-' . $this->getNombre() . '-' . $this->getCarrera() . '/Sem:' . $this->getSemestre()->getNombre();
             else
-                return $this->getClave() . '-' . $this->getNombre() . '-' . $this->getInicialLicenciatura();
+                return $this->getClave() . '-' . $this->getNombre() . '-' . $this->getCarrera();
         }
         else{
             if ($this->getSemestre())
@@ -146,9 +146,9 @@ class Materia
                 return $this->getClave() . '-' . $this->getNombre();
         }
     }
-    public function getInicialLicenciatura()
+    public function getCarrera()
     {
-        return substr(ucfirst($this->getPlanEstudio()->getLicenciatura()->getNombre()),0,1);
+        return substr(ucfirst($this->getPlanEstudio()->getCarrera()->getNombre()),0,1);
     }
     /**
      * Constructor

@@ -1,7 +1,7 @@
 <?php
 namespace ADEPSOFT\Planeacion\AdminBundle\EP;
 
-use ADEPSOFT\Planeacion\AdminBundle\Entity\Licenciatura;
+use ADEPSOFT\Planeacion\AdminBundle\Entity\Carrera;
 use ADEPSOFT\Planeacion\AdminBundle\Entity\Materia;
 use ADEPSOFT\Planeacion\AdminBundle\Entity\PlanEstudio;
 use Doctrine\ORM\Mapping as ORM;
@@ -30,19 +30,19 @@ class EPPlanEstudio
     public $materiasOpt;
 
     /**
-     * @return Licenciatura
+     * @return Carrera
      */
-    public function getLicenciatura()
+    public function getCarrera()
     {
-        return $this->licenciatura;
+        return $this->carrera;
     }
 
     /**
-     * @param Licenciatura $licenciatura
+     * @param Carrera $carrera
      */
-    public function setLicenciatura($licenciatura)
+    public function setCarrera($carrera)
     {
-        $this->licenciatura = $licenciatura;
+        $this->carrera = $carrera;
     }
 
 

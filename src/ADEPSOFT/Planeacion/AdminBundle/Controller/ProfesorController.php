@@ -464,18 +464,18 @@ class ProfesorController extends MyCRUDController
         $horasLV = $this->getEm()->getRepository("PlaneacionAdminBundle:Hora")->getLunesViernes(array('activo' => true));
         $horasS = $this->getEm()->getRepository("PlaneacionAdminBundle:Hora")->getSabado(array('activo' => true));
 
-        $licenciaturas = $this->getRepo('PlaneacionAdminBundle:Licenciatura')->filterObjects(array(), array('id' => 'asc'));
+        $carreras = $this->getRepo('PlaneacionAdminBundle:Carrera')->filterObjects(array(), array('id' => 'asc'));
 
         $array = array();
-        foreach ($licenciaturas as $lic) {
+        foreach ($carreras as $carrera) {
             $tmp = new EPLicenciatura();
-            $tmp->setLicenciatura($lic);
+            $tmp->setCarrera($carrera);
             $planEstudio = array();
 
             if ($this->exportHoja)
-                $planEstudio = $this->getRepo('PlaneacionAdminBundle:PlanEstudio')->obtenerPorPreferenciaProfesor($obj->getId(), $lic->getId());
+                $planEstudio = $this->getRepo('PlaneacionAdminBundle:PlanEstudio')->obtenerPorPreferenciaProfesor($obj->getId(), $carrera->getId());
             else
-                $planEstudio = $this->getRepo('PlaneacionAdminBundle:PlanEstudio')->filterObjects(array('activo' => true, 'licenciatura' => $lic->getId()));
+                $planEstudio = $this->getRepo('PlaneacionAdminBundle:PlanEstudio')->filterObjects(array('activo' => true, 'carrera' => $carrera->getId()));
             $planArray = array();
             foreach ($planEstudio as $plan) {
                 $mats = $this->getRepo('PlaneacionAdminBundle:Materia')->getObligatoriasByPlanEstudio($plan->getId());
@@ -483,7 +483,7 @@ class ProfesorController extends MyCRUDController
                 $matsOptativasNoM = $this->getRepo('PlaneacionAdminBundle:Materia')->obtenerOptativasSinSemestrePorPlan($plan->getId(), array('activo' => true), array('materia.clave' => 'asc'));
                 if (count($mats) > 0) {
                     $tmpPlan = new EPPlanEstudio();
-                    $tmpPlan->setLicenciatura($lic);
+                    $tmpPlan->setCarrera($carrera);
                     $tmpPlan->setMaterias($mats);
                     $tmpPlan->setOptativasSinSemestre($matsOptativasNoM);
                     $tmpPlan->setMateriasOpt($matsOptativas);

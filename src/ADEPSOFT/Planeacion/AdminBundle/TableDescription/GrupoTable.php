@@ -47,7 +47,7 @@ class GrupoTable extends TableModel
         $filterData->setData($this->getEm()->getRepository("PlaneacionAdminBundle:Semestre")->filterObjects(array(),array('id'=>'asc')));
         $semestreColumn->setFilterData($filterData);
 
-        $licColumn = new GridColumn("Licenciatura", '1%','licenciatura','select');
+        $licColumn = new GridColumn("Carrera", '1%','carrera','select');
         $filterData = new SelectFilterColumn();
         $filterData->setData($this->getEm()->getRepository("PlaneacionAdminBundle:Carrera")->findAll());
         $licColumn->setFilterData($filterData);

@@ -95,7 +95,7 @@ class ProfeTable extends TableModel
                 $datosS['Fecha ingreso UANL'] = "";
 
             $datosS['Género'] = $row->getGeneroString();
-            $datosS['Licenciado en'] = $row->getLicenciaturaEn();
+            $datosS['Carrera'] = $row->getLicenciaturaEn();
             $MDs = $row->getGradoAcademico();
             foreach($MDs as $md)
             {
@@ -169,7 +169,7 @@ class ProfeTable extends TableModel
         $licColumn = new GridColumn("Imparte", '10%','lic','select');
         $licColumn->setSortable(false);
         $filterData = new SelectFilterColumn();
-        $filterData->setData($this->getEm()->getRepository("PlaneacionAdminBundle:Licenciatura")->findAll());
+        $filterData->setData($this->getEm()->getRepository("PlaneacionAdminBundle:Carrera")->findAll());
         $licColumn->setFilterData($filterData);
 
         $estado = new GridColumn('Inactivo','%1','inactivo');
@@ -234,13 +234,13 @@ class ProfeTable extends TableModel
      //   ldd($filters);
         $contextoBase=Array();
         $contextoBase['Fecha']= FechaUtil::toString(FechaUtil::getFechaActual());
-        if(array_key_exists('lic',$filters) && $filters['lic']!=null)
+        if(array_key_exists('carrera',$filters) && $filters['carrera']!=null)
         {
-            if($filters['lic'] == ELicenciatura::Criminologia) {
-                $contextoBase['Licenciatura']='Criminología';
+            if($filters['carrera'] == ELicenciatura::Criminologia) {
+                $contextoBase['Carrera']='Criminología';
             }
-            if($filters['lic'] == ELicenciatura::Derecho) {
-                $contextoBase['Licenciatura']='Derecho';
+            if($filters['carrera'] == ELicenciatura::Derecho) {
+                $contextoBase['Carrera']='Derecho';
             }
         }
 

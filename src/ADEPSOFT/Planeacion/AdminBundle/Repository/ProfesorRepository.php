@@ -25,23 +25,23 @@ class ProfesorRepository extends \ADEPSOFT\ComunBundle\Util\NomencladoresReposit
         if(count($order) == 0)
             $order['id'] ='desc';
 
-        if(array_key_exists('lic',$order) && $order['lic']!=null)
+        if(array_key_exists('carrera',$order) && $order['carrera']!=null)
         {
-            if($order['lic'] == 'asc')
+            if($order['carrera'] == 'asc')
                 $order['carrera'] = 'asc';
             else
                 $order['carrera'] = 'desc';
 
-            unset($order['lic']);
+            unset($order['carrera']);
         }
         //Filter establishment
         if(array_key_exists('lic',$filters) && $filters['lic']!=null)
         {
-            if($filters['lic'] == ELicenciatura::Criminologia)
+            if($filters['carrera'] == ELicenciatura::Criminologia)
                 $filters['carrera'] = ELicenciatura::Criminologia;
-            if($filters['lic'] == ELicenciatura::Derecho)
+            if($filters['carrera'] == ELicenciatura::Derecho)
                 $filters['carrera'] = ELicenciatura::Derecho;
-            unset($filters['lic']);
+            unset($filters['carrera']);
         }
 
 
@@ -664,7 +664,7 @@ class ProfesorRepository extends \ADEPSOFT\ComunBundle\Util\NomencladoresReposit
           $qb->join('profesor.preferenciaMateria','preferencia');
            $qb->join('profesor.categoria','categoria');
           //  $qb->addGroupBy('profePeriodo');
-           if (isset($filters['licenciatura']))
+           if (isset($filters['carrera']))
             $qb->andWhere('profesor.categoria = :categoria')->setParameter('categoria', $filters['categoria']);
       $response= $this->filterQB($qb,array(),$resultType);
       return $response;
