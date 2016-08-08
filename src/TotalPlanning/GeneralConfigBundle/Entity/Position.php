@@ -8,7 +8,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * Rol
  *
- * @ORM\Table(name="Position")
+ * @ORM\Table(name="position")
  * @ORM\Entity(repositoryClass="TotalPlanning\GeneralConfigBundle\Repository\PositionRepository")
  */
 class Position

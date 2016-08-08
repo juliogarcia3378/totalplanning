@@ -6,7 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * PerfilAcademico
  *
- * @ORM\Table(name="PerfilAcademico")
+ * @ORM\Table(name="perfilacademico")
  * @ORM\Entity(repositoryClass="ADEPSOFT\ComunBundle\Util\NomencladoresRepository")
  */
 class PerfilAcademico

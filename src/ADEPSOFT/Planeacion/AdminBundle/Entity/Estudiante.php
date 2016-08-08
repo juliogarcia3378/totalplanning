@@ -16,7 +16,8 @@ use Symfony\Component\Validator\Constraints as Assert;
 class Estudiante
 {
     /**
-     *
+     * @var float
+     *  
      * @ORM\Column(name="id", type="integer", nullable=false)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
@@ -24,7 +25,8 @@ class Estudiante
      */
     private $id;
 
-
+  
+    
     /**
      * @var boolean
      *
@@ -32,10 +34,12 @@ class Estudiante
      */
     private $genero;
 
+    
+
     /**
      * @var string
      *
-     * @ORM\Column(name="nombres", type="string", length=50, nullable=false)
+     * @ORM\Column(name="nombre", type="string", length=50, nullable=false)
      */
     private $nombres;
 
@@ -45,6 +49,15 @@ class Estudiante
      * @ORM\Column(name="apellidos", type="string", length=50, nullable=true)
      */
     private $apellidos;
+    
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="fullname", type="string", length=50, nullable=true)
+     */
+    private $fullname;
+    
+
 
     /**
      * @var \DateTime
@@ -52,7 +65,14 @@ class Estudiante
      * @ORM\Column(name="fecha_nacimiento", type="date", nullable=true)
      */
     private $fechaNacimiento;
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="fecha_actualizacion", type="date", nullable=true)
+     */
+    private $fechaActualizacion;
 
+   
 
     /**
      * @var string
@@ -60,6 +80,27 @@ class Estudiante
      * @ORM\Column(name="foto", type="text", nullable=true)
      */
     private $foto;
+
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="inactivo", type="boolean", nullable=true)
+     */
+    private $inactivo;
+
+
+ 
+    /**
+     * @var \Carrera
+     *
+     * @ORM\ManyToOne(targetEntity="Carrera")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="carrera", referencedColumnName="id")
+     * })
+     */
+    private $carrera;
+
+   
 
     /**
      * @var string
@@ -75,31 +116,91 @@ class Estudiante
      */
     private $facebook;
 
+    
+
     /**
      * @var string
      *
-     * @ORM\Column(name="tel_celular", type="string", length=50, nullable=true)
+     * @ORM\Column(name="domicilio", type="string", length=250, nullable=true)
      */
-    private $telCelular;
+    private $domicilio;
+
+
+    
+   
+    /**
+     * @var \ADEPSOFT\MySecurityBundle\Entity\Usuario
+     *
+     * @ORM\ManyToOne(targetEntity="ADEPSOFT\MySecurityBundle\Entity\Usuario", inversedBy="estudiante",cascade={"persist","remove"})
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="usuario", referencedColumnName="id",onDelete="SET NULL")
+     * })
+     */
+    private $usuario;
+    /**
+     * @ORM\PrePersist
+     * @ORM\PreUpdate
+     */
+    public function preEvents()
+    {
+        if(substr($this->foto,0,4) =='http')
+            $this->foto=null;
+        $this->setFechaActualizacion(new \DateTime());
+    }
+   
+    public function getGeneroString()
+    {
+        $a = array(EGenero::Femenino=>"Femenino",EGenero::Masculino=>"Masculino");
+//        ld($this->getGenero());
+        return $a[$this->getGenero()];
+    }
+   
+ 
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->setFechaActualizacion(new \DateTime());
+       
+    }
+    
+    public function fechaNacimientoString(){
+        if($this->fechaNacimiento != null)
+            return $this->fechaNacimiento->format("d-m-Y");
+        return '';
+    }
+   
+    
+    /**
+     * Get id
+     *
+     * @return integer 
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    
 
     /**
-     * @return boolean
+     * Set nombres
+     *
+     * @param string $nombre
+     * @return Persona
      */
-    public function getGenero()
+    public function setNombres($nombre)
     {
-        return $this->genero;
+        $this->nombres = mb_convert_case($nombre, MB_CASE_TITLE, 'UTF-8');
+
+        return $this;
     }
 
     /**
-     * @param boolean $genero
-     */
-    public function setGenero($genero)
-    {
-        $this->genero = $genero;
-    }
-
-    /**
-     * @return string
+     * Get nombres
+     *
+     * @return string 
      */
     public function getNombres()
     {
@@ -107,47 +208,99 @@ class Estudiante
     }
 
     /**
-     * @param string $nombres
+     * Set apellidos
+     *
+     * @param string $apellidos
+     * @return Persona
      */
-    public function setNombres($nombres)
+    public function setApellidos($apellidos)
     {
-        $this->nombres = $nombres;
+        $this->apellidos = mb_convert_case($apellidos, MB_CASE_TITLE, 'UTF-8');
+    
+        return $this;
     }
 
     /**
-     * @return string
+     * Get apellidos
+     *
+     * @return string 
      */
     public function getApellidos()
     {
         return $this->apellidos;
     }
-
+    
     /**
-     * @param string $apellidos
+     * Get nombres
+     *
+     * @return string 
      */
-    public function setApellidos($apellidos)
+    public function getNombre()
     {
-        $this->apellidos = $apellidos;
+        return $this->apellidos." ".$this->nombres;
+    }
+    
+    /**
+     * Get fullname
+     *
+     * @return string 
+     */
+    public function getFullName()
+    {
+        return $this->fullname;
+    }
+    
+    /**
+     * @ORM\PrePersist
+     * @ORM\PreUpdate
+     */
+    public function events()
+    {
+        $this->fullname = $this->nombres.' '.$this->apellidos;
+    }
+    
+   
+    /**
+     * Set fechaNacimiento
+     *
+     * @param \DateTime $fechaNacimiento
+     * @return Persona
+     */
+    public function setFechaNacimiento($fechaNacimiento)
+    {
+        $this->fechaNacimiento = $fechaNacimiento;
+    
+        return $this;
     }
 
     /**
-     * @return \DateTime
+     * Get fechaNacimiento
+     *
+     * @return \DateTime 
      */
     public function getFechaNacimiento()
     {
         return $this->fechaNacimiento;
     }
 
+    
     /**
-     * @param \DateTime $fechaNacimiento
+     * Set foto
+     *
+     * @param string $foto
+     * @return Persona
      */
-    public function setFechaNacimiento($fechaNacimiento)
+    public function setFoto($foto)
     {
-        $this->fechaNacimiento = $fechaNacimiento;
+        $this->foto = $foto;
+
+        return $this;
     }
 
     /**
-     * @return string
+     * Get foto
+     *
+     * @return string 
      */
     public function getFoto()
     {
@@ -155,15 +308,39 @@ class Estudiante
     }
 
     /**
-     * @param string $foto
+     * Get foto
+     *
+     * @return string
      */
-    public function setFoto($foto)
+    public function getFotoPic()
     {
-        $this->foto = $foto;
+        $pic = $this->foto;
+        if ($pic != null) {
+            return "<img src='".$pic."'>";
+        }
+        else {
+            return $pic;
+        }
+    }
+
+    
+    /**
+     * Set correo
+     *
+     * @param string $correo
+     * @return Persona
+     */
+    public function setCorreo($correo)
+    {
+        $this->correo = $correo;
+    
+        return $this;
     }
 
     /**
-     * @return string
+     * Get correo
+     *
+     * @return string 
      */
     public function getCorreo()
     {
@@ -171,55 +348,201 @@ class Estudiante
     }
 
     /**
-     * @param string $correo
+     * Set facebook
+     *
+     * @param string $facebook
+     * @return Persona
      */
-    public function setCorreo($correo)
+    public function setFacebook($facebook)
     {
-        $this->correo = $correo;
+        $this->facebook = $facebook;
+    
+        return $this;
     }
 
     /**
-     * @return string
+     * Get facebook
+     *
+     * @return string 
      */
     public function getFacebook()
     {
         return $this->facebook;
     }
 
+    
+
     /**
-     * @param string $facebook
+     * Set domicilio
+     *
+     * @param string $domicilio
+     * @return Persona
      */
-    public function setFacebook($facebook)
+    public function setDomicilio($domicilio)
     {
-        $this->facebook = $facebook;
+        $this->domicilio = $domicilio;
+    
+        return $this;
     }
 
     /**
-     * @return string
+     * Get domicilio
+     *
+     * @return string 
+     */
+    public function getDomicilio()
+    {
+        return $this->domicilio;
+    }
+
+    /**
+     * Set telParticular
+     *
+     * @param string $telParticular
+     * @return Persona
+     */
+    public function setTelParticular($telParticular)
+    {
+        $this->telParticular = $telParticular;
+    
+        return $this;
+    }
+
+    /**
+     * Get telParticular
+     *
+     * @return string 
+     */
+    public function getTelParticular()
+    {
+        return $this->telParticular;
+    }
+
+   
+
+    /**
+     * Set telCelular
+     *
+     * @param string $telCelular
+     * @return Persona
+     */
+    public function setTelCelular($telCelular)
+    {
+        $this->telCelular = $telCelular;
+    
+        return $this;
+    }
+
+    /**
+     * Get telCelular
+     *
+     * @return string 
      */
     public function getTelCelular()
     {
         return $this->telCelular;
     }
 
+  
+   
+
     /**
-     * @param string $telCelular
+     * Get carrera
+     *
+     * @return \ADEPSOFT\Planeacion\AdminBundle\Entity\Carrera
      */
-    public function setTelCelular($telCelular)
+    public function getCarrera()
     {
-        $this->telCelular = $telCelular;
+        return $this->carrera;
     }
 
     /**
-     * Get id
+     * Set carrera
+     *
+     * @param \ADEPSOFT\Planeacion\AdminBundle\Entity\Carrera $carrera
+     * @return Persona
+     */
+    public function setCarrera(\ADEPSOFT\Planeacion\AdminBundle\Entity\Carrera $carrera = null)
+    {
+        $this->carrera = $carrera;
+
+        return $this;
+    }
+
+   
+    /**
+     * Set perfil
+     *
+     * @param string $perfil
+     * @return Persona
+     */
+    public function setPerfil($perfil)
+    {
+        $this->perfil = $perfil;
+    
+        return $this;
+    }
+
+    /**
+     * Get perfil
+     *
+     * @return string 
+     */
+    public function getPerfil()
+    {
+        return $this->perfil;
+    }
+
+
+    /**
+     * Set genero
+     *
+     * @param integer $genero
+     * @return Persona
+     */
+    public function setGenero($genero)
+    {
+        $this->genero = $genero;
+    
+        return $this;
+    }
+
+    /**
+     * Get genero
      *
      * @return integer 
      */
-
-
-    public function getId()
+    public function getGenero()
     {
-        return $this->id;
+        return $this->genero;
     }
 
+    
+    /**
+     * Set usuario
+     *
+     * @param \ADEPSOFT\MySecurityBundle\Entity\Usuario $usuario
+     * @return Persona
+     */
+    public function setUsuario(\ADEPSOFT\MySecurityBundle\Entity\Usuario $usuario = null)
+    {
+        $this->usuario = $usuario;
+    
+        return $this;
+    }
+
+    /**
+     * Get usuario
+     *
+     * @return \ADEPSOFT\MySecurityBundle\Entity\Usuario 
+     */
+    public function getUsuario()
+    {
+        return $this->usuario;
+    }
+
+
+    public function __toString(){
+        return $this->getNombre();
+    }
 }

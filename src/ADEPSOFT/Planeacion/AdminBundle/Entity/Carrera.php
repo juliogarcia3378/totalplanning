@@ -6,7 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Carrera
  *
- * @ORM\Table(name="Carrera")
+ * @ORM\Table(name="carrera")
  * @ORM\Entity(repositoryClass="ADEPSOFT\ComunBundle\Util\NomencladoresRepository")
  */
 class Carrera
