@@ -3,7 +3,7 @@
 namespace TotalPlanning\GeneralConfigBundle\Repository;
 use Doctrine\ORM\Mapping as ORM;
 
-class HTMLRepository extends \ADEPSOFT\ComunBundle\Util\NomencladoresRepository
+class HTMLRepository extends \Core\ComunBundle\Util\NomencladoresRepository
 {
 
     public function getPortada()

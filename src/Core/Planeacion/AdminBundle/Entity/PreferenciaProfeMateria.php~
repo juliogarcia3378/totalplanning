@@ -1,0 +1,51 @@
+<?php
+namespace Core\Planeacion\AdminBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * PreferenciaProfeMateria
+ *
+ * @ORM\Table(name="preferencia_profe_materia")
+ * @ORM\Entity(repositoryClass="Core\ComunBundle\Util\NomencladoresRepository")
+ */
+class PreferenciaProfeMateria
+{
+    /**
+     * @var float
+     *
+     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     * @ORM\SequenceGenerator(sequenceName="preferencia_profe_materia_id_seq", allocationSize=1, initialValue=1)
+     */
+    private $id;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="orden_preferencia", type="integer", nullable=true)
+     */
+    private $ordenPreferencia;
+
+    /**
+     * @var \Materia
+     *
+     * @ORM\ManyToOne(targetEntity="Materia")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="materia", referencedColumnName="id")
+     * })
+     */
+    private $materia;
+
+    /**
+     * @var \Profesor
+     *
+     * @ORM\ManyToOne(targetEntity="Profesor")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="profe", referencedColumnName="id")
+     * })
+     */
+    private $profe;
+
+}

@@ -1,0 +1,26 @@
+core_menu_homepage:
+    pattern:  /menu/config
+    defaults: { _controller: CoreMenuBundle:Default:index }
+core_menu_config:
+    pattern:  /menu/configAjax
+    defaults: { _controller: CoreMenuBundle:Default:config }
+
+core_menu_move_node:
+    pattern:  /menu/move_node
+    defaults: { _controller: CoreMenuBundle:Default:moveNode }
+
+core_menu_delete_node:
+    pattern:  /menu/delete_node
+    defaults: { _controller: CoreMenuBundle:Default:deleteNode }
+
+core_menu_get_node:
+    pattern:  /menu/get_node
+    defaults: { _controller: CoreMenuBundle:Default:getNode}
+
+core_menu_copy_node:
+    pattern:  /menu/copy_node
+    defaults: { _controller: CoreMenuBundle:Default:copyNode}
+
+core_menu_create_node:
+    pattern:  /menu/create_node
+    defaults: { _controller: CoreMenuBundle:Default:createNode}

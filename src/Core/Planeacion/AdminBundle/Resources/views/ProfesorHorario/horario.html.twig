@@ -1,0 +1,39 @@
+
+<div class="row form-group">
+    <div  class="col-md-4">
+        <label class="control-label" for="clave_profesor"> Clave-Materia:*</label>
+        <select name="clave" id="clave_profesor" sameas="#Core_planeacion_adminbundle_profeperiodotype_materia" trigger="true" class="form-control input-sm select2me" data-placeholder="Seleccionar...">
+            <option value=""></option>
+        </select>
+    </div>
+
+    <div  class="col-md-2">
+        <label class="control-label" for="grupo"> Grupo:*</label>
+        <select name="grupo" parent="#Core_planeacion_adminbundle_profeperiodotype_periodo" trigger="true" path="{{ path('planeacion_admin_crud_profesor_horario_json_read_grupo')}}"  param="Core_planeacion_adminbundle_profeperiodotype" index="periodo" filter="periodo" id="grupo_profesor" class="form-control input-sm select2me" data-placeholder="Seleccionar...">
+            <option value=""></option>
+            {% for grupo in grupos %}
+                <option value="{{grupo.id }}">{{grupo.NombreCompletoAula }}</option>
+            {% endfor %}
+        </select>
+    </div>
+    <div  class="col-md-2 ">
+        <label class="control-label" for="clave_aula"> Aula</label>
+        <select name="aula" id="clave_aula" sameas="#Core_planeacion_adminbundle_profeperiodotype_aula" trigger="true" class="form-control input-sm select2me" data-placeholder="Seleccionar...">
+            <option value=""></option>
+            {% for aula in aulas %}
+                <option value="{{aula.id }}">{{aula.nombre}}</option>
+            {% endfor %}
+        </select>
+    </div>
+    <div  class="col-md-2">
+        <label class="control-label" for="periodo_label"> Per&iacute;odo:</label>
+        <input  id="periodo_label" class="form-control placeholder-no-fix" max="40" type="text" disabled="true" >
+    </div>
+    <div  class="col-md-2">
+        <label class="control-label" for="recargar_grupo"> Recargar grupos</label>
+        <div>
+            <a class="btn btn-sm blue recargar_grupo" id="recargar_grupo"  ><span class="fa fa-refresh"></span></a>
+        </div>
+    </div>
+</div>
+<div class="hora_table_container"></div>

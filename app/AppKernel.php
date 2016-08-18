@@ -20,19 +20,19 @@ class AppKernel extends Kernel
             new JMS\DiExtraBundle\JMSDiExtraBundle($this),
             new JMS\SecurityExtraBundle\JMSSecurityExtraBundle(),
 
-            new ADEPSOFT\ComunBundle\ComunBundle(),
+            new Core\ComunBundle\ComunBundle(),
             new RaulFraile\Bundle\LadybugBundle\RaulFraileLadybugBundle(),
             new FOS\UserBundle\FOSUserBundle(),
             new \Knp\Bundle\MenuBundle\KnpMenuBundle(),
 			new Avalanche\Bundle\ImagineBundle\AvalancheImagineBundle(),
 
             new \Oneup\UploaderBundle\OneupUploaderBundle(),
-            new ADEPSOFT\MenuBundle\ADEPSOFTMenuBundle(),
-            new ADEPSOFT\MySecurityBundle\MySecurityBundle(),
+            new Core\MenuBundle\CoreMenuBundle(),
+            new Core\MySecurityBundle\MySecurityBundle(),
 
-            new ADEPSOFT\Planeacion\AdminBundle\PlaneacionAdminBundle(),
+            new Core\Planeacion\AdminBundle\PlaneacionAdminBundle(),
             new \Knp\Bundle\SnappyBundle\KnpSnappyBundle(),
-            new ADEPSOFT\Planeacion\HorarioBundle\HorarioBundle(),
+            new Core\Planeacion\HorarioBundle\HorarioBundle(),
            /* new HWI\Bundle\OAuthBundle\HWIOAuthBundle(),*/
             new TotalPlanning\GeneralConfigBundle\GeneralConfigBundle(),
             new Site\SiteBundle\SiteBundle(),

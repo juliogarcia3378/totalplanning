@@ -1,0 +1,6 @@
+parameters:
+#    horario.example.class: Core\Planeacion\HorarioBundle\Example
+
+services:
+    planeacion.horario.grupoestudiantescambio.tm:
+        class:  Core\Planeacion\HorarioBundle\TableDescription\GrupoEstudiantesCambioTable

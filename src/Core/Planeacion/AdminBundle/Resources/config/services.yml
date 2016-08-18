@@ -1,0 +1,34 @@
+parameters:
+#    planeacion_admin.example.class: Core\Planeacion\AdminBundle\Example
+
+services:
+    planeacion.admin.materia.tm:
+        class:  Core\Planeacion\AdminBundle\TableDescription\MateriaTable
+    planeacion.admin.descargaadministrativa.tm:
+            class:  Core\Planeacion\AdminBundle\TableDescription\DescargaAdministrativaTable
+    planeacion.admin.autoasignacionaula.tm:
+            class:  Core\Planeacion\AdminBundle\TableDescription\AutoasignacionAulaTable
+    planeacion.admin.idioma.tm:
+        class:  Core\Planeacion\AdminBundle\TableDescription\IdiomaTable
+    planeacion.admin.planEstudio.tm:
+        class:  Core\Planeacion\AdminBundle\TableDescription\PlanEstudioTable
+    planeacion.admin.profesor.tm:
+        class:  Core\Planeacion\AdminBundle\TableDescription\ProfeTable
+    planeacion.admin.profesor_horarios.tm:
+        class:  Core\Planeacion\AdminBundle\TableDescription\ProfesorHorariosTable
+    planeacion.admin.grupo.tm:
+        class:  Core\Planeacion\AdminBundle\TableDescription\GrupoTable
+    planeacion.admin.hora_periodo.tm:
+        class:  Core\Planeacion\AdminBundle\TableDescription\HoraPeriodoTable
+    planeacion.admin.aula.tm:
+        class:  Core\Planeacion\AdminBundle\TableDescription\AulaTable
+    planeacion.admin.estudiante.tm:
+        class:  Core\Planeacion\AdminBundle\TableDescription\EstudianteTable
+    planeacion.admin.periodo.tm:
+        class:  Core\Planeacion\AdminBundle\TableDescription\PeriodoTable
+    planeacion.admin.turno.tm:
+        class:  Core\Planeacion\AdminBundle\TableDescription\TurnoTable
+    planeacion.admin.hora.tm:
+        class:  Core\Planeacion\AdminBundle\TableDescription\HoraTable
+    planeacion.admin.category_professor.tm:
+        class:  Core\Planeacion\AdminBundle\TableDescription\CategoryProfessorTable

@@ -335,7 +335,7 @@
 <!-- BEGIN FOOTER -->
 <div class="footer">
     <div class="footer-inner">
-        {{ "now"|date("Y") }} &copy;  <a target="_blank" class="blue" href="http://www.adepsoft.com"><img style="vertical-align: baseline;" height="16px" src="{{ asset('bundles/planeacionadmin/img/adepsoft_small.png')}}"></a>
+        {{ "now"|date("Y") }} &copy;  <a target="_blank" class="blue" href="http://www.Core.com"><img style="vertical-align: baseline;" height="16px" src="{{ asset('bundles/planeacionadmin/img/Core_small.png')}}"></a>
     </div>
     <div class="footer-tools">
 		<span class="go-top">
@@ -385,8 +385,9 @@
             $("#change_user_pass_form").find('span.help-block').remove();
         });
         AjaxForm.makeAjax($("#modal_change_user_pass"));
-        {% block onreadyjs %}        {% endblock %}
-    });
+   {% block onreadyjs1 %}   
+   {% endblock %}
+  });
 
 
 </script>

@@ -3,7 +3,7 @@
 namespace Site\SiteBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use ADEPSOFT\ComunBundle\Controller\MyCRUDController;
+use Core\ComunBundle\Controller\MyCRUDController;
 
 class SiteController extends MyCRUDController
 {

@@ -63,8 +63,8 @@ assetic:
 doctrine:
     dbal:
         types:
-            bytea: ADEPSOFT\ComunBundle\DataTypes\ByteaType
-            byteaArray: ADEPSOFT\ComunBundle\DataTypes\ByteaArrayType
+            bytea: Core\ComunBundle\DataTypes\ByteaType
+            byteaArray: Core\ComunBundle\DataTypes\ByteaArrayType
         driver:   %database_driver%
         host:     %database_host%
         port:     %database_port%
@@ -125,9 +125,9 @@ fos_user:
     firewall_name: main
     use_username_form_type: false
     use_listener: true # si se usa el servicio $userManager = $container->get('fos_user.user_manager'); entonces noes necesario el listener de doctrine
-    user_class: ADEPSOFT\MySecurityBundle\Entity\Usuario
+    user_class: Core\MySecurityBundle\Entity\Usuario
     group:
-        group_class: ADEPSOFT\MySecurityBundle\Entity\Grupo		
+        group_class: Core\MySecurityBundle\Entity\Grupo		
 oneup_uploader:
     mappings:
         gallery:

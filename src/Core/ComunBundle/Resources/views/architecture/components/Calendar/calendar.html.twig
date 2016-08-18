@@ -1,0 +1,265 @@
+{% extends '::base.html.twig' %}
+
+   {% block stylesheets %}
+       <link rel="stylesheet" type="text/css" href="{{ asset('bundles/comun/css/fullcalendar.css') }}"/>
+       <link rel="stylesheet" type="text/css" href="{{ asset('bundles/comun/base/plugins/bootstrap-datetimepicker/css/datetimepicker.css') }}"/>
+
+   {% endblock %}
+
+{% block javascript %}
+    <script src="{{ asset('bundles/comun/base/plugins/calendar/fullcalendar.min.js') }}"></script>
+    <script src="{{ asset('bundles/comun/base/plugins/calendar/calendar.js') }}"></script>
+    <script src="{{ asset('bundles/comun/base/plugins/bootbox/bootbox.min.js') }}"></script>
+    <script src="{{ asset('bundles/comun/js/ajaxify_form.js') }}"></script>
+    <script src="{{ asset('bundles/comun/base/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js') }}"></script>
+    <script src="{{ asset('bundles/comun/base/plugins/bootstrap-datetimepicker/js/components-pickers.js') }}"></script>
+
+    <script>
+        function addDaysToEvent(id,delta,minuteDelta)
+        {
+            $.ajax({
+                async: true,
+                type: "POST",
+                dataType: "json",
+                contentType: "application/x-www-form-urlencoded",
+                url: '{{ path("add_days_to_event")}}',
+                data: {
+                    id:id,
+                    delta: delta,
+                    minuteDelta:minuteDelta
+                },
+             beforeSend: function(){
+                   App.blockUI({target:"#calendar"});
+                },
+            complete: function(){
+                cargarCalendar()
+                   App.unblockUI("#calendar");
+                },
+             success: function (response) {
+                }})
+        }
+
+        function moveStartDayEvent(id,delta,minuteDelta)
+        {
+            $.ajax({
+                async: true,
+                type: "POST",
+                dataType: "json",
+                contentType: "application/x-www-form-urlencoded",
+                url: '{{ path("move_start_event")}}',
+                data: {
+                    id:id,
+                    delta: delta,
+                    minuteDelta:minuteDelta
+                },
+            beforeSend: function(){
+               App.blockUI({target:"#calendar"});
+               },
+            complete: function(){
+                cargarCalendar();
+                App.unblockUI("#calendar");
+            }})
+        }
+
+        function removeCalendarEvent(id){
+            $.ajax({
+                async: true,
+                type: "POST",
+                dataType: "json",
+                contentType: "application/x-www-form-urlencoded",
+                url: '{{ path("evento_calendario_ajax")}}',
+                data: {
+                    id: id
+                },
+                beforeSend: function(){
+                    App.blockUI({target:"#calendar"});
+                },
+                complete: function(){
+                    cargarCalendar();
+                    App.unblockUI("#calendar");
+                },
+                success: function (response) {
+                    if (response.success=="true")
+                    bootbox.dialog({
+                        message: "Elemento eliminado satisfactoriamente.",
+                        title: "Información",
+                        buttons: {
+                            success: {
+                                label: "Aceptar",
+                                className: "blue"
+                                }
+                            }
+                    });
+                    else
+                        bootbox.dialog({
+                            message: "Ha ocurrido un error en la eliminación de este archivo.",
+                            title: "No se ha podido completar la operación",
+                            buttons: {
+                                success: {
+                                    label: "Aceptar",
+                                    className: "red"
+                                }
+                            }
+                        });
+
+                }})
+
+        }
+
+        function editCalendarEvent(id){
+            $.ajax({
+                type        : "GET",
+                url         : '{{ path("evento_calendario_edit_ajax")}}',
+                data        : {'id':id},
+                success     : function(res) {
+                    $("#calendar_evento_edit_form_container").html(res);
+                    var inputId ='<input type="hidden" name="id" value="'+id+'"/>';
+                },
+                beforeSend: function(){
+                   App.blockUI({target:"#calendar"});
+                },
+                complete: function(){
+                    App.unblockUI("#calendar");
+                    $("#calendar_evento_modal_edit").modal('toggle');
+                }
+            });
+
+        }
+
+
+        function addEvent(titulo, descripcion,allDay,start,end)
+        {
+            $.ajax({
+                async: true,
+                type: "POST",
+                dataType: "json",
+                contentType: "application/x-www-form-urlencoded",
+                url: '{{ path("add_event_calendario")}}',
+                data: {
+                    title: titulo,
+                    description: descripcion,
+                    allDay: allDay,
+                    start: start,
+                    end: end
+                },
+                beforeSend: function(){
+                    App.blockUI({target:"#calendar"});
+                },
+                complete: function(){
+                    cargarCalendar();
+                    App.unblockUI("#calendar");
+                }
+               });
+        }
+        function modificarEvento(event)
+        {
+            alert(event);
+        }
+        function adicionarEvento(){
+            titulo= $("#Core_comunbundle_evento_calendario_type_denominacion").val();
+            descripcion = $("#Core_comunbundle_evento_calendario_type_descripcion").val();
+            tiempoCompleto= $("#Core_comunbundle_evento_calendario_type_tiempoCompleto").val();
+
+            calendar.fullCalendar('renderEvent',
+                    {
+                        title: titulo,
+                        start: start,
+                        end: end,
+                        allDay: tiempoCompleto
+                    },
+                    true // make the event "stick"
+            );
+        }
+
+
+        function cargarCalendar(){
+          App.blockUI({target:"#calendar"});
+            var arrAux;
+                $.ajax({
+                    async: true,
+                    type: "POST",
+                    dataType: "json",
+                    contentType: "application/x-www-form-urlencoded",
+                    url: '{{ path("ajax_calendario")}}',
+                    data: {
+                    },
+                    complete:function(){
+
+                    },
+                    success: function (response) {
+                        var eventos =response.data;
+                        Calendar.init(eventos);
+                        eventNotifier(response.eventos);
+
+                        if (eventos.length==0)
+                            bootbox.dialog({
+                                message: "No hay actividades previstas en el calendario",
+                                title: "Sin Actividades planificadas",
+                                buttons: {
+                                    success: {
+                                        label: "Aceptar",
+                                        className: "blue"
+                                    }
+                                }
+                            });
+                    }})
+         //
+
+           App.unblockUI("#calendar");
+                return arrAux;
+            }
+
+            jQuery(document).ready(function() {
+                    cargarCalendar();
+                ComponentsPickers.init();
+
+            });
+    </script>
+{% endblock %}
+
+{% block breadcrumbs%}
+    <ul class="page-breadcrumb breadcrumb">
+        <li>
+            <i class="fa fa-home"></i>
+            <a href="index.html">
+                Portada
+            </a>
+            <i class="fa fa-angle-right"></i>
+        </li>
+        <li>
+            <a href="#">
+                Calendario
+            </a>
+            <i class="fa fa-angle-right"></i>
+        </li>
+    </ul>
+{% endblock %}
+
+
+{% block content %}
+
+ {{ render(path("new_event"))}}
+ {{ render(path("edit_event"))}}
+    <div class="col-md-12">
+        <div class="portlet box blue calendar">
+            <div class="portlet-title">
+                <div class="caption">
+                    <i class="fa fa-calendar"></i>Calendario
+                </div>
+            </div>
+            <div class="portlet-body light-grey">
+                <div class="row">
+                    <div class="col-md-12 col-sm-12">
+
+                        <div id="calendar">
+
+                        </div>
+                    </div>
+                </div>
+                <!-- END CALENDAR PORTLET-->
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block sidebar %} {% endblock %}

@@ -57,7 +57,7 @@
     </div>
     <script>
 
-        {% block onreadyjs %}
+        {% block script1 %}
          var changed = false;
         CKEDITOR.on('instanceReady', function(e) {
 
@@ -128,6 +128,12 @@
             document.getElementById('log').appendChild(p);
         }
 
+
+        jQuery("#configGeneralTab")
+        .focusout(function() {
+          focus++;
+              alert(1);
+            })
 
 
         {% endblock %}

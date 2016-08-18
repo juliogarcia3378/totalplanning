@@ -1,0 +1,75 @@
+<?php
+namespace Core\Planeacion\AdminBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * Licenciatura
+ *
+ * @ORM\Table(name="licenciatura")
+ * @ORM\Entity(repositoryClass="Core\ComunBundle\Util\NomencladoresRepository")
+ */
+class Licenciatura
+{
+    /**
+     *
+     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     * @ORM\SequenceGenerator(sequenceName="licenciatura_id_seq", allocationSize=1, initialValue=1)
+     */
+    private $id;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="nombre", type="string", length=50, nullable=false)
+     */
+    private $nombre;
+
+    /**
+     *
+     * @ORM\OneToMany(targetEntity="PlanEstudio", mappedBy="licenciatura", cascade={"persist","remove"})
+     */
+    private $planEstudio;
+    /**
+     * Get id
+     *
+     * @return integer 
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set nombre
+     *
+     * @param string $nombre
+     * @return Licenciatura
+     */
+    public function setNombre($nombre)
+    {
+        $this->nombre = $nombre;
+    
+        return $this;
+    }
+
+    /**
+     * Get nombre
+     *
+     * @return string 
+     */
+    public function getNombre()
+    {
+        return $this->nombre;
+    }
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->planEstudio = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+    
+}

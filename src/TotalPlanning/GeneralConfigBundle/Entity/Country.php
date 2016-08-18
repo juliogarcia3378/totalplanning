@@ -40,7 +40,7 @@ class Country
     /**
     * @var \Center
      *
-     * @ORM\OneToMany(targetEntity="ADEPSOFT\Planeacion\AdminBundle\Entity\Center", mappedBy="country", cascade={"persist","remove"})
+     * @ORM\OneToMany(targetEntity="Core\Planeacion\AdminBundle\Entity\Center", mappedBy="country", cascade={"persist","remove"})
      */
     private $centers;
 
@@ -110,10 +110,10 @@ class Country
      /**
      * Add Center
      *
-     * @param \ADEPSOFT\Planeacion\AdminBundle\Entity\Center $center
+     * @param \Core\Planeacion\AdminBundle\Entity\Center $center
      * @return Profesor
      */
-    public function addCenter(\ADEPSOFT\Planeacion\AdminBundle\Entity\Center $center)
+    public function addCenter(\Core\Planeacion\AdminBundle\Entity\Center $center)
     {
         $centers->setCountry($this);
         $this->centers[] = $center;
@@ -124,9 +124,9 @@ class Country
     /**
      * Remove Center
      *
-     * @param \ADEPSOFT\Planeacion\AdminBundle\Entity\Center $Center
+     * @param \Core\Planeacion\AdminBundle\Entity\Center $Center
      */
-    public function removeCenter(\ADEPSOFT\Planeacion\AdminBundle\Entity\Center $Center)
+    public function removeCenter(\Core\Planeacion\AdminBundle\Entity\Center $Center)
     {
         $this->Center->removeElement($Center);
     }

@@ -2,7 +2,7 @@
 
 namespace TotalPlanning\GeneralConfigBundle\Controller;
 
-use ADEPSOFT\ComunBundle\Controller\BaseController;
+use Core\ComunBundle\Controller\BaseController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use TotalPlanning\GeneralConfigBundle\Entity\InnerHTML;
@@ -18,7 +18,9 @@ class CkEditorController extends BaseController
         $funcNum = $_GET['CKEditorFuncNum'] ;
         $CKEditor = $_GET['CKEditor'] ;
         $langCode = $_GET['langCode'] ;
-        $url = "http://localhost/totalplanning/web/tmp/".$_FILES['upload']['name'];
+         str_replace(" ","", $_FILES['upload']['name']);
+        $url = "http://localhost/totalplanning.com/web/tmp/".$_FILES['upload']['name'];
+       
         $message = '';
           return new Response("<script type='text/javascript'>window.parent.CKEDITOR.tools.callFunction($funcNum, '$url', '$message');</script>");
         }

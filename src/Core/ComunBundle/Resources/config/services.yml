@@ -1,0 +1,8 @@
+parameters:
+    comunes.motorgtr.class:  Core\ComunBundle\Gestores\MotorGtr
+
+services:
+    comunes.basegtr:
+        class: Core\ComunBundle\Gestores\BaseGestor
+    comunes.motorgtr:
+        class: %comunes.motorgtr.class%

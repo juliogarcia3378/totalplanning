@@ -1,0 +1,143 @@
+<?php
+namespace Core\Planeacion\AdminBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints as DocAssert;
+
+/**
+ * Dia
+ *
+ * @ORM\Table(name="plan_estudio")
+ * @DocAssert\UniqueEntity(fields={"nombre","licenciatura"}, message="Ya existe un plan de estudio con ese nombre en esa licenciatura.")
+ * @ORM\Entity(repositoryClass="Core\Planeacion\AdminBundle\Repository\PlanEstudioRepository")
+ */
+class PlanEstudio
+{
+    /**
+     *
+     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     * @ORM\SequenceGenerator(sequenceName="plan_estudio_id_seq", allocationSize=1, initialValue=1)
+     */
+    private $id;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="nombre", type="string", length=50, nullable=false)
+     */
+    private $nombre;
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="activo", type="boolean", nullable=false, options={"defaults"=1})
+     */
+    private $activo;
+
+
+    /**
+     * @var \Materia
+     *
+     * @ORM\OneToMany(targetEntity="Core\Planeacion\AdminBundle\Entity\Materia",mappedBy="planEstudio")
+     */
+    private $materias;
+    /**
+     * @var \Licenciatura
+     *
+     * @ORM\ManyToOne(targetEntity="Licenciatura",inversedBy="planEstudio")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="licenciatura", referencedColumnName="id", nullable=true)
+     * })
+     */
+    private $licenciatura;
+
+    /**
+     * Get id
+     *
+     * @return integer 
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+    /**
+     * Get nombre
+     *
+     * @return string
+     */
+    public function getTexto()
+    {
+        return $this->nombre.'-'.substr(ucfirst($this->getLicenciatura()->getNombre()),0,1);
+    }
+    /**
+     * Set nombre
+     *
+     * @param string $nombre
+     * @return Dia
+     */
+    public function setNombre($nombre)
+    {
+        $this->nombre = $nombre;
+    
+        return $this;
+    }
+
+    /**
+     * Get nombre
+     *
+     * @return string 
+     */
+    public function getNombre()
+    {
+        return $this->nombre;
+    }
+
+
+    /**
+     * Set licenciatura
+     *
+     * @param \Core\Planeacion\AdminBundle\Entity\Licenciatura $licenciatura
+     * @return PlanEstudio
+     */
+    public function setLicenciatura(\Core\Planeacion\AdminBundle\Entity\Licenciatura $licenciatura = null)
+    {
+        $this->licenciatura = $licenciatura;
+    
+        return $this;
+    }
+
+    /**
+     * Get licenciatura
+     *
+     * @return \Core\Planeacion\AdminBundle\Entity\Licenciatura 
+     */
+    public function getLicenciatura()
+    {
+        return $this->licenciatura;
+    }
+
+    /**
+     * Set activo
+     *
+     * @param boolean $activo
+     * @return PlanEstudio
+     */
+    public function setActivo($activo)
+    {
+        $this->activo = $activo;
+    
+        return $this;
+    }
+
+    /**
+     * Get activo
+     *
+     * @return boolean 
+     */
+    public function getActivo()
+    {
+        return $this->activo;
+    }
+}

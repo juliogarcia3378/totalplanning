@@ -1,0 +1,13 @@
+parameters:
+#    security.example.class: Core\SecurityBundle\Example
+
+services:
+#----------------------CRUD MODEL SERVICES---------------
+    security.permission.tm:
+        class: Core\MySecurityBundle\TreeDescription\PermissionTree
+    security.group.tm:
+        class: Core\MySecurityBundle\TableDescription\GroupTable
+    security.usuario.tm:
+        class: Core\MySecurityBundle\TableDescription\UsuarioTable
+    security.instancia_usuario.tm:
+        class: Core\MySecurityBundle\TableDescription\UsuarioInstanciaTable

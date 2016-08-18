@@ -8,7 +8,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * Rol
  *
- * @ORM\Table(name="TypeCenter")
+ * @ORM\Table(name="typecenter")
  * @ORM\Entity(repositoryClass="TotalPlanning\GeneralConfigBundle\Repository\TypeCenterRepository")
  */
 class TypeCenter
@@ -35,7 +35,7 @@ class TypeCenter
    
    /**
      *
-     * @ORM\OneToMany(targetEntity="ADEPSOFT\Planeacion\AdminBundle\Entity\Center", mappedBy="typeCenter", cascade={"persist","remove"})
+     * @ORM\OneToMany(targetEntity="Core\Planeacion\AdminBundle\Entity\Center", mappedBy="typeCenter", cascade={"persist","remove"})
      */
     private $centers;
 

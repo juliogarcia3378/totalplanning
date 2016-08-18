@@ -32,9 +32,9 @@ comun:
 #    prefix:   /services
 
 
-#menu:
-#    resource: "@ADEPSOFTMenuBundle/Resources/config/routing.yml"
-#    prefix:   /
+menu:
+    resource: "@CoreMenuBundle/Resources/config/routing.yml"
+    prefix:   /
 
 #------------------FOSUser------------------
 change_pass:

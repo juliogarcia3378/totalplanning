@@ -1,0 +1,179 @@
+
+
+<div  class="col-md-12" >
+    
+      <div class="portlet">
+                                    <div class="portlet-title">
+                        <div class="caption" >
+                            <i class="fa fa-list-ul"></i> 
+                            Asignación de profesores
+                        </div>
+                        <div class="actions">
+                                        </div>
+                        </div>
+                    </div>
+<div class="row form-group">
+
+    <div  class="col-md-2 ">
+        <label class="control-label" for="clave_categoria"> Categoría</label>
+        <select name="licenciatura"  sameas="#Core_planeacion_adminbundle_profeperiodotype_aula" trigger="true" id="categoria_" class="form-control input-sm select2me" data-placeholder="Seleccionar...">
+            <option value=""></option>
+            {% for categoria in categorias %}
+                <option value="{{categoria.id }}" >{{categoria.nombre}}</option>
+            {% endfor %}
+        </select>
+    </div>
+    <div  class="col-md-4 ">
+        <label class="control-label" for="clave_profesor"> Profesor</label>
+        <select name="materia"  sameas="#Core_planeacion_adminbundle_profeperiodotype_aula" trigger="true" id="profesor_" class="form-control input-sm select2me" data-placeholder="Seleccionar...">
+            <option value=""></option>
+            {% for profesor in profesores %}
+                <option value="{{profesor.id }}" >{{profesor.numeroEmpleado}}/{{profesor.nombre}}</option>
+            {% endfor %}
+        </select>
+    </div>
+    <div  class="col-md-3 ">
+        <label class="control-label" for="clave_materia"> Materia</label>
+        <select name="materia"  sameas="#Core_planeacion_adminbundle_profeperiodotype_aula" trigger="true" id="materia_" class="form-control input-sm select2me" data-placeholder="Seleccionar...">
+            <option value=""></option>
+             {% for materia in materias %}
+                 <option value="{{ materia.id }}">{{ materia.clave }}/{{ materia.nombre }} [{{ materia.carrera }}]
+                 </option>
+            {% endfor %}
+ 
+        </select>
+    </div>
+
+    <div  class="col-md-3 ">
+        <label class="control-label" for="clave_materia"> Grupo</label>
+        <select name="materia"  sameas="#Core_planeacion_adminbundle_profeperiodotype_aula" trigger="true" id="grupo_" class="form-control input-sm select2me" data-placeholder="Seleccionar...">
+            <option value=""></option>
+
+        </select>
+    </div>
+</div></div>
+
+<div class="row asignacion_profesor" >
+    <div class=" col-md-12">
+        <div class="tabbable tabbable-custom boxless tabbable-reversed">
+            <ul class="nav nav-tabs">
+                <li class="active">
+                    <a href="#tab_preferencias" data-toggle="tab">Preferencias</a>
+                </li>
+                <li>
+                    <a href="#tab_horario" data-toggle="tab">Horario del Profesor</a>
+                </li>
+                <li>
+                    <a href="#tab_grupos" data-toggle="tab">Horario del Grupo</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+<div class="tab-content">
+    <div class="tab-pane active" id="tab_preferencias">
+
+    </div>
+    <div class="tab-pane" id="tab_horario">
+    </div>
+    <div class="tab-pane" id="tab_grupos">
+    </div>
+</div>
+</div>
+
+
+
+<script>
+    $("#categoria_").on('change',function(e) {
+        var el = $('#categoria_').select2("val");
+        val = $('#profesor_');
+      //  console.log(val);
+      //   App.blockUI({target:val});
+        App.blockUI();
+       //  val.block();
+      //  App.blockUI($("#profesor_"));
+     //   App.blockUI($("#materia_"));
+        $("#profesor_").select2("val", "");
+        $("#materia_").select2("val", "");
+
+        $.ajax({
+            url:"{{ path("planeacion_horario_load_profesor_categoria") }}",
+            data: {id: el},
+            success:function(resp) {
+                $('#profesor_')[0].innerHTML="";
+                add = '<option value=""></option>';
+                $('#profesor_')[0].innerHTML+=add;
+                for (var i=0;i<resp.profesores.length;i++){
+                    var add="";
+                    add = '<option value="'+resp.profesores[i].id+'">'+resp.profesores[i].numeroEmpleado+'/'+resp.profesores[i].fullname+'</option>';
+                    $('#profesor_')[0].innerHTML+=add;
+                }
+            },
+                    complete:function(resp) {
+                        $('#profesor_').unblock();
+                        //  App.unblockUI($("#profesor_"));
+       App.unblockUI();
+                }        
+        });
+
+
+    });
+    $("#materia_").on('change',function(e) {
+        var el = $('#materia_').select2("val");
+          App.blockUI();
+        $.ajax({
+            url:"{{ path("planeacion_horario_load_profesor_grupos_candidatos") }}",
+            data: {id: el},
+            success:function(resp) {
+                $('#grupo_')[0].innerHTML="";
+                add = '<option value=""></option>';
+                $('#grupo_')[0].innerHTML+=add;
+                for (var i=0;i<resp.grupos.length;i++){
+                    var add="";
+                    add = '<option value="'+resp.grupos[i].id+'">'+resp.grupos[i].nombre+'</option>';
+                    $('#grupo_')[0].innerHTML+=add;
+                }
+            }
+            ,
+                     complete:function(resp) {
+                       App.unblockUI();    
+                     }
+        });
+
+
+    });
+
+    $("#profesor_").on('change',function(e){
+        var el=$('#profesor_').select2("data");
+ 
+
+            App.loadAjax("{{ path("planeacion_horario_load_profesor_horario_candidato") }}", $('#tab_horario'), {
+                'periodo': {{ periodo.id }},
+                'id': el.id,
+              //  'estado': 1,
+                'disableScripts': true
+            });
+
+            App.loadAjax("{{ path("planeacion_horario_crud_asignacion_profesores_detalles") }}", $('#tab_preferencias'), {
+            'periodo': {{ periodo.id }},
+            'id': el.id
+        });
+               // $("#periodo_label").val($('#Core_planeacion_adminbundle_profeperiodotype_periodo').select2("data").text);
+    });
+
+
+
+    $("#grupo_").on('change',function(e){
+        var el=$('#grupo_').select2("data");
+
+
+        App.loadAjax("{{ path("planeacion_horario_crud_asignacion_profesor_horario_grupo") }}", $('#tab_grupos'), {
+            'id': el.id,
+            //  'estado': 1,
+
+        });
+
+        // $("#periodo_label").val($('#Core_planeacion_adminbundle_profeperiodotype_periodo').select2("data").text);
+    });
+
+</script>
