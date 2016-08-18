@@ -52,6 +52,18 @@ class CkEditorController extends BaseController
         }
         return new JsonResponse(array("msg"=>"fail"));
     }
+      
+      public function loadAction()
+      {
+        $denominacion = $this->getParameter('denominacion');
+        $em = $this->get("doctrine.orm.entity_manager");
 
+        $innerHTML = $em->getRepository("GeneralConfigBundle:InnerHTML")->findBy(array("denominacion"=>$denominacion));
+        if (count($innerHTML)>0){
+            $innerHTML = $innerHTML[0];
+         return new JsonResponse(array("msg"=>"ok","html"=>$innerHTML->getHTML()));
+        }
+        return new JsonResponse(array("msg"=>"fail"));
+    }
 
 }

@@ -4,9 +4,6 @@
 
 
      <div class="grey">
-         <div class="page-content-body">
-
-
              <div class="row">
                  <div class="col-md-12">
                      <!-- BEGIN PAGE TITLE & BREADCRUMB-->
@@ -37,16 +34,16 @@
                      <!-- END PAGE TITLE & BREADCRUMB-->
                  </div>
              </div>
-             {% block content %}
-                 <div class="col-md-2">
+             
+                 <div class="page-sidebar" style="width:300px!important;">
                      <ul class="ver-inline-menu tabbable margin-bottom-10">
-                         <li class="">
-                             <a href="#tab_2" data-toggle="tab" id="configGeneralTab">
+                         <li class="" >
+                             <a href="{{path('general_config_information')}}" data-toggle="tab" id="configGeneralTab" class="ajaxify">
                                  <i class="fa fa-tint"></i> Informacion General
                              </a>
                          </li>
                          <li class="">
-                             <a href="#tab_1" data-toggle="tab">
+                             <a href="{{path('general_config_homepage_crud')}}"  id="pantallaInicial" >
                                  <i class="fa fa-briefcase"></i> Pantalla Inicial
                              </a>
 							<span class="after">
@@ -65,12 +62,43 @@
 
                      </ul>
                  </div>
+                  <div class="col-md-2">
+                  </div>
                  <div class="col-md-8">
-                     {{ render(path('general_config_homepage_crud'))}}
+                     <div class="page-content-body">
+                     
                  </div>
-             {% endblock %}
+          
          </div>
 
      </div>
 
  {% endblock %}
+
+
+
+{% block javascript %}
+    
+    
+        <script src="{{ asset('bundles/comun/base/plugins/jquery-1.10.2.min.js') }}"></script>
+<script src="{{ asset('bundles/comun/base/plugins/jquery-migrate-1.2.1.min.js') }}"></script>
+<script src="{{ asset('bundles/comun/base/plugins/jquery-ui/jquery-ui-1.10.3.custom.min.js') }}"></script>
+<script src="{{ asset('bundles/comun/js/ajaxify_form.js') }}"></script>
+<script src="{{ asset('bundles/comun/base/bootstrap/js/bootstrap.min.js') }}"></script>
+<script src="{{ asset('bundles/comun/base/plugins/bootstrap-hover-dropdown/bootstrap-hover-dropdown.min.js') }}"></script>
+<script src="{{ asset('bundles/comun/base/plugins/jquery.blockui.min.js') }}"></script>
+<script src="{{ asset('bundles/comun/base/plugins/jquery.cokie.min.js') }}"></script>
+<script src="{{ asset('bundles/comun/base/plugins/jquery-slimscroll/jquery.slimscroll.min.js') }}"></script>
+<script src="{{ asset('bundles/comun/base/uniform/jquery.uniform.min.js') }}"></script>
+<script src="{{ asset('bundles/comun/base/plugins/bootstrap-toastr/toastr.min.js') }}"></script>
+<script src="{{ asset('bundles/comun/base/jquery.validate.min.js') }}"></script>
+<script src="{{ asset('bundles/comun/base/plugins/bootbox/bootbox.min.js') }}"></script>
+<script src="{{ asset('bundles/comun/base/dndenablescroll.js') }}"></script>
+{% endblock %}
+
+
+
+     
+
+
+

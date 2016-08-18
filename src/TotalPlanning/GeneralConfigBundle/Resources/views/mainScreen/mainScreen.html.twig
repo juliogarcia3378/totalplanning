@@ -1,3 +1,4 @@
+{% extends '::base_nosidebar.html.twig' %}
 
 {% block stylesheets %}
     <link rel="stylesheet" type="text/css" href="{{ asset('bundles/generalconfig/plugins/ckeditor/contents.css') }}"/>
@@ -12,7 +13,72 @@
     }
     </style>
 {% endblock %}
+
+
+
+{% block pagecontent %}
+   <div class="grey">
+             <div class="row">
+                 <div class="col-md-12">
+                     <!-- BEGIN PAGE TITLE & BREADCRUMB-->
+                     <h3 class="page-title">
+                         Configuraci&oacute;n General <small>Disenar Pantalla Inicial </small>
+                     </h3>
+                     <ul class="page-breadcrumb breadcrumb">
+                         <li>
+                             <i class="fa fa-home"></i>
+                             <a href="{{ path('home_page') }}">
+                                 Portada
+                             </a>
+                             <i class="fa fa-angle-right"></i>
+                         </li>
+                         <li>
+                             <a href="{{path('general_config_homepage')}}" >
+                                 Configuraci&oacute;n General
+                             </a>
+                              <i class="fa fa-angle-right"></i>
+                         </li>
+                          <li>
+                             <a href="#" >
+                                 Pantalla Inicial
+                             </a>
+                         </li>
+                         <li class="pull-right">
+                             <div data-original-title="Volver a la pagina anterior" data-placement="top" class="dashboard-date-range tooltips" id="paginaAnterior" style="display: block;">
+                                 <i class="fa fa-angle-left "></i>
+                                 <span>Atras</span>
+                                 
+                             </div>
+                         </li>
+                     </ul>
+                     <!-- END PAGE TITLE & BREADCRUMB-->
+                 </div>
+             </div>
+    </div>
+             
+              
+          
+
+
+<div class="text-center">
+
+    <div id="editor1" contenteditable="true">
+
+
+        {% autoescape %}
+        {%if content_portada.html is defined%}
+            {{ content_portada.html |raw}}
+        {%endif%}
+        
+        {% endautoescape %}
+
+    </div>
+
+</div>
+{% endblock %}
+
 {% block javascript %}
+    
     <script src="//cdn.ckeditor.com/4.5.9/full/ckeditor.js"></script>
         <script>
     var uploadUrl = '{{ path("general_config_ckeditor_upload_image") }}';
@@ -41,23 +107,12 @@
     };
 
         </script>
-{% endblock %}
-<div class="text-center">
+         {% endblock%} 
 
-    <div id="editor1" contenteditable="true">
-
-
-        {% autoescape %}
-        {%if content_portada.html is defined%}
-            {{ content_portada.html |raw}}
-        {%endif%}
-        
-        {% endautoescape %}
-
-    </div>
+  {% block script%}
     <script>
 
-        {% block script1 %}
+ 
          var changed = false;
         CKEDITOR.on('instanceReady', function(e) {
 
@@ -88,6 +143,14 @@
 
         });
 
+  function guardar(template){
+    $.ajax({
+        url:"{{ path("general_config_ckeditor_save_html") }}",
+        data: {denominacion: template, 'html': $("#editor1").html()},
+        success:function(resp) {
+        }
+         });
+}
 
 
         CKEDITOR.on( 'instanceCreated', function( event ) {
@@ -105,13 +168,7 @@
                 var command = editor1.addCommand( 'save', {
                     modes : { wysiwyg:1, source:1 },
                     exec : function( editor1 ) {
-                        $.ajax({
-                            url:"{{ path("general_config_ckeditor_save_html") }}",
-                            data: {denominacion: "portada_html", 'html': $("#editor1").html()},
-                            success:function(resp) {
-
-                            }
-                        });
+                      guardar("portada_html");
 
                     }
                 });
@@ -128,16 +185,32 @@
             document.getElementById('log').appendChild(p);
         }
 
+         $("#paginaAnterior")
+        .click(function() {
+                  bootbox.dialog({
+                size: 'medium',
+                message: "¿Desea guardar los cambios?",
+                buttons: {
+                    ok: {
+                        label: "Guardar y Salir",
+                        className: "btn-success blue",
+                        callback: function () {
+                            guardar("portada_html");
+            location.href="{{path('general_config_homepage')}}";
+                        }
+                    },
+                    
+                    cancel: {
+                        label: "Cancelar",
+                        className: "btn-warning  red",
+                        callback: function () {
 
-        jQuery("#configGeneralTab")
-        .focusout(function() {
-          focus++;
-              alert(1);
+                        }
+                    }
+                }
+            });
+             
+           
             })
-
-
-        {% endblock %}
     </script>
-
-
-</div>
+        {% endblock %}

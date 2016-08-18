@@ -11,3 +11,10 @@ general_config_ckeditor_upload_image:
 general_config_ckeditor_save_html:
     pattern:  /ck/save
     defaults: { _controller: GeneralConfigBundle:CkEditor:save}
+general_config_ckeditor_load_html:
+    pattern:  /ck/load
+    defaults: { _controller: GeneralConfigBundle:CkEditor:load}
+
+general_config_information:
+    pattern:  /information
+    defaults: { _controller: GeneralConfigBundle:GeneralInformation:index}
