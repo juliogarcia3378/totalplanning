@@ -1,28 +1,106 @@
 <div class="row form-group ">
-    <div class="text-center col-md-12">
-        <h4>Datos complementarios</h4>
-    </div>
+   
 </div>
 <div class="row form-group">
-     <div class="col-md-12 text-center">
-        <div class="table-responsive">
-            <table class=" table table-bordered datatable_detail_table">
-                {% for  clave, dato in datosS %}
-                    <tr>
-                        <td  class="text-left">
-                           <b> {{ clave }} </b>
-                        </td>
-                        {% if clave == 'Foto' %}
-                            <td class="text-left">
-                                {{ dato | raw }}
-                            </td>
-                        {% else %}
-                        <td class="text-left">
-                           {{ dato }}
-                        </td>
-                        {% endif %}
-                    </tr>
-                {% endfor %}
+<div class="col-md-12">
+<div class="col-md-12 well">
+<div class="col-md-4 text-left">
+    <div class="span4">
+            <h4><strong>Detalles del profesor</strong></h4>
+            <br> <br>
+            {% if datosS['Foto'] is not null %}
+                 {{ datosS['Foto'] | raw }}
+                    <br> <br>
+            {% endif %}
+
+             {% if datosS['Nombre'] is not null %}
+                    <strong>Nombres y Apellidos:</strong>
+                    {{datosS['Nombre']}} <br>
+            {% endif %}
+
+            {% if datosS['Fecha de nacimiento'] is not null %}
+                 <strong>Fecha de nacimiento: </strong> 
+                {{datosS['Fecha de nacimiento']}} <br>
+            {% endif %}
+                          
+            <address>
+                {% if datosS['Domicilio'] is not null %}
+                     <strong>Domicilio: </strong><br>
+                     {{datosS['Domicilio']}} <br>
+                {% endif %}
+            </address>
+                                   
+            <address>
+                {% if datosS['Correo'] is not null %}
+                  <strong>Correo electronico: </strong>
+                  <a href="mailto:#">{{datosS['Correo']}}</a><br>
+                {% endif %}
+
+                {% if datosS['Facebook'] is not null %}
+                  <strong>Facebook: </strong>
+                  <a href="#">{{datosS['Facebook']}}</a>
+                {% endif %}
+            </address>
+                             
+            {% if datosS['Teléfono particular'] is not null %}
+                <abbr title="Teléfono">Teléfono:</abbr> {{datosS['Teléfono particular']}}<br>
+            {% endif %}
+            
+            {% if datosS['Teléfono celular'] is not null %}
+                <abbr title="Teléfono">Celular:</abbr> {{datosS['Teléfono celular']}}<br>
+                <br>
+            {% endif %}
+        </div>
+</div>
+
+
+<div class="col-md-4 text-left">
+<div class="span4">
+    <div class="">
+        <h4><strong></strong></h4>
+            <br> <br>
+                <address>
+                    {% if datosS['Fecha ingreso Universidad'] is not null %}
+                    <strong>Fecha ingreso Universidad: </strong> {{datosS['Fecha ingreso Universidad']}}<br>
+                    {% endif %}
+
+                    {% if datosS['Fecha ingreso Facultad'] is not null %}
+                    <strong>Fecha ingreso Facultad: </strong> {{datosS['Fecha ingreso Facultad']}}<br>
+                    {% endif %}
+                </address>
+
+                <address>
+                    {% if datosS['Carrera'] is not null %}
+                    <strong>Carrera: </strong> {{datosS['Carrera']}}<br>
+                    {% endif %}
+                     {% if datosS['numeroEmpleado'] is not null %}
+                    <strong>ID Empleado: </strong> {{datosS['numeroEmpleado']}}<br>
+                    {% endif %}
+                </address>  
+                <address>
+                    {% if datosS['Lugar donde labora'] is not null %}
+                    <strong>Lugar donde labora: </strong> {{datosS['Lugar donde labora']}}<br>
+                    {% endif %}
+
+                    {% if datosS['Dirección donde labora'] is not null %}
+                    <strong>Dirección donde labora: </strong> {{datosS['Dirección donde labora']}}<br>
+                    {% endif %}
+
+                    {% if datosS['Teléfono donde labora'] is not null %}
+                    <strong>Teléfono donde labora: </strong> {{datosS['Teléfono donde labora']}}<br>
+                    {% endif %}
+                </address>
+    </div>
+ </div>
+ </div>
+
+
+<div class="col-md-4 text-left">
+<div class="span4">
+    <div class="">
+        <h4><strong></strong></h4>
+            <br> <br>
+                <address>
                 <tr>
                     <td  class="text-left">
                         <b> Materias de preferencia </b>
@@ -35,7 +113,10 @@
                         {% endfor %}
                     </td>
                 </tr>
+
+
                 {% if datosC['horas1'] is defined or datosC['horas3'] is defined %}
+                 <br> <br>
                 <tr>
                     <td  class="text-left">
                         <b> Horas de preferencia 1 </b>
@@ -62,7 +143,8 @@
                     </td>
                 </tr>
                 {% endif %}
-                {% if datosC['horas2'] is defined or datosC['horas4'] is defined %}
+                       {% if datosC['horas2'] is defined or datosC['horas4'] is defined %}
+                        <br> <br>
                 <tr>
                     <td  class="text-left">
                         <b> Horas de preferencia 2</b>
@@ -88,53 +170,28 @@
                     </td>
                 </tr>
                 {% endif %}
-            </table>
-        </div>
-     </div>
-</div>
-{#<div class="row form-group">#}
-     {#&#123;&#35;<div class="col-md-2"></div>&#35;&#125;#}
-     {#<div class="col-md-6">#}
-        {#<div class="table-responsive">#}
-            {#<table class=" table table-bordered datatable_detail_table">#}
-                {#<tr>#}
-                    {#<td  class="text-left" width="50%">#}
-                        {#<b> Horas de preferencia 1 </b>#}
-                    {#</td>#}
-                    {#<td class="text-left" width="50%">#}
-                        {#{% for hora in datosC['horas1']  %}#}
-                            {#<div>#}
-                                {#{{ loop.index }}) {{ hora }}#}
-                            {#</div>#}
-                        {#{% endfor %}#}
-                    {#</td>#}
-                {#</tr>#}
-            {#</table>#}
-        {#</div>#}
-    {#</div>#}
-    {#<div class="col-md-6">#}
-        {#<div class="table-responsive">#}
-            {#<table class=" table table-bordered datatable_detail_table">#}
-                {#<tr>#}
-                    {#<td  class="text-left" width="50%">#}
-                        {#<b> Horas de preferencia 2 </b>#}
-                    {#</td>#}
-                    {#<td class="text-left" width="50%">#}
-                        {#{% for hora in datosC['horas2']  %}#}
-                            {#<div>#}
-                                {#<div class="inline">#}
-                                            {#<span class="input-group-addon">#}
-                                                {#{{ loop.index }}#}
-                                            {#</span>#}
-                                {#</div>#}
-                                {#<span class="inline">#}
-                                            {#{{ hora }}#}
-                                {#</span>#}
-                            {#</div>#}
-                        {#{% endfor %}#}
-                    {#</td>#}
-                {#</tr>#}
-            {#</table>#}
-        {#</div>#}
-    {#</div>#}
- {#</div>#}
+                </address>
+
+                <address>
+                    {% if datosS['Habilidades y competencias'] is not null %}
+                    <strong>Habilidades y competencias: </strong> {{datosS['Habilidades y competencias']}}<br>
+                    {% endif %}
+                     {% if datosS['Idiomas'] is not null %}
+                    <strong>Idiomas: </strong> {{datosS['Idiomas']}}<br>
+                    {% endif %}
+                </address>  
+             
+    </div>
+ </div>
+ </div>
+
+ </div></div>
+
+                   
+
+                            </div>
+                        </div>
+                            </div>
+                        </div>
+ </div>
+

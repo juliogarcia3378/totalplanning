@@ -53,8 +53,8 @@ class ProfesorType extends AbstractType
             ->add('apellidos',null,array('label'=>'Apellidos:* ','max_length'=> 50))
             ->add('perfil',null,array('label'=>'Competencias y habilidades:','max_length'=> 2500,'attr'=>array('data-rule-maxlength'=>2500)))
             ->add('numeroEmpleado',null,array('required'=>false,'label'=>'No. de Empleado:*','max_length'=> 10))
-            ->add('fechaIngresoFac',null,array('label'=>'Fecha ingreso a la FACDYC:'))
-            ->add('fechaIngresoUanl',null,array('label'=>'Fecha ingreso a la UANL:'))
+            ->add('fechaIngresoFac',null,array('label'=>'Fecha ingreso a la Facultad:'))
+            ->add('fechaIngresoUanl',null,array('label'=>'Fecha ingreso a la Universidad:'))
             ->add('categoria','entity',array(
                 'required'=>true,
                 'label'=>'Categoría:',
@@ -78,7 +78,6 @@ class ProfesorType extends AbstractType
             ->add('domicilio',null,array('required'=>false,'label'=>'Domicilio:','max_length'=> 250))
             ->add('telParticular',new PhoneType(),array('label'=>'Tel. Particular:','max_length'=> 50))
             ->add('telCelular',new MobilePhoneType(),array('label'=>'Celular:','max_length'=> 50))
-            ->add('telNextel',new MobilePhoneType(),array('label'=>'Nextel:','max_length'=> 50))
             ->add('correo',null,array('required'=>false,'label'=>'Correo:*','max_length'=> 150))
             ->add('facebook',new FacebookType(),array('required'=>false,'label'=>'Facebook:','max_length'=> 50))
             ->add('lugarLabora',null,array('required'=>false,'label'=>'Lugar donde labora:','max_length'=> 250))
@@ -93,8 +92,6 @@ class ProfesorType extends AbstractType
                 'class' => 'PlaneacionAdminBundle:EstadoCivil'
             ))
             ->add('nombreConyugue',null,array('required'=>false,'label'=>'Nombre conyugue:','max_length'=> 50))
-            ->add('linares',null,array('required'=>false,'label'=>'Linares:'))
-            ->add('sabina',null,array('required'=>false,'label'=>'Sabina:'))
         ;
     }
 

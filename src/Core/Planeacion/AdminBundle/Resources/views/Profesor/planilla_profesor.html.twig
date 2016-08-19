@@ -63,7 +63,7 @@
     <div class="col-md-4 form-group">
         <div class="input-group">
             <span class="input-group-btn">
-                <label class="control-label" type="button">Fecha ingreso a FACDYC: &nbsp;</label>
+                <label class="control-label" type="button">Fecha ingreso a la Facultad: &nbsp;</label>
             </span>
             {{form_widget(form.fechaIngresoFac)}} 
         </div>
@@ -71,7 +71,7 @@
     <div class="col-md-4 form-group">
         <div class="input-group">
             <span class="input-group-btn">
-                <label class="control-label" type="button">Fecha ingreso a UANL: &nbsp;</label>
+                <label class="control-label" type="button">Fecha ingreso a la Universidad: &nbsp;</label>
             </span>
             {{form_widget(form.fechaIngresoUanl)}}
         </div>
@@ -86,14 +86,7 @@
     </div>  
 </div>
 <div class="row form-group">
-    <div class="col-md-8">
-        <div class="input-group">
-            <span class="input-group-btn">
-                <label class="control-label" type="button">Carrera : &nbsp;</label>
-            </span>
-            {{form_widget(form.carrera)}}
-        </div>
-    </div>
+ 
     <div class="col-md-4 form-group">
         <div class="input-group">
             <span class="input-group-btn">
@@ -143,7 +136,7 @@
     <div class="col-md-4">
         <div class="input-group">
             <span class="input-group-btn">
-                <label class="control-label" type="button">Otros idiomas que domine:&nbsp;&nbsp;&nbsp;&nbsp;(1)</label>
+                <label class="control-label" type="button">Dominio de Idiomas:&nbsp;&nbsp;&nbsp;&nbsp;(1)</label>
             </span>
             {{form_widget(form.idioma1.idioma)}}
         </div>
@@ -200,14 +193,7 @@
             {{form_widget(form.telCelular)}}
         </div>
     </div>
-    <div class="col-md-4">
-        <div class="input-group">
-            <span class="input-group-btn">
-                <label class="control-label" type="button">Nextel:&nbsp; </label>
-            </span>
-            {{form_widget(form.telNextel)}}
-        </div>
-    </div>
+ 
 </div>        
 <div class="row form-group">
     <div class="col-md-6">
@@ -286,12 +272,7 @@
     <div class="col-md-4">
         <label style="margin-left: 12px;margin-right: 0px; padding-right: 0px" class=" control-label">Disponibilidad para impartir clases en Campus:&nbsp; </label>
     </div>
-    <div class="col-md-3 checkbox-list" style="margin-left: 0px;padding-left: 0px">
-        <label class="checkbox-inline">
-            {{form_widget(form.linares)}} Linares</label>
-        <label class="checkbox-inline">
-            {{form_widget(form.sabina)}} Sabinas</label>
-    </div>
+
 </div>
 <div class="row form-group" style=" padding-bottom: 10px; padding-top: 10px">
     <div class="col-md-12 text-center">

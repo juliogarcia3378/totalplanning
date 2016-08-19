@@ -40,13 +40,11 @@ class ProfeTable extends TableModel
         $genero = new ReportField(false,'Género');
         $telparticular = new ReportField(false, 'Tel. Particular');
         $celular = new ReportField(false,'Celular');
-        $telNextel = new ReportField(false,'Nextel');
         $facebook = new ReportField(false,'Facebook');
         $domicilio = new ReportField(false,'Domicilio');
         $dirLabora = new ReportField(false,'Lugar labora');
         $telLugarLabora = new ReportField(false,'Tel. Labora');
         $categoria = new ReportField(false,'Categoría');
-        $carrera = new ReportField(false,'Carrera');
         $inactivo = new ReportField(false,'Inactivo');
 
         $r=array();
@@ -57,13 +55,11 @@ class ProfeTable extends TableModel
         $r['generoString']=$genero;
         $r['telparticular']=$telparticular;
         $r['telCelular']=$celular;
-        $r['telNextel']=$telNextel;
         $r['facebook']=$facebook;
         $r['domicilio']=$domicilio;
         $r['dirLabora']=$dirLabora;
         $r['telLugarLabora']=$telLugarLabora;
         $r['categoria']=$categoria;
-        $r['CarreraImparteString']=$carrera;
         $r['InactivoText'] = $inactivo;
         return $r;
     }
@@ -86,15 +82,17 @@ class ProfeTable extends TableModel
             $datosS = array();
             $datosS['Foto'] = $row->getFotoPic();
             if($row->getFechaIngresoFac() != null)
-                $datosS['Fecha ingreso FACDYC'] = $row->getFechaIngresoFac()->format(FechaUtil::getDateFormat());
+                $datosS['Fecha ingreso Facultad'] = $row->getFechaIngresoFac()->format(FechaUtil::getDateFormat());
             else
-                $datosS['Fecha ingreso FACDYC'] = "";
+                $datosS['Fecha ingreso Facultad'] = "";
             if($row->getFechaIngresoUanl() != null)
-                $datosS['Fecha ingreso UANL'] = $row->getFechaIngresoUanl()->format(FechaUtil::getDateFormat());
+                $datosS['Fecha ingreso Universidad'] = $row->getFechaIngresoUanl()->format(FechaUtil::getDateFormat());
             else
-                $datosS['Fecha ingreso UANL'] = "";
+                $datosS['Fecha ingreso Universidad'] = "";
 
             $datosS['Género'] = $row->getGeneroString();
+            $datosS['Nombre'] = $row->getFullName();
+
             $datosS['Carrera'] = $row->getCarrera();
             $MDs = $row->getGradoAcademico();
             foreach($MDs as $md)
@@ -104,9 +102,9 @@ class ProfeTable extends TableModel
 //                ld($tmp['value']);
                 $datosS[$tmp['key']]=$tmp['value'];
             }
+            $datosS['numeroEmpleado'] = $row->getNumeroEmpleado();
             $datosS['Teléfono particular'] = $row->getTelParticular();
             $datosS['Teléfono celular'] = $row->getTelCelular();
-            $datosS['Teléfono Nextel'] = $row->getTelNextel();
             $datosS['Correo'] = $row->getCorreo();
             $datosS['Facebook'] = $row->getFacebook();
 
@@ -120,7 +118,6 @@ class ProfeTable extends TableModel
                 $datosS['Fecha de nacimiento'] = $row->getFechaNacimiento()->format(FechaUtil::getDateFormat());
             $datosS['Estado civil'] = $row->getEstadoCivil() != false ? $row->getEstadoCivil()->getNombre():'';
             $datosS['Nombre cónyugue'] = $row->getNombreConyugue();
-            $datosS['Campus'] = $row->getCampusString();
             $datosS['Habilidades y competencias'] = $row->getPerfil();
             $habilidades = $row->getPerfil();
 
