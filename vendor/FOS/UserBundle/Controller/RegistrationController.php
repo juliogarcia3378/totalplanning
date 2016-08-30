@@ -67,6 +67,7 @@ class RegistrationController extends ContainerAware
      */
     public function checkEmailAction()
     {
+        die("2");
         $email = $this->container->get('session')->get('fos_user_send_confirmation_email/email');
         $this->container->get('session')->remove('fos_user_send_confirmation_email/email');
         $user = $this->container->get('fos_user.user_manager')->findUserByEmail($email);

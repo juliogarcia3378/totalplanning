@@ -96,8 +96,10 @@
                 </div>
                     <div class="modal-body">
                         <div class="row">
+                         {% if cambios is not null%}
                             <h5><b>Solicitudes rechazadas</b></h5>
                             <table width="100%">
+
                             {% for i,carrera in cambios.rechazados %}
                                 <tr><td colspan="4"><h5>{% if i == 1 %}Derecho{% else %}Criminolog&iacute;a{% endif %}</h5></td></tr>
                                 <tr><td>Semestre</td><td>Turno actual</td><td>Turno solicitado</td><td>Cantidad</td></tr>
@@ -110,8 +112,10 @@
                                     {% endfor %}
                             {% endfor %}
                             </table>
+                            {%endif%}
                         </div>
                         <div class="row">
+                        {% if cambios is not null%}
                             <br/><h5><b>Posible creaci&oacute;n de grupos</b></h5>
                             <table width="100%">
                                 {% for i,carrera in cambios.creacion %}
@@ -127,6 +131,7 @@
                                 {% endfor %}
                             </table>
                         </div>
+                          {%endif%}
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn default" data-dismiss="modal">Cerrar</button>

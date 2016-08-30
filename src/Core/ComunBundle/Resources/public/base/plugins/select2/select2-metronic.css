@@ -86,6 +86,7 @@ Select2 theme created for Metronic by Keenthemes
     border: 0;
     height: auto !important;
     padding: 0px;
+    font-size: 12px;
 }
 
 .select2-container-active .select2-choice,

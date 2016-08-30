@@ -46,9 +46,10 @@ security:
         - { path: ^/mail/, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/open, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/login$, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/register$, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/resetting, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/planeacion/profesor/hoja, role: [ROLE_PROFESOR] }
-        - { path: ^/registration, role: ROLE_ADMINISTRADOR }
+        - { path: ^/registration, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: delete, role: ROLE_ADMINISTRADOR }
         - { path: ^/planeacion/admin/, role: [ROLE_GESTIONAR_CONFIGURACION] }
         - { path: ^/planeacion/gestionar, role: [ROLE_GESTIONAR_PROFESOR] }

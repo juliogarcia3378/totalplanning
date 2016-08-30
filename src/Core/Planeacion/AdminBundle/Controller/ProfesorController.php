@@ -16,7 +16,7 @@ use Core\Planeacion\AdminBundle\Entity\PreferenciaProfeMateria;
 use Core\Planeacion\AdminBundle\Entity\ProfePeriodo;
 use Core\Planeacion\AdminBundle\Entity\Profesor;
 use Core\Planeacion\AdminBundle\Enums\EDia;
-use Core\Planeacion\AdminBundle\Enums\ELicenciatura;
+use Core\Planeacion\AdminBundle\Enums\ECarrera;
 use Core\Planeacion\AdminBundle\Enums\ETipoMaestriaDoctorado;
 use Core\Planeacion\AdminBundle\Enums\ETipoMateria;
 use Core\Planeacion\AdminBundle\EP\EPCarrera;
@@ -109,8 +109,8 @@ class ProfesorController extends MyCRUDController
     public function filtroAvanzadoAction()
     {
 
-        $materiasDerecho = $this->getRepo("PlaneacionAdminBundle:Materia")->getActivasByLicenciatura(ELicenciatura::Derecho);
-        $materiasCrimi = $this->getRepo("PlaneacionAdminBundle:Materia")->getActivasByLicenciatura(ELicenciatura::Criminologia);
+        $materiasDerecho = $this->getRepo("PlaneacionAdminBundle:Materia")->getActivasByCarrera(ECarrera::Derecho);
+        $materiasCrimi = $this->getRepo("PlaneacionAdminBundle:Materia")->getActivasByCarrera(ECarrera::Criminologia);
         $periodos = $this->getRepo("PlaneacionAdminBundle:Periodo")->getOrdered();
         $turnos = $this->getRepo("PlaneacionAdminBundle:Turno")->getOrdered();
 
@@ -400,7 +400,7 @@ class ProfesorController extends MyCRUDController
                 if (Util::convertStringToDate($inguanl) != false) {
                     $obj->setFechaIngresoUanl(Util::convertStringToDate($inguanl));
                 }
-//                $obj->setLicenciatura($em->find("PlaneacionAdminBundle:Licenciatura",$this->getParameter('lic_radios')));
+//                $obj->setCarrera($em->find("PlaneacionAdminBundle:Carrera",$this->getParameter('lic_radios')));
                 $fechaNac = $this->getRequest()->get($type->getName())['fechaNacimiento'];
                 if (Util::convertStringToDate($fechaNac) != false) {
                     $obj->setFechaNacimiento(Util::convertStringToDate($fechaNac));
@@ -497,7 +497,7 @@ class ProfesorController extends MyCRUDController
         $params = array('form' => $form->createview(), 'model' => $this->get($this->tableModelService), 'horasLV' => $horasLV, 'horasS' => $horasS,
             'array' => $array, 'obj' => $obj);
         if ($action != 'create') {
-//            ldd($obj->getLicenciatura())//->getNombre();
+//            ldd($obj->getCarrera())//->getNombre();
             $extra_params['obj'] = $obj;
         }
 
@@ -564,7 +564,7 @@ class ProfesorController extends MyCRUDController
             $em->remove($delete);
         }
 
-//        $lic = $this->getParameter('licenciatura');
+//        $lic = $this->getParameter('Carrera');
 //        $plan = $this->getParameter('planEstudio');
         $materias = $this->getRepo('PlaneacionAdminBundle:Materia')->filterObjects();
 

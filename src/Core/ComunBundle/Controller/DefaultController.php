@@ -345,16 +345,16 @@ class DefaultController extends BaseController
     }
     protected function createGrupos(){
         $turnos = $this->getEm()->getRepository("PlaneacionAdminBundle:Turno")->findAll();
-        $licenciaturas= $this->getEm()->getRepository("PlaneacionAdminBundle:Licenciatura")->findAll();
+        $Carreras= $this->getEm()->getRepository("PlaneacionAdminBundle:Carrera")->findAll();
         $periodos= $this->getEm()->getRepository("PlaneacionAdminBundle:Periodo")->findAll();
 
         foreach($periodos as $periodo) {
             foreach ($turnos as $turno) {
-                foreach ($licenciaturas as $licenciatura) {
+                foreach ($Carreras as $Carrera) {
                     for ($i = 1; $i <= 5; $i++) {
                         $grupo = new GrupoEstudiantes();
                         $grupo->setNombre($i);
-                        $grupo->setLicenciatura($licenciatura);
+                        $grupo->setCarrera($Carrera);
                         $grupo->setTurno($turno);
                         $grupo->setPeriodo($periodo);
                         $this->getEm()->persist($grupo);

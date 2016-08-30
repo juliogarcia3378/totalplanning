@@ -18,7 +18,7 @@ class AsignacionMateriasController extends MyCRUDController
         $criteria->orWhere($criteria->expr()->eq('enlinea', true))
             ->orWhere($criteria->expr()->eq('capacidad', 0));
         $aulas = $this->getRepo("PlaneacionAdminBundle:Aula")->matching($criteria);
-        $licenciaturas = $this->getRepo("PlaneacionAdminBundle:Licenciatura")->findAll();
+        $carreras = $this->getRepo("PlaneacionAdminBundle:Carrera")->findAll();
         $periodo = $this->getRepo("PlaneacionAdminBundle:Periodo")->findbyState(array('estado' => EEstado::Elaboracion));
 
         if (count($periodo) > 0)
@@ -28,15 +28,13 @@ class AsignacionMateriasController extends MyCRUDController
         $grupos = array();
         foreach ($gruposs as $key => $value) {
             $response["id"] = $value->getId();
-            if ($value->getBilingue() == true) {
-                $response["nombreCompleto"] = $value->getNombreCompletoAula() . " - " . $value->getTurno()->getNombre() . " - Bilingue ";
-            } else {
+          
                 $response["nombreCompleto"] = $value->getNombreCompletoAula() . " - " . $value->getTurno()->getNombre();
-            }
+         
             $grupos[] = $response;
         }
 
-        return $this->render('HorarioBundle:AsignacionMaterias:horario.html.twig', array('periodo' => $periodo, 'aulas' => $aulas, 'grupos' => $grupos, 'materias' => $materias, 'licenciaturas' => $licenciaturas));
+        return $this->render('HorarioBundle:AsignacionMaterias:horario.html.twig', array('periodo' => $periodo, 'aulas' => $aulas, 'grupos' => $grupos, 'materias' => $materias, 'carreras' => $carreras));
     }
 
     public function horasPeriodoAction()
@@ -123,16 +121,16 @@ class AsignacionMateriasController extends MyCRUDController
         return new JsonResponse(array("success" => true, "materias" => $materias));
     }
 
-    public function gruposByLicenciaturaAction()
+    public function gruposByCarreraAction()
     {
 
         $response = array();
 
         try {
-            $licenciatura = $this->getParameter('id');
+            $Carrera = $this->getParameter('id');
             $periodo = $this->getParameter('periodo');
             //  ld($periodo);
-            $grupos = $this->getRepo("PlaneacionAdminBundle:GrupoEstudiantes")->findBy(array("licenciatura" => $licenciatura, "periodo" => $periodo), array('nombre' => 'desc'));
+            $grupos = $this->getRepo("PlaneacionAdminBundle:GrupoEstudiantes")->findBy(array("Carrera" => $Carrera, "periodo" => $periodo), array('nombre' => 'desc'));
             foreach ($grupos as $key => $value) {
                 $response[$key]["id"] = $value->getId();
 

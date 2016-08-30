@@ -2,7 +2,7 @@
 namespace Core\Planeacion\AdminBundle\Entity;
 use Core\ComunBundle\Util\FechaUtil;
 use Core\Planeacion\AdminBundle\Enums\EGenero;
-use Core\Planeacion\AdminBundle\Enums\ELicenciatura;
+use Core\Planeacion\AdminBundle\Enums\ECarrera;
 use Core\Planeacion\AdminBundle\Enums\ETipoMaestriaDoctorado;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints as DocAssert;

@@ -174,9 +174,9 @@ class Profesor
     /**
      * @var string
      *
-     * @ORM\Column(name="licenciatura_en", type="string", length=250, nullable=true)
+     * @ORM\Column(name="Carrera_en", type="string", length=250, nullable=true)
      */
-    private $licenciaturaEn;
+    private $CarreraEn;
     /**
      * @var string
      *
@@ -714,26 +714,26 @@ class Profesor
     }
 
     /**
-     * Set licenciaturaEn
+     * Set CarreraEn
      *
-     * @param string $licenciaturaEn
+     * @param string $CarreraEn
      * @return Profesor
      */
-    public function setLicenciaturaEn($licenciaturaEn)
+    public function setCarreraEn($CarreraEn)
     {
-        $this->licenciaturaEn = $licenciaturaEn;
+        $this->CarreraEn = $CarreraEn;
     
         return $this;
     }
 
     /**
-     * Get licenciaturaEn
+     * Get CarreraEn
      *
      * @return string 
      */
-    public function getLicenciaturaEn()
+    public function getCarreraEn()
     {
-        return $this->licenciaturaEn;
+        return $this->CarreraEn;
     }
 
     /**

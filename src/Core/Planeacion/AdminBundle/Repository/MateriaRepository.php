@@ -172,10 +172,10 @@ class MateriaRepository extends \Core\ComunBundle\Util\NomencladoresRepository
         $filters['activo']=true;
         return $this->filterObjects($filters);
     }
-    public function getActivasByLicenciatura($idLicenciatura,$filters=array(),$resultType=ResultType::ObjectType)
+    public function getActivasByCarrera($idCarrera,$filters=array(),$resultType=ResultType::ObjectType)
     {
         $filters['activo']=true;
-        $filters['planEstudio.carrera']=$idLicenciatura;
+        $filters['planEstudio.carrera']=$idCarrera;
         $qb = $this->getQB(array('planEstudio'));
              $qb->innerJoin('materia.semestre', 'semestre')
         ->addOrderBy('semestre.id','desc')
@@ -199,7 +199,7 @@ class MateriaRepository extends \Core\ComunBundle\Util\NomencladoresRepository
     public function byGroup($grupo){
 
    // //  $grupo= $this->getRepo("PlaneacionAdminBundle:GrupoEstudiantes")->find($grupo);
-       // ld($grupo->getLicenciatura());
+       // ld($grupo->getCarrera());
         $qb = $this->getQB();
         $qb->join('materia.planEstudio', 'planEstudio');
        $qb->join('planEstudio.grupoEstudiantes', 'grupo');
@@ -208,7 +208,7 @@ class MateriaRepository extends \Core\ComunBundle\Util\NomencladoresRepository
              $qb->andWhere('materia.activo = true');
             $qb->andWhere('grupo = :grupo')->setParameter('grupo', $grupo);
                 $qb->andWhere('grupo.semestre = materia.semestre ');
-                 $qb->andWhere('grupo.licenciatura = planEstudio.licenciatura ');
+                 $qb->andWhere('grupo.Carrera = planEstudio.Carrera ');
 
                  
                  $a = $this->filterQB($qb,array(),ResultType::ArrayType);

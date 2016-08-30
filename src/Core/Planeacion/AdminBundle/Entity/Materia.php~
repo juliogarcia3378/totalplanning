@@ -112,17 +112,17 @@ class Materia
         if($this->getSemestre() == null && $this->getTipoMateria()->getId() == 1)
             throw new Exception('Error');
     }
-    public function getTextoSinLicenciatura()
+    public function getTextoSinCarrera()
     {
         return $this->getClave().'-'.$this->getNombre();
     }
     public function getTexto()
     {
-        return $this->getClave().'-'.$this->getNombre().'-'.$this->getInicialLicenciatura();
+        return $this->getClave().'-'.$this->getNombre().'-'.$this->getInicialCarrera();
     }
-    public function getInicialLicenciatura()
+    public function getInicialCarrera()
     {
-        return substr(ucfirst($this->getPlanEstudio()->getLicenciatura()->getNombre()),0,1);
+        return substr(ucfirst($this->getPlanEstudio()->getCarrera()->getNombre()),0,1);
     }
     /**
      * Constructor

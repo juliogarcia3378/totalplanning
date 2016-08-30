@@ -4,19 +4,19 @@ namespace Core\Planeacion\AdminBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Licenciatura
+ * Carrera
  *
- * @ORM\Table(name="licenciatura")
+ * @ORM\Table(name="Carrera")
  * @ORM\Entity(repositoryClass="Core\ComunBundle\Util\NomencladoresRepository")
  */
-class Licenciatura
+class Carrera
 {
     /**
      *
      * @ORM\Column(name="id", type="integer", nullable=false)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
-     * @ORM\SequenceGenerator(sequenceName="licenciatura_id_seq", allocationSize=1, initialValue=1)
+     * @ORM\SequenceGenerator(sequenceName="Carrera_id_seq", allocationSize=1, initialValue=1)
      */
     private $id;
 
@@ -29,7 +29,7 @@ class Licenciatura
 
     /**
      *
-     * @ORM\OneToMany(targetEntity="PlanEstudio", mappedBy="licenciatura", cascade={"persist","remove"})
+     * @ORM\OneToMany(targetEntity="PlanEstudio", mappedBy="Carrera", cascade={"persist","remove"})
      */
     private $planEstudio;
     /**
@@ -46,7 +46,7 @@ class Licenciatura
      * Set nombre
      *
      * @param string $nombre
-     * @return Licenciatura
+     * @return Carrera
      */
     public function setNombre($nombre)
     {

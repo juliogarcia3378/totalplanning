@@ -1,5 +1,7 @@
 {% extends "FOSUserBundle::layout.html.twig" %}
 
 {% block fos_user_content %}
-    <p>{{ 'registration.check_email'|trans({'%email%': user.email}, 'FOSUserBundle') }}</p>
+
+
+<a href={{path('fos_user_security_login')}}>Ir a pantalla de inicio</a>
 {% endblock fos_user_content %}

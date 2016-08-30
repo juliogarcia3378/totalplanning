@@ -1455,7 +1455,8 @@ Bootstrap Tables
 }
 
 .table .heading > th {
-  background-color: #eee !important;
+  background-color: #3f9cf0 !important;
+  color:white;
 }
 
 /***

@@ -21,7 +21,7 @@ class AsignacionProfesoresController extends MyCRUDController
             $materia = array();
             $plan_id = $m->getPlanEstudio();
             if ($plan_id != null) {
-                if ($this->getRepo("PlaneacionAdminBundle:PlanEstudio")->find($plan_id)->getLicenciatura()->getId() == 2) {
+                if ($this->getRepo("PlaneacionAdminBundle:PlanEstudio")->find($plan_id)->getCarrera()->getId() == 2) {
                     $carrera = "C";
                 }
                 $materia['id'] = $m->getId();

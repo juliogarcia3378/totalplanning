@@ -1,7 +1,6 @@
 
 body { 
   color: #000; 
-  font-family: 'Open Sans', sans-serif;
   padding: 0px !important;
   margin: 0px !important;
   font-size:13px; 
@@ -209,8 +208,8 @@ Close icon used for modal dialog and other UI element close buttons
   display: inline-block;
   margin-top: 0px;
   margin-right: 0px;
-  width: 9px;
-  height: 9px;
+  width: 30px;
+  height: 30px;
   background-repeat: no-repeat !important;
   text-indent: -10000px;
   outline: none;
@@ -351,9 +350,8 @@ Header and header elements.
   padding: 0 20px 0 20px;
   margin: 0;
   border: 0px;
-  padding: 0px; 
   box-shadow: none;
-  height: 42px; 
+      height: 68px;
   min-height: 42px;
 }
 
@@ -397,6 +395,7 @@ Header and header elements.
 }
 
 .header.navbar .navbar-nav {
+  padding-top: 14px;
   margin-right: 40px;
   display: block; 
 }
@@ -543,7 +542,6 @@ Page container
 .page-container {
   margin: 0px;
   padding: 0px;
-  position: absolute;
   min-width: 100%;
   width: auto;
 }
@@ -631,7 +629,7 @@ Page sidebar
   border: 0px;
   padding: 10px 15px;
   text-decoration: none;
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 300;
 }
 
@@ -660,7 +658,6 @@ Page sidebar
 }
 
 .page-sidebar-menu > li.open > a {
-  font-size: 14px;
 }
 
 .page-sidebar-menu > li.active > a {

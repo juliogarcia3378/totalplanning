@@ -76,28 +76,22 @@ class GrupoEstudiantesCambioController extends MyCRUDController {
                         'semestre'  => $group['semestre'],
                         'tercero'   => 'false',
                         'bilingue'  => 'false',
-                        'horas'     => $group['frecuencia'],
-                        'carrera'   => $group['carrera'],
-                        'enlinea'   => $group['enlinea']);
-                    if ($group['terceros'])
-                    {
-                        $group_data['tercero'] = 'true';
-                    }
-                    if ($group['bilingue'])
-                    {
-                        $group_data['bilingue'] = 'true';
-                    }
+                        'horas'     => $group['frecuencia']);
+               
                     $aulasygrupos[$aula_index]['t'.$group['turno']] = $group_data;
                 }
                 $aula_index++;
             }}
             $anteproyecto =$this->getRepo("PlaneacionAdminBundle:Anteproyecto")->findBy(array('estado'=>EEstado::Elaboracion));
             $anteproyecto = $anteproyecto[0];
+            if (!$anteproyecto->getPeriodoAnterior()==null)
             $anterior=$anteproyecto->getPeriodoAnterior()->getNombre();
+        else
+            $anterior="";
             $actual=$anteproyecto->getPeriodo()->getNombre();
             $cambios = json_decode($anteproyecto->getCambios(), true);
             $cambios = $cambios["nueva_matricula"];
-            $carreras = $this->getRepo("PlaneacionAdminBundle:Licenciatura")->findAll();
+            $carreras = $this->getRepo("PlaneacionAdminBundle:Carrera")->findAll();
             $planesEstudio = $this->getRepo("PlaneacionAdminBundle:PlanEstudio")->findAll();
 
             $turnos = $this->getRepo("PlaneacionAdminBundle:Turno")->findAll();
@@ -126,7 +120,7 @@ class GrupoEstudiantesCambioController extends MyCRUDController {
             $array["grupoNombre"]=$grupo->getAnterior()->getNombre();
 
             //  $array["grupoNombre"]=$grupo->getAnterior()->getSemestre().$grupo->getAnterior()->getLicenciatura()->getNombre()[0];
-            $array["licenciatura"]=$grupo->getActual()->getLicenciatura()->getId();
+            $array["licenciatura"]=$grupo->getActual()->getCarrera()->getId();
             $array["nivel"]=$grupo->getActual()->getNivel();
             $array["horas"]=$grupo->getActual()->getNivel();
             $array["turno"]=$grupo->getActual()->getTurno()->getId();
@@ -262,12 +256,11 @@ class GrupoEstudiantesCambioController extends MyCRUDController {
             $grupo->setAula($aula);
             $turno = $this->getRepo("PlaneacionAdminBundle:Turno")->find($turnoid);
             $grupo->setTurno($turno);
-            $carrera = $this->getRepo("PlaneacionAdminBundle:Licenciatura")->find($carreraid);
-            $grupo->setLicenciatura($carrera);
+            $carrera = $this->getRepo("PlaneacionAdminBundle:Carrera")->find($carreraid);
+            $grupo->setCarrera($carrera);
             $grupo->setPaquete(false);
             $grupo->setTerceros(false);
-            $campus = $this->getRepo("PlaneacionAdminBundle:Campus")->find($campusid);
-            $grupo->setCampus($campus);
+
             $periodo = $this->getRepo("PlaneacionAdminBundle:Periodo")->find($periodoid);
             $grupo->setPeriodo($periodo);
             $plan = $this->getRepo("PlaneacionAdminBundle:PlanEstudio")->find($planid);

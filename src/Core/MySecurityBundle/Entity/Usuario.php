@@ -137,7 +137,7 @@ class Usuario extends User
         }
         if($this->getProfesor() == null)
         {
-            if($this->getNombre() == null || $this->getEmail() == null || $this->getCedula() == null)
+            if($this->getNombre() == null || $this->getEmail() == null )
                 throw new Exception("Existen campos con valores o válidos.");
         }
         else

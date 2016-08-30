@@ -119,7 +119,7 @@ class Materia
             throw new Exception('Error');
         $this->nombre=strtoupper($this->nombre);
     }
-    public function getTextoSinLicenciatura()
+    public function getTextoSinCarrera()
     {
         return $this->getClave().'-'.$this->getNombre();
     }
@@ -467,7 +467,7 @@ class Materia
     public function getclaveNombreCarrera()
     {
         if ($this->planEstudio != null) {
-            return $this->clave . ' / ' . $this->nombre . '[' . $this->planEstudio->getLicenciatura()->getNombre() . ']';
+            return $this->clave . ' / ' . $this->nombre . '[' . $this->planEstudio->getCarrera()->getNombre() . ']';
         } else {
             return null;
         }

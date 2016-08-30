@@ -32,19 +32,14 @@ class RegistrationFormType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('cedula', "text", array(
-                    'label'=>'Cédula',
-                    'attr'=>
-                        array('placeholder'=>'Cédula','autocomplete'=>'off')
-                )
-            )
+           
             ->add('nombre', "text", array(
                     'label'=>'Nombre(s)',
                     'attr'=>
                         array('placeholder'=>'Nombre(s)','autocomplete'=>'off')
                 )
             )
-            ->add('apellidos',"text",array('attr'=>array('placeholder'=>'Apellidos','autocomplete'=>'off')) )
+           
 //            ->add('direccion', "text", array(
 //                    'label'=>'Dirección de Contacto',
 //                    'attr'=>

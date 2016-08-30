@@ -9,7 +9,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints as DocAssert;
  * Dia
  *
  * @ORM\Table(name="plan_estudio")
- * @DocAssert\UniqueEntity(fields={"nombre","licenciatura"}, message="Ya existe un plan de estudio con ese nombre en esa licenciatura.")
+ * @DocAssert\UniqueEntity(fields={"nombre","Carrera"}, message="Ya existe un plan de estudio con ese nombre en esa Carrera.")
  * @ORM\Entity(repositoryClass="Core\Planeacion\AdminBundle\Repository\PlanEstudioRepository")
  */
 class PlanEstudio
@@ -44,14 +44,14 @@ class PlanEstudio
      */
     private $materias;
     /**
-     * @var \Licenciatura
+     * @var \Carrera
      *
-     * @ORM\ManyToOne(targetEntity="Licenciatura",inversedBy="planEstudio")
+     * @ORM\ManyToOne(targetEntity="Carrera",inversedBy="planEstudio")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="licenciatura", referencedColumnName="id", nullable=true)
+     *   @ORM\JoinColumn(name="Carrera", referencedColumnName="id", nullable=true)
      * })
      */
-    private $licenciatura;
+    private $Carrera;
 
     /**
      * Get id
@@ -69,7 +69,7 @@ class PlanEstudio
      */
     public function getTexto()
     {
-        return $this->nombre.'-'.substr(ucfirst($this->getLicenciatura()->getNombre()),0,1);
+        return $this->nombre.'-'.substr(ucfirst($this->getCarrera()->getNombre()),0,1);
     }
     /**
      * Set nombre
@@ -96,26 +96,26 @@ class PlanEstudio
 
 
     /**
-     * Set licenciatura
+     * Set Carrera
      *
-     * @param \Core\Planeacion\AdminBundle\Entity\Licenciatura $licenciatura
+     * @param \Core\Planeacion\AdminBundle\Entity\Carrera $Carrera
      * @return PlanEstudio
      */
-    public function setLicenciatura(\Core\Planeacion\AdminBundle\Entity\Licenciatura $licenciatura = null)
+    public function setCarrera(\Core\Planeacion\AdminBundle\Entity\Carrera $Carrera = null)
     {
-        $this->licenciatura = $licenciatura;
+        $this->Carrera = $Carrera;
     
         return $this;
     }
 
     /**
-     * Get licenciatura
+     * Get Carrera
      *
-     * @return \Core\Planeacion\AdminBundle\Entity\Licenciatura 
+     * @return \Core\Planeacion\AdminBundle\Entity\Carrera 
      */
-    public function getLicenciatura()
+    public function getCarrera()
     {
-        return $this->licenciatura;
+        return $this->Carrera;
     }
 
     /**

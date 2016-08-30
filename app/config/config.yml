@@ -94,9 +94,9 @@ knp_snappy:
 swiftmailer:
     transport: %mailer_transport%
     host:      %mailer_host%
+    encryption: %mailer_encryption%
     username:  %mailer_user%
-    password:  %mailer_password%
-    spool:     { type: memory }
+    password:  %mailer_password% 
 #hwi_oauth:
     # name of the firewall in which this bundle is active, this setting MUST be set
 #    firewall_name: main
@@ -127,7 +127,23 @@ fos_user:
     use_listener: true # si se usa el servicio $userManager = $container->get('fos_user.user_manager'); entonces noes necesario el listener de doctrine
     user_class: Core\MySecurityBundle\Entity\Usuario
     group:
-        group_class: Core\MySecurityBundle\Entity\Grupo		
+        group_class: Core\MySecurityBundle\Entity\Grupo	
+    service:
+        mailer: fos_user.mailer.twig_swift
+    registration:
+        confirmation:
+            enabled: true
+            template: email/password_resetting.html.twig
+            from_email:
+                address:        %mailer_user%
+                sender_name:    IVQ Administrator
+
+    resetting:
+        email:
+            template: email/password_resetting.html.twig
+            from_email:
+                address:        %mailer_user%
+                sender_name:    IVQ Administrator
 oneup_uploader:
     mappings:
         gallery:

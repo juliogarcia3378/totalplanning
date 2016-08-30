@@ -42,8 +42,8 @@
 </div>
 <div class="row form-group ">
 
-    {% for key, licenciatura in licenciaturas %}
-    {% for semestre in licenciatura %}
+    {% for key, Carrera in Carreras %}
+    {% for semestre in Carrera %}
     {% for turno,turnos in semestre %}
     <div class="table-responsive col-md-8">
         <table class="table table-bordered table-hover">
@@ -55,7 +55,7 @@
                     Semestre
                 </th>
                 <th>
-                    Licenciatura
+                    Carrera
                 </th>
                 <th>
                     {{ anterior }}

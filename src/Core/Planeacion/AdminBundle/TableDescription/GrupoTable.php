@@ -69,37 +69,7 @@ class GrupoTable extends TableModel
         $filterData->setData($this->getEm()->getRepository("PlaneacionAdminBundle:Aula")->filterObjectsActivo());
         $aulaColumn->setFilterData($filterData);
 
-
-        $activoColumn = new GridColumn("Bilingüe", '1%','bilingue');
-
-        $filter = new SelectFilterColumn();
-        $filter->setData(array(
-                array('id'=>1,'nombre'=>"Sí"),
-                array('id'=>0,'nombre'=>"No")
-            )
-        );
-        $activoColumn->setFilterType('select');
-        $activoColumn->setFilterData($filter);
-
-        $tercerosColumn = new GridColumn("Terceros", '1%','terceros');
-        $filter = new SelectFilterColumn();
-        $filter->setData(array(
-                array('id'=>1,'nombre'=>"Sí"),
-                array('id'=>0,'nombre'=>"No")
-            )
-        );
-        $tercerosColumn->setFilterType('select');
-        $tercerosColumn->setFilterData($filter);
-
-        $paqueteColumn = new GridColumn("Paquete", '1%','paquete');
-        $filter = new SelectFilterColumn();
-        $filter->setData(array(
-                array('id'=>1,'nombre'=>"Sí"),
-                array('id'=>0,'nombre'=>"No")
-            )
-        );
-        $paqueteColumn->setFilterType('select');
-        $paqueteColumn->setFilterData($filter);
+       
 
 //        $activoColumn = new GridColumn("Activo", '5%','activo');
         $planEstudioColumn = new GridColumn("Plan Estudio", '1%','planEstudio','select');
@@ -115,9 +85,6 @@ class GrupoTable extends TableModel
         $this->columns[] =$periodoColumn;
         $this->columns[] =$aulaColumn;
 
-        $this->columns[] =$activoColumn;
-        $this->columns[] =$tercerosColumn;
-        $this->columns[] =$paqueteColumn;
         $this->columns[] =$planEstudioColumn;
 
     }
@@ -164,15 +131,8 @@ class GrupoTable extends TableModel
         if(array_key_exists('aula',$filters) &&  $filters['aula'] != null &&  $filters['aula'] != "" ){
             $contextoBase['Aula'] =  $this->getEm()->getRepository('PlaneacionAdminBundle:Aula')->find($filters['aula'])->getNombre();
         }
-        if(array_key_exists('bilingue',$filters) &&  $filters['bilingue'] != null &&  $filters['bilingue'] != "" ){
-            $contextoBase['Bilingüe'] = $filters['bilingue'];
-        }
-        if(array_key_exists('terceros',$filters) &&  $filters['terceros'] != null &&  $filters['terceros'] != "" ){
-            $contextoBase['Terceros'] = $filters['terceros'];
-        }
-        if(array_key_exists('paquete',$filters) &&  $filters['paquete'] != null &&  $filters['paquete'] != "" ){
-            $contextoBase['Paquete'] = $filters['paquete'];
-        }
+    
+     
         if(array_key_exists('turno',$filters) &&  $filters['turno'] != null &&  $filters['turno'] != "" ){
             $contextoBase['Turno'] = $this->getEm()->getRepository('PlaneacionAdminBundle:Turno')->find($filters['turno'])->getNombre();
         }
@@ -260,9 +220,6 @@ class GrupoTable extends TableModel
             $tmpArray[] = $row->getAula()->getNombre();
 
            
-            $tmpArray[] = Util::boolean($row->getBilingue());
-            $tmpArray[] = Util::boolean($row->getTerceros());
-            $tmpArray[] = Util::boolean($row->getPaquete());
              $tmpArray[] = $row->getPlanEstudio()->getNombre();
 //            $tmpArray[] = $row->getA
             $result[]=$tmpArray;

@@ -13,9 +13,10 @@ body {
 Page header
 ***/
 .header {
-  filter: none !important;
-  background-image: none !important;
-  background-color: #2d3344 !important;
+     box-shadow: 0px 1px 10px 0px rgba(50, 50, 50, 0.2);
+    background: #ffffff;
+    border: 1px!important;
+    border-radius: 1px!important;
 }
 .header .btn-navbar {
   background-color: #434343 !important;
@@ -124,13 +125,15 @@ Page sidebar
 .page-content {
   border-left: 1px solid #e2e2e2 !important;
   border-bottom: 1px solid #e2e2e2 !important;
+  border: 0px!important;
+    border-radius: 0px!important;
 }
 .page-sidebar-reversed .page-content {
   border-left: 0;
   border-right: 1px solid #e2e2e2 !important;
 }
 .page-sidebar {
-  background-color: #fafafa;
+  background-color: #181c26;
 }
 .page-sidebar-fixed .page-content {
   border: 0 !important;
@@ -141,9 +144,8 @@ Page sidebar
 
 
 ul.page-sidebar-menu > li > a {
-  border-top: 1px solid #e2e2e2 !important;
-  color: #000 !important;
-  font-weight: 400;
+border-top: 1px solid #2b3b55;
+    color: #c3cee0;
 }
 
 ul.page-sidebar-menu > li:first-child > a {
@@ -160,8 +162,8 @@ ul.page-sidebar-menu > li a i {
 ul.page-sidebar-menu > li.open > a,
 ul.page-sidebar-menu > li > a:hover,
 ul.page-sidebar-menu > li:hover > a {
-  background: #eee;
-  border-top: 1px solid #e8e8e8;
+    background-color: #2d3344 !important;
+    border-top-color: transparent !important;
 }
 ul.page-sidebar-menu > li.active > a .selected {
   right:-7px;
@@ -202,13 +204,13 @@ ul.page-sidebar-menu > li > ul.sub-menu > li:first-child > a {
 }
 
 ul.page-sidebar-menu ul.sub-menu > li > a {
-  font-weight: 400 !important;
-  color: #333 !important;
+    color: #c3cee0;
+    font-size: 13px;
 }
 ul.page-sidebar-menu ul.sub-menu > li.active > a,
 ul.page-sidebar-menu ul.sub-menu > li > a:hover {
-  color: #818181 !important;
-  background: #efefef !important; 
+  background-color: #2d3344 !important;
+    border-top-color: transparent !important;
 }
 
 ul.page-sidebar-menu > li > ul.sub-menu a .arrow:before,

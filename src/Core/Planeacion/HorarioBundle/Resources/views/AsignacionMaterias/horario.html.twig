@@ -99,12 +99,12 @@
 
         <div class="row form-group">
             <div class="col-md-4">
-                <label class="control-label" for="licenciatura"> Licenciatura:*</label>
-                <select name="licenciatura" parent="#Core_planeacion_adminbundle"
-                        id="licenciatura_" class="form-control input-sm select2me" data-placeholder="Seleccionar...">
+                <label class="control-label" for="carrera"> Carrera:*</label>
+                <select name="carrera" parent="#Core_planeacion_adminbundle"
+                        id="carrera_" class="form-control input-sm select2me" data-placeholder="Seleccionar...">
                     <option value=""></option>
-                    {% for licenciatura in licenciaturas %}
-                        <option value="{{ licenciatura.id }}">{{ licenciatura.nombre }}</option>
+                    {% for carrera in carreras %}
+                        <option value="{{carrera.id }}">{{ carrera.nombre }}</option>
                     {% endfor %}
                 </select>
             </div>
@@ -247,12 +247,12 @@
             $("#btn_crear")[0].disabled = false;
         }
     });
-    $("#licenciatura_").on('change', function (e) {
-        var el = $('#licenciatura_').select2("data");
+    $("#carrera_").on('change', function (e) {
+        var el = $('#carrera_').select2("data");
         $("#materia_").select2("val", "");
         $("#grupo_").select2("val", "");
         $.ajax({
-            url: "{{ path("planeacion_horario_grupos_licenciatura") }}",
+            url: "{{ path("planeacion_horario_grupos_carrera") }}",
             data: {id: el.id, 'periodo': {{ periodo.id }}},
             success: function (resp) {
 

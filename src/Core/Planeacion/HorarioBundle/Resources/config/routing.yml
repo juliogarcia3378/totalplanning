@@ -76,9 +76,9 @@ planeacion_horario_asignar_materia:
 planeacion_horario_materias_group:
     pattern:  /asignacion/materias/group
     defaults: { _controller: HorarioBundle:AsignacionMaterias:MateriasByGroup }
-planeacion_horario_grupos_licenciatura:
-    pattern:  /asignacion/grupos/licenciatura
-    defaults: { _controller: HorarioBundle:AsignacionMaterias:gruposByLicenciatura}
+planeacion_horario_grupos_carrera:
+    pattern:  /asignacion/grupos/carrera
+    defaults: { _controller: HorarioBundle:AsignacionMaterias:gruposByCarrera}
 planeacion_horario_materias_adicionar_aula:
     pattern:  /asignacion/materias/aula
     defaults: { _controller: HorarioBundle:AsignacionMaterias:asociarAula}

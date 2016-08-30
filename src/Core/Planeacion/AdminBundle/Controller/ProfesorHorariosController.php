@@ -118,10 +118,10 @@ class ProfesorHorariosController extends MyCRUDController
                 $materia = $this->getEm()->find("PlaneacionAdminBundle:Materia", $array[3]);
                 $var = new ProfePeriodoHorario();
                 $obj->addProfePeriodoHorario($var);
-                /*if ($materia->getPlanEstudio()->getLicenciatura()->getId() == ELicenciatura::Criminologia)
+                /*if ($materia->getPlanEstudio()->getCarrera()->getId() == ECarrera::Criminologia)
                     $crimi = true;
                 else
-                    if ($materia->getPlanEstudio()->getLicenciatura()->getId() == ELicenciatura::Derecho)
+                    if ($materia->getPlanEstudio()->getCarrera()->getId() == ECarrera::Derecho)
                         $derecho = true;
                 $profe->setDerecho($derecho);
                 $profe->setCriminologia($crimi);*/

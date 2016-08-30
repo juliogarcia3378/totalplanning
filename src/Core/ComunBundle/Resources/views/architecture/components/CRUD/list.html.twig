@@ -1,5 +1,121 @@
+ {%block breadcrumb%}
+<div class="page-bar">
+<h1>
+ <i class="{{ model.icon }}"></i>{{ model.name }}
+                             {% if model.allowAdd == true  and model.modal%}
+                                {% block top_button_block_modal %}
+                                <div class="btn-group ">
+                                    <a  class="btn blue btn-add "  id="{{ model.tableId }}_page_create" >
+                                        </a>
+                                    {% if model.hasExport %}
+                                        
+                                            <a class="btn blue btn-export" href="#" data-toggle="dropdown">
+                                            </a>
+                                            <ul class="dropdown-menu pull-right">
+                                                {% if model.hasXlsExport is defined and not null%}
+                                                    <li>
+                                                        <a id="{{ model.tableId }}_xls_export"  href="#{{ model.tableId }}_modal_pdf_export">
+                                                        <i class="fa fa-table"></i>
+                                                            Exportar a Excel
+                                                        </a>
+                                                    </li>
+                                                {% endif %}
+                                                <li>
+                                                    <a href="#" id="{{ model.tableId }}_export" >
+                                                    <i class="fa fa-file-text"></i>    
+                                                        Exportar a PDF
+                                                    </a>
+                                                </li>
+                                                <li class="divider">
+                                                </li>
+                                                <li>
+                                                    <a  data-toggle="modal" href="#{{ model.tableId }}_modal_pdf_export">
+                                                        <i class="fa fa-cog"></i>
+                                                           Configurar
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    {% endif %}
+                                {% endblock %}
+                            {% else %}
+                            <div class="btn-group ">
+                                <button  class="btn blue btn-add "  id="{{ model.tableId }}_page_create">
+                                </button>
+                                {% block top_button_block %}
+                                    {% if model.hasExport %}
+                                        <div class="btn-group">
+                                            <a class="btn blue btn-export" href="#" data-toggle="dropdown">
+                                            </a>
+                                            <ul class="dropdown-menu pull-right">
+                                                {% if model.hasEmailExport %}
+                                                    <li>
+                                                        <a id="{{ model.tableId }}_email_export" href="#{{ model.tableId }}_modal_pdf_export">
+                                                            <i class="fa fa-list-alt"></i>
+                                                            Lista de Correo
+                                                        </a>
+                                                    </li>
+                                                {% endif %}
+                                                <li>
+                                                    <a id="{{ model.tableId }}_export" href="#" >
+                                                        <i class="fa fa-file-text"></i>
+                                                        Exportar a PDF
+                                                    </a>
+                                                </li>                                                
+                                                {% if model.hasXlsExport is defined and not null%}
+                                                    <li>
+                                                        <a id="{{ model.tableId }}_xls_export"  href="#{{ model.tableId }}_modal_xls_export">
+                                                            <i class="fa fa-table"></i>
+                                                            Exportar a Excel
+                                                        </a>
+                                                    </li>
+                                                {% endif %}
+                                                <li class="divider">
+                                                </li>
+                                                <li>
+                                                    <a  data-toggle="modal" href="#{{ model.tableId }}_modal_pdf_export">
+                                                        <i class="fa fa-cog"></i>                                                       
+                                                           Configurar                                                        
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    {% endif %}
+                                {% endblock %}
+                                </div>
+                            {% endif %}
 
+</h1>
+  
+ 
+</div>
+ {%endblock%}
 {% block form_block %}
+  {% if rutas.new is not null and model.modal %}
+        <div class="modal fade "  data-backdrop="static" data-keyboard="false" id="{{ model.tableId }}_modal_create" role="basic" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content ajax_form_block">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                        <h4 class="modal-title">Adicionar {{ model.editTitle|lower }}</h4>
+                    </div>
+                    <form  action="{{path(rutas.new) }}"  id="{{ model.tableId }}_new_form" method="POST" class="ajax_form">
+                        <div class="modal-body">
+                            <div id="{{ model.tableId }}_new_form_container" >
+                                {#{{ render(path(rutas.new))}}#}
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn default" data-dismiss="modal">Cerrar</button>
+                            <button class="btn blue " type="submit"  value="Aceptar">Aceptar</button>
+                        </div>
+                        <input type="hidden" name="modified" value="false"/>
+                    </form>
+                </div>
+                <!-- /.modal-content -->
+            </div>
+        </div>
+    {% endif %}
     {% if rutas.exportEmail is not null  %}
         <div class="modal fade "  data-backdrop="static" data-keyboard="false" id="{{ model.tableId }}_modal_email_export" role="basic" aria-hidden="true" target="_blank">
             <div class="modal-dialog">
@@ -80,31 +196,7 @@
             </div>
         </div>
     {% endif %}
-    {% if rutas.new is not null and model.modal %}
-        <div class="modal fade "  data-backdrop="static" data-keyboard="false" id="{{ model.tableId }}_modal_create" role="basic" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content ajax_form_block">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
-                        <h4 class="modal-title">Adicionar {{ model.editTitle|lower }}</h4>
-                    </div>
-                    <form  action="{{path(rutas.new) }}"  id="{{ model.tableId }}_new_form" method="POST" class="ajax_form">
-                        <div class="modal-body">
-                            <div id="{{ model.tableId }}_new_form_container" >
-                                {#{{ render(path(rutas.new))}}#}
-                            </div>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn default" data-dismiss="modal">Cerrar</button>
-                            <button class="btn blue " type="submit"  value="Aceptar">Aceptar</button>
-                        </div>
-                        <input type="hidden" name="modified" value="false"/>
-                    </form>
-                </div>
-                <!-- /.modal-content -->
-            </div>
-        </div>
-    {% endif %}
+
     {% if rutas.edit is not null and model.modal  %}
         <div class="modal fade modal_editar"  data-backdrop="static" data-keyboard="false" id="{{ model.tableId }}_modal_edit"  role="basic" aria-hidden="true">
             <div class="modal-dialog">
@@ -193,118 +285,7 @@
         <div class="col-md-12">
             <!-- Begin: life time stats -->
             <div class="portlet">
-                {% if model.hasTitle == true %}
-                    <div class="portlet-title">
-                        <div class="caption">
-                            <i class="{{ model.icon }}"></i>{{ model.name }}
-                        </div>
-                        <div class="actions">
-                            {% if model.allowAdd == true  and model.modal%}
-                                <a  class="btn blue "  id="{{ model.tableId }}_page_create" >
-                                    <i class="fa fa-plus"></i>
-                                        <span class="hidden-480">
-                                            Adicionar
-                                        </span>
-                                </a>
-                                {% block top_button_block_modal %}
-                                    {% if model.hasExport %}
-                                        <div class="btn-group ">
-                                            <a class="btn blue" href="#" data-toggle="dropdown">
-                                                <i class="fa fa-share"></i>
-                                                <span class="hidden-480">
-                                                     Exportar
-                                                </span>
-                                                <i class="fa fa-angle-down"></i>
-                                            </a>
-                                            <ul class="dropdown-menu pull-right">
-                                                {% if model.hasXlsExport is defined and not null%}
-                                                    <li>
-                                                        <a id="{{ model.tableId }}_xls_export"  href="#{{ model.tableId }}_modal_pdf_export">
-                                                        <i class="fa fa-table"></i>
-                                                            Exportar a Excel
-                                                        </a>
-                                                    </li>
-                                                {% endif %}
-                                                <li>
-                                                    <a href="#" id="{{ model.tableId }}_export" >
-                                                    <i class="fa fa-file-text"></i>    
-                                                        Exportar a PDF
-                                                    </a>
-                                                </li>
-                                                <li class="divider">
-                                                </li>
-                                                <li>
-                                                    <a  data-toggle="modal" href="#{{ model.tableId }}_modal_pdf_export">
-                                                        <i class="fa fa-cog"></i>
-                                                           Configurar
-                                                    </a>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    {% endif %}
-                                {% endblock %}
-                            {% else %}
-                                <button  class="btn blue "  id="{{ model.tableId }}_page_create">
-                                    <i class="fa fa-plus"></i>
-                                    <span class="hidden-480">
-                                        Adicionar
-                                    </span>
-                                </button>
-                                {% block top_button_block %}
-                                    {% if model.hasExport %}
-                                        <div class="btn-group">
-                                            <a class="btn blue" href="#" data-toggle="dropdown">
-                                                <i class="fa fa-share"></i>
-                                                <span class="hidden-480">
-                                                     Exportar
-                                                </span>
-                                                <i class="fa fa-angle-down"></i>
-                                            </a>
-                                            <ul class="dropdown-menu pull-right">
-                                                {% if model.hasEmailExport %}
-                                                    <li>
-                                                        <a id="{{ model.tableId }}_email_export" href="#{{ model.tableId }}_modal_pdf_export">
-                                                            <i class="fa fa-list-alt"></i>
-                                                            Lista de Correo
-                                                        </a>
-                                                    </li>
-                                                {% endif %}
-                                                <li>
-                                                    <a id="{{ model.tableId }}_export" href="#" >
-                                                        <i class="fa fa-file-text"></i>
-                                                        Exportar a PDF
-                                                    </a>
-                                                </li>                                                
-                                                {% if model.hasXlsExport is defined and not null%}
-                                                    <li>
-                                                        <a id="{{ model.tableId }}_xls_export"  href="#{{ model.tableId }}_modal_xls_export">
-                                                            <i class="fa fa-table"></i>
-                                                            Exportar a Excel
-                                                        </a>
-                                                    </li>
-                                                {% endif %}
-                                                <li class="divider">
-                                                </li>
-                                                <li>
-                                                    <a  data-toggle="modal" href="#{{ model.tableId }}_modal_pdf_export">
-                                                        <i class="fa fa-cog"></i>                                                       
-                                                           Configurar                                                        
-                                                    </a>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    {% endif %}
-                                {% endblock %}
-                            {% endif %}
-
-                            <div class="btn-group">
-                                {#{% block button_group_tools %}#}
-                                {#{% enblock  button_group_tools %}#}
-                            </div>
-                        </div>
-
-                    </div>
-                {% endif %}
+                
                 <div class="portlet-body" >
                     <div class="table-container table-responsive" id="{{ model.tableId }}_table-container">
 
@@ -327,8 +308,8 @@
                                 <button class="btn btn-sm blue table-group-action-submit"><i class="fa fa-check"></i> Enviar</button>
                             {% endif %}
                         </div>
-                        {#<div class="row" style="overflow: scroll">#}
-                        <table init="false"
+                        <div class="row">
+                        <table init="false" style="width:100%"
                                 {% if rutas.exportPDF is not null %}
                                     export_url_pdf="{{ path(rutas.exportPDF) }}" {% endif %}
                                 {% if rutas.exportXls is not null %}
@@ -357,7 +338,7 @@
                                 <th width="{{ model.actionsWidth}}%"   class="actions-table" sort="false">
                                     Acciones
                                 </th>
-                                {#</div>#}
+                                </div>
                             </tr>
                             {% if model.hasFilters %}
                                 <tr role="row" class="filter">
@@ -421,7 +402,8 @@
                             </thead>
                             <tbody   ></tbody>
                         </table>
-                        {#</div>#}
+                        asda
+                        </div>
                         {% block aftertable %}
 
                         {% endblock %}

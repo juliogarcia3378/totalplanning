@@ -9,9 +9,9 @@ use Doctrine\ORM\Mapping as ORM;
 class EPPlanEstudio
 {
     /**
-     * @var Licenciatura
+     * @var Carrera
      */
-    protected $licenciatura;
+    protected $Carrera;
     /**
      * @var PlanEstudio
      */

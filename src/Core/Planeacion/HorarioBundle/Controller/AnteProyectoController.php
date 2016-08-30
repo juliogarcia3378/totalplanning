@@ -89,9 +89,10 @@ class AnteproyectoController extends MyCRUDController
                     // Guardar los cambios del análisis
                     $anteproyecto->setCambios(json_encode($respuesta));
                     // Replicar los horarios de los grupos con igual denominacion en el periodo anterior
+                      $this->getRepo("PlaneacionAdminBundle:HoraPeriodo")->duplicarHoras($anterior, $actual);
                 }
                   try {
-                 $this->getRepo("PlaneacionAdminBundle:HoraPeriodo")->duplicarHoras($anterior, $actual);
+               
                   // $this->getRepo("PlaneacionAdminBundle:ProfePeriodoHorario")->duplicarHorarios($anterior, $actual);
                       $em = $this->getDoctrine()->getManager();
                       $em->persist($anteproyecto);

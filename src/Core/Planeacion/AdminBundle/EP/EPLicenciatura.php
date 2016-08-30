@@ -1,31 +1,31 @@
 <?php
 namespace Core\Planeacion\AdminBundle\EP;
 
-use Core\Planeacion\AdminBundle\Entity\Licenciatura;
+use Core\Planeacion\AdminBundle\Entity\Carrera;
 use Doctrine\ORM\Mapping as ORM;
 
-class EPLicenciatura
+class EPCarrera
 {
     /**
-     * @var Licenciatura
+     * @var Carrera
      */
-    public $licenciatura;
+    public $Carrera;
     public $planEstudio;
 
     /**
-     * @return Licenciatura
+     * @return Carrera
      */
-    public function getLicenciatura()
+    public function getCarrera()
     {
-        return $this->licenciatura;
+        return $this->Carrera;
     }
 
     /**
-     * @param Licenciatura $licenciatura
+     * @param Carrera $Carrera
      */
-    public function setLicenciatura($licenciatura)
+    public function setCarrera($Carrera)
     {
-        $this->licenciatura = $licenciatura;
+        $this->Carrera = $Carrera;
     }
 
     public function getPlanEstudio()

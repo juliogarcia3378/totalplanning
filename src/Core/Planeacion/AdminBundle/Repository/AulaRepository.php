@@ -106,11 +106,8 @@ class AulaRepository extends \Core\ComunBundle\Util\NomencladoresRepository
                   grupo_estudiantes.turno,
                   grupo_estudiantes.nivel,
                   plan_estudio.nombre as plan_estudio,
-                  plan_estudio.licenciatura as carrera,
+                  plan_estudio.carrera as carrera,
                   grupo_estudiantes.semestre,
-                  grupo_estudiantes.terceros,
-                  grupo_estudiantes.bilingue,
-                  grupo_estudiantes.enlinea,
                   materias.frecuencia
                   from aula
                   inner join grupo_estudiantes on grupo_estudiantes.aula = aula.id
@@ -137,12 +134,9 @@ class AulaRepository extends \Core\ComunBundle\Util\NomencladoresRepository
                   grupo_estudiantes.nombre_completo,
                   grupo_estudiantes.turno,
                   plan_estudio.nombre,
-                  plan_estudio.licenciatura,
+                  plan_estudio.carrera,
                   materias.frecuencia,
-                  grupo_estudiantes.bilingue,
-                  grupo_estudiantes.terceros,
                   grupo_estudiantes.semestre,
-                  grupo_estudiantes.enlinea,
                   grupo_estudiantes.nivel
                   order by grupo_estudiantes.turno;';
 
